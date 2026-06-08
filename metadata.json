@@ -1,0 +1,6 @@
+{
+  "name": "Staying Ahead",
+  "description": "Your unfair advantage in AI. Get AI updates, tools, and live sessions straight to WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

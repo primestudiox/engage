@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "PP Neue Montreal", "Neue Montreal", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #050607;
+  color: #f3f4f6;
+  overflow-x: hidden;
+}
+
+/* Custom styles matching the exact design and glow */
+.custom-glow {
+  box-shadow: 0 0 50px -10px rgba(132, 168, 54, 0.15);
+}
+
+.custom-card-border {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.custom-input {
+  background-color: rgba(22, 24, 26, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.custom-input:focus {
+  border-color: rgba(132, 168, 54, 0.6);
+  outline: none;
+}
+
