@@ -139,7 +139,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
   };
 
   return (
-    <div id="registration-card" className="w-full max-w-lg mx-auto overflow-hidden rounded-3xl border border-white/[0.06] bg-[#121315]/85 p-6 md:p-8 custom-glow relative">
+    <div id="registration-card" className="w-full max-w-lg mx-auto overflow-hidden rounded-3xl border border-white/[0.06] bg-[#121315] p-6 md:p-8 custom-glow relative">
       <AnimatePresence mode="wait">
         {submissionStatus === 'success' ? (
           <motion.div
