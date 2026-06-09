@@ -129,11 +129,11 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     const finalPhone = `${cleanDial}${rawPhone}`;
     let text = '';
     if (lang === 'fr') {
-      text = encodeURIComponent(`Bonjour ! Je viens de m’inscrire à Staying Ahead. Veuillez m’ajouter au canal de la communauté IA.`);
+      text = encodeURIComponent(`Bonjour ! Je viens de m’inscrire à Engage. Veuillez m’ajouter au canal de la communauté IA.`);
     } else if (lang === 'es') {
-      text = encodeURIComponent(`¡Hola! Me acabo de registrar en Staying Ahead. Por favor agrégame al canal de la comunidad de IA.`);
+      text = encodeURIComponent(`¡Hola! Me acabo de registrar en Engage. Por favor agrégame al canal de la comunidad de IA.`);
     } else {
-      text = encodeURIComponent(`Hello! I just subscribed to Staying Ahead. Please add me to the AI Community group.`);
+      text = encodeURIComponent(`Hello! I just subscribed to Engage. Please add me to the AI Community group.`);
     }
     return `https://api.whatsapp.com/send?phone=${finalPhone}&text=${text}`;
   };

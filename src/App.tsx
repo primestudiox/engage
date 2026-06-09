@@ -9,6 +9,7 @@ import { translations } from './data/translations';
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'fr' | 'es'>('en');
+  const [isLangOpen, setIsLangOpen] = useState(false);
   const [legalModal, setLegalModal] = useState<{ isOpen: boolean; type: 'privacy' | 'terms' }>({
     isOpen: false,
     type: 'privacy',
@@ -67,23 +68,6 @@ export default function App() {
           </span>
 
           <div className="flex items-center gap-4.5">
-            {/* Elegant Segmented Language Switcher inspired by high-end products */}
-            <div className="bg-black/35 border border-white/[0.04] p-0.5 rounded-xl flex items-center shadow-inner">
-              {(['en', 'fr', 'es'] as const).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l)}
-                  className={`px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all duration-300 cursor-pointer ${
-                    lang === l
-                      ? 'bg-[#84a836]/15 hover:bg-[#84a836]/20 text-[#a2e043] border border-[#84a836]/20'
-                      : 'text-gray-500 hover:text-gray-300 border border-transparent'
-                  }`}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
-
             {/* Scroll CTA Button */}
             <button
               onClick={scrollToForm}
@@ -264,8 +248,61 @@ export default function App() {
       </main>
 
       {/* Simplified, Accessible Footer copyright section (No Overwhelming Clutter) */}
-      <footer className="w-full border-t border-white/[0.05] py-9 text-center bg-[#070809] z-10 text-xs text-gray-500 font-medium tracking-wide space-y-2 relative">
+      <footer className="w-full border-t border-white/[0.05] py-10 text-center bg-[#070809] z-10 text-xs text-gray-500 font-medium tracking-wide space-y-4.5 relative flex flex-col items-center">
         <p className="text-gray-400 font-semibold">{t.footer.respectPrivacy}</p>
+        
+        {/* Seamless Custom Language Dropdown Menu */}
+        <div className="relative inline-block text-left z-20">
+          <button
+            type="button"
+            onClick={() => setIsLangOpen(!isLangOpen)}
+            className="bg-black/45 border border-white/[0.08] hover:border-[#84a836]/40 px-3.5 py-1.5 rounded-xl flex items-center gap-2 shadow-inner text-gray-400 hover:text-white transition-all text-[11px] font-bold uppercase tracking-wider cursor-pointer"
+          >
+            <Globe className="w-3.5 h-3.5 text-gray-500" />
+            <span>{lang === 'en' ? 'English (EN)' : lang === 'fr' ? 'Français (FR)' : 'Español (ES)'}</span>
+            <ChevronDown className={`w-3 h-3 text-gray-500 transition-transform duration-300 ${isLangOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          <AnimatePresence>
+            {isLangOpen && (
+              <>
+                {/* Backdrop overlay to close when clicking outside */}
+                <div 
+                  className="fixed inset-0 z-10 cursor-default" 
+                  onClick={() => setIsLangOpen(false)} 
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-44 bg-[#0e1012] border border-white/[0.08] rounded-xl shadow-2xl p-1 z-20 overflow-hidden"
+                >
+                  {(['en', 'fr', 'es'] as const).map((l) => (
+                    <button
+                      key={l}
+                      onClick={() => {
+                        setLang(l);
+                        setIsLangOpen(false);
+                      }}
+                      className={`w-full text-left px-3.5 py-2 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all duration-200 cursor-pointer flex items-center justify-between ${
+                        lang === l
+                          ? 'bg-[#84a836]/15 text-[#a2e043] border-l-2 border-[#84a836]'
+                          : 'text-gray-400 hover:bg-white/[0.03] hover:text-white'
+                      }`}
+                    >
+                      <span>
+                        {l === 'en' ? 'English' : l === 'fr' ? 'Français' : 'Español'}
+                      </span>
+                      <span className="text-[9px] text-gray-600 font-mono">{l}</span>
+                    </button>
+                  ))}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
+
         <div className="flex items-center justify-center gap-4.5 pt-1 text-gray-500">
           <button
             onClick={() => openLegal('privacy')}

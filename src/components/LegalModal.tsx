@@ -14,7 +14,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
     en: {
       privacy: {
         title: 'Privacy Policy',
-        sub: 'We care about your privacy at Staying Ahead.',
+        sub: 'We care about your privacy at Engage.',
         items: [
           {
             title: 'Data Collection',
@@ -32,7 +32,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
       },
       terms: {
         title: 'Terms of Use',
-        sub: 'Guidelines for participating in the Staying Ahead community.',
+        sub: 'Guidelines for participating in the Engage community.',
         items: [
           {
             title: 'Community Access',
@@ -52,7 +52,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
     fr: {
       privacy: {
         title: 'Politique de Confidentialité',
-        sub: 'Nous protégeons vos données chez Staying Ahead.',
+        sub: 'Nous protégeons vos données chez Engage.',
         items: [
           {
             title: 'Collecte des données',
@@ -70,7 +70,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
       },
       terms: {
         title: 'Conditions d’Utilisation',
-        sub: 'Règles d’usage pour participer à Staying Ahead.',
+        sub: 'Règles d’usage pour participer à Engage.',
         items: [
           {
             title: 'Accès Communautaire',
@@ -82,7 +82,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
           },
           {
             title: 'Limite de Responsabilité',
-            desc: 'Les guides, configurations et scripts tiers sont partagés à but éducatif. Staying Ahead ne peut être tenu responsable d\'une perte de données liée à leur usage.',
+            desc: 'Les guides, configurations et scripts tiers sont partagés à but éducatif. Engage ne peut être tenu responsable d\'une perte de données liée à leur usage.',
           },
         ],
       },
@@ -90,7 +90,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
     es: {
       privacy: {
         title: 'Política de Privacidad',
-        sub: 'Cuidamos de tu privacidad en Staying Ahead.',
+        sub: 'Cuidamos de tu privacidad en Engage.',
         items: [
           {
             title: 'Recopilación de datos',
@@ -108,11 +108,11 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
       },
       terms: {
         title: 'Términos de Uso',
-        sub: 'Políticas para participar en Staying Ahead.',
+        sub: 'Políticas para participar en Engage.',
         items: [
           {
             title: 'Acceso a la comunidad',
-            desc: 'El ingreso al canal de WhatsApp "Staying Ahead" y las utilerías gratuitas se garantizan sin costo alguno para tu aprendizaje continuo.',
+            desc: 'El ingreso al canal de WhatsApp "Engage" y las utilerías gratuitas se garantizan sin costo alguno para tu aprendizaje continuo.',
           },
           {
             title: 'Código de Conducta',

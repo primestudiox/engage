@@ -3,7 +3,7 @@ import { TranslationSchema } from '../types';
 export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
   en: {
     nav: {
-      logo: 'Staying Ahead',
+      logo: 'Engage',
       cta: 'Join Community →',
     },
     hero: {
@@ -47,7 +47,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       ],
       labelMastermind: 'I also want to join the 2-Day AI Mastermind by Outskill for free',
       labelNewsletter: 'Also subscribe me to the newsletter',
-      newsletterSubtitle: 'Staying Ahead with AI Updates',
+      newsletterSubtitle: 'Engage with AI Updates',
       joinedStats: '100,000+ joined',
       buttonCtaIdle: 'Get Instant Access →',
       buttonCtaSubmitting: 'Processing details...',
@@ -68,7 +68,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
         groupLabel: 'WhatsApp Group',
         experienceLabel: 'AI Experience',
         mastermindGift: '🎁 Joined 2-Day AI Mastermind (Free)',
-        newsletterGift: '✉️ Subscribed to Staying Ahead Updates',
+        newsletterGift: '✉️ Subscribed to Engage Updates',
         buttonOpenWa: 'Launch / Open in WhatsApp',
         buttonAnother: 'Register Another Number',
       },
@@ -97,7 +97,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     faq: {
       title: 'Frequently Asked Questions',
-      sub: 'Everything you need to know about Staying Ahead AI Community.',
+      sub: 'Everything you need to know about Engage AI Community.',
       items: [
         {
           q: 'Is this really free?',
@@ -119,14 +119,14 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     footer: {
       respectPrivacy: 'We respect your privacy. No spam, ever.',
-      copyright: 'Staying Ahead © 2026',
+      copyright: 'Engage © 2026',
       privacyPolicy: 'Privacy Policy',
       termsOfUse: 'Terms of Use',
     },
   },
   fr: {
     nav: {
-      logo: 'Staying Ahead',
+      logo: 'Engage',
       cta: 'Rejoindre la Communauté →',
     },
     hero: {
@@ -170,7 +170,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       ],
       labelMastermind: 'Je souhaite également rejoindre gratuitement le Mastermind IA de 2 jours par Outskill',
       labelNewsletter: 'M’abonner également à la newsletter',
-      newsletterSubtitle: 'Mises à jour IA exclusives par Staying Ahead',
+      newsletterSubtitle: 'Mises à jour IA exclusives par Engage',
       joinedStats: 'Plus de 100 000 membres',
       buttonCtaIdle: 'Accès Instantané Gratuit →',
       buttonCtaSubmitting: 'Traitement en cours...',
@@ -191,7 +191,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
         groupLabel: 'Groupe WhatsApp',
         experienceLabel: 'Niveau d’expérience',
         mastermindGift: '🎁 Mastermind IA de 2 jours rejoint (Gratuit)',
-        newsletterGift: '✉️ Option newsletter Staying Ahead activée',
+        newsletterGift: '✉️ Option newsletter Engage activée',
         buttonOpenWa: 'Lancer / Ouvrir WhatsApp',
         buttonAnother: 'Enregistrer un autre numéro',
       },
@@ -242,14 +242,14 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     footer: {
       respectPrivacy: 'Données protégées. Zéro spam, c’est promis.',
-      copyright: 'Staying Ahead © 2026',
+      copyright: 'Engage © 2026',
       privacyPolicy: 'Politique de Confidentialité',
       termsOfUse: 'Conditions d’Utilisation',
     },
   },
   es: {
     nav: {
-      logo: 'Staying Ahead',
+      logo: 'Engage',
       cta: 'Unirse a la Comunidad →',
     },
     hero: {
@@ -293,7 +293,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       ],
       labelMastermind: 'También quiero unirme gratis al Mastermind de IA de 2 días por Outskill',
       labelNewsletter: 'También suscribirme al boletín de noticias',
-      newsletterSubtitle: 'Staying Ahead con actualizaciones de IA',
+      newsletterSubtitle: 'Engage con actualizaciones de IA',
       joinedStats: 'Más de 100,000 miembros unidos',
       buttonCtaIdle: 'Obtener Acceso Instantáneo →',
       buttonCtaSubmitting: 'Procesando registro...',
@@ -314,7 +314,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
         groupLabel: 'Grupo de WhatsApp',
         experienceLabel: 'Experiencia en IA',
         mastermindGift: '🎁 Mastermind de IA de 2 días unido (Gratis)',
-        newsletterGift: '✉️ Suscripción activa al boletín Staying Ahead',
+        newsletterGift: '✉️ Suscripción activa al boletín Engage',
         buttonOpenWa: 'Lanzar / Abrir WhatsApp',
         buttonAnother: 'Registrar otro número',
       },
@@ -365,7 +365,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     footer: {
       respectPrivacy: 'Respetamos tu privacidad. Sin spam, garantizado.',
-      copyright: 'Staying Ahead © 2026',
+      copyright: 'Engage © 2026',
       privacyPolicy: 'Política de Privacidad',
       termsOfUse: 'Términos de Uso',
     },
