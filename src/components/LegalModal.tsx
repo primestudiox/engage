@@ -139,7 +139,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/75 backdrop-blur-md"
+            className="absolute inset-0 bg-black/85"
           />
 
           {/* Modal Container card */}

@@ -36,7 +36,7 @@ export default function CountrySelectorModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/75"
           />
 
           {/* Modal Content */}
@@ -44,7 +44,7 @@ export default function CountrySelectorModal({
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-[#16181a]/95 text-white shadow-2xl backdrop-blur-xl"
+            className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-[#16181a] text-white shadow-2xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/5 p-4">

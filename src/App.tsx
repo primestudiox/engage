@@ -44,21 +44,21 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#020202] text-gray-300 flex flex-col items-center justify-between selection:bg-[#00f6ac]/30 selection:text-[#00f6ac] font-sans antialiased relative overflow-x-hidden">
       {/* Ambient background glow layers starting from vibrant green down to deep velvet black */}
-      <div className="absolute top-0 left-0 right-0 h-[800px] bg-[radial-gradient(ellipse_120%_80%_at_50%_-10%,_rgba(0,246,172,0.22)_0%,_rgba(0,246,172,0.07)_45%,_rgba(2,2,2,0)_100%)] pointer-events-none z-0 transform-gpu will-change-transform" />
+      <div className="absolute top-0 left-0 right-0 h-[800px] bg-[radial-gradient(ellipse_120%_80%_at_50%_-10%,_rgba(0,246,172,0.18)_0%,_rgba(0,246,172,0.05)_45%,_rgba(2,2,2,0)_100%)] pointer-events-none z-0" />
       
       {/* Secondary atmospheric soft central green glow */}
-      <div className="absolute top-[350px] left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-[radial-gradient(ellipse_80%_50%_at_50%_50%,_rgba(0,246,172,0.09)_0%,_rgba(0,246,172,0.02)_50%,_transparent_100%)] pointer-events-none z-0 transform-gpu will-change-transform" />
+      <div className="absolute top-[350px] left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-[radial-gradient(ellipse_80%_50%_at_50%_50%,_rgba(0,246,172,0.07)_0%,_rgba(0,246,172,0.01)_50%,_transparent_100%)] pointer-events-none z-0" />
 
       {/* Side background ambient warm/green light flare */}
-      <div className="absolute top-[200px] right-[-250px] w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(0,246,172,0.04)_0%,_transparent_70%)] pointer-events-none z-0 transform-gpu will-change-transform opacity-70 animate-pulse" style={{ animationDuration: '12s' }} />
-      <div className="absolute top-[500px] left-[-250px] w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(0,246,172,0.03)_0%,_transparent_70%)] pointer-events-none z-0 transform-gpu will-change-transform opacity-60" />
+      <div className="absolute top-[200px] right-[-250px] w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(0,246,172,0.03)_0%,_transparent_70%)] pointer-events-none z-0 opacity-70 animate-pulse" style={{ animationDuration: '12s' }} />
+      <div className="absolute top-[500px] left-[-250px] w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(0,246,172,0.02)_0%,_transparent_70%)] pointer-events-none z-0 opacity-60" />
 
       {/* Subtle bottom footer green-to-black glow */}
-      <div className="absolute bottom-0 left-0 right-0 h-[400px] bg-[radial-gradient(ellipse_100%_70%_at_50%_110%,_rgba(0,246,172,0.07)_0%,_rgba(2,2,2,0)_100%)] pointer-events-none z-0 transform-gpu will-change-transform" />
+      <div className="absolute bottom-0 left-0 right-0 h-[400px] bg-[radial-gradient(ellipse_100%_70%_at_50%_110%,_rgba(0,246,172,0.05)_0%,_rgba(2,2,2,0)_100%)] pointer-events-none z-0" />
 
       {/* Floating Top Header Banner */}
       <header className="w-full max-w-4xl px-4 pt-6 z-30">
-        <div className="w-full flex items-center justify-between py-3 px-5 md:px-6 rounded-2xl bg-[#0e1012]/85 border border-white/[0.05] backdrop-blur-xl shadow-xl">
+        <div className="w-full flex items-center justify-between py-3 px-5 md:px-6 rounded-2xl bg-[#0e1012] border border-white/[0.05] shadow-xl">
           {/* Logo brand */}
           <span className="font-serif text-lg font-bold text-white tracking-wide flex items-center gap-2">
             <span className="w-5.5 h-5.5 rounded-lg bg-gradient-to-br from-[#00f6ac] to-[#2effc0] flex items-center justify-center text-[#020202] text-xs font-mono font-extrabold select-none shadow-sm shadow-[#00f6ac]/10">
