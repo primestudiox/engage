@@ -152,7 +152,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1, type: "spring", stiffness: 200, damping: 15 }}
-              className="w-16 h-16 bg-[#84a836]/20 text-[#a2e043] rounded-full flex items-center justify-center mb-6 border border-[#84a836]/30"
+              className="w-16 h-16 bg-[#00f6ac]/20 text-[#00f6ac] rounded-full flex items-center justify-center mb-6 border border-[#00f6ac]/30"
             >
               <CheckCircle className="h-9 w-9" />
             </motion.div>
@@ -160,7 +160,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             <h3 className="text-3.5xl font-serif text-white mb-2 leading-tight tracking-tight">
               {t.form.success.title}
             </h3>
-            <p className="text-[#a2e043] font-medium text-sm mb-6 flex items-center gap-1.5 justify-center">
+            <p className="text-[#00f6ac] font-medium text-sm mb-6 flex items-center gap-1.5 justify-center">
               <Sparkles className="h-4 w-4 animate-pulse" /> {t.form.success.subtitle} ({formData.country.flag})
             </p>
 
@@ -184,7 +184,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
               <div className="border-t border-white/[0.05] pt-3.5">
                 <p className="text-xs text-gray-400 font-medium space-y-1">
                   {formData.joinMastermind && (
-                    <span className="block text-[#a2e043] font-semibold">{t.form.success.mastermindGift}</span>
+                    <span className="block text-[#00f6ac] font-semibold">{t.form.success.mastermindGift}</span>
                   )}
                   {formData.joinNewsletter && (
                     <span className="block text-gray-400 mt-1">{t.form.success.newsletterGift}</span>
@@ -241,7 +241,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder={t.form.placeholderName}
-                className={`w-full custom-input px-4 py-3.5 rounded-xl text-white placeholder-gray-500 text-sm focus:ring-1 focus:ring-[#84a836]/40 transition-all ${
+                className={`w-full custom-input px-4 py-3.5 rounded-xl text-white placeholder-gray-500 text-sm focus:ring-1 focus:ring-[#00f6ac]/40 transition-all ${
                   errors.name ? 'border-red-500/50' : ''
                 }`}
               />
@@ -258,7 +258,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder={t.form.placeholderEmail}
-                className={`w-full custom-input px-4 py-3.5 rounded-xl text-white placeholder-gray-500 text-sm focus:ring-1 focus:ring-[#84a836]/40 transition-all ${
+                className={`w-full custom-input px-4 py-3.5 rounded-xl text-white placeholder-gray-500 text-sm focus:ring-1 focus:ring-[#00f6ac]/40 transition-all ${
                   errors.email ? 'border-red-500/50' : ''
                 }`}
               />
@@ -278,7 +278,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
               <button
                 type="button"
                 onClick={() => setIsCountryModalOpen(true)}
-                className="text-xs text-[#a2e043] hover:text-[#b4ee59] hover:underline font-semibold transition-colors cursor-pointer"
+                className="text-xs text-[#00f6ac] hover:text-[#2effc0] hover:underline font-semibold transition-colors cursor-pointer"
               >
                 {t.form.changeLabel}
               </button>
@@ -286,7 +286,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
 
             {/* Phone Entry */}
             <div>
-              <div className="flex rounded-xl overflow-hidden bg-black/30 border border-white/5 focus-within:border-[#84a836]/40">
+              <div className="flex rounded-xl overflow-hidden bg-black/30 border border-white/5 focus-within:border-[#00f6ac]/40">
                 <button
                   type="button"
                   onClick={() => setIsCountryModalOpen(true)}
@@ -325,11 +325,11 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 >
                   <div className={`w-5 h-5 rounded-full flex items-center justify-center border transition-all ${
                     formData.knowsCoding === 'yes'
-                      ? 'border-[#a2e043] bg-[#84a836]/10 shadow-[0_0_10px_rgba(162,224,67,0.1)]'
+                      ? 'border-[#00f6ac] bg-[#00f6ac]/10 shadow-[0_0_10px_rgba(0,246,172,0.1)]'
                       : 'border-white/15 bg-[#16181a]'
                   }`}>
                     {formData.knowsCoding === 'yes' && (
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#a2e043]" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#00f6ac]" />
                     )}
                   </div>
                   <span className={`text-sm font-medium transition-colors ${
@@ -344,11 +344,11 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 >
                   <div className={`w-5 h-5 rounded-full flex items-center justify-center border transition-all ${
                     formData.knowsCoding === 'no'
-                      ? 'border-[#a2e043] bg-[#84a836]/10 shadow-[0_0_10px_rgba(162,224,67,0.1)]'
+                      ? 'border-[#00f6ac] bg-[#00f6ac]/10 shadow-[0_0_10px_rgba(0,246,172,0.1)]'
                       : 'border-white/15 bg-[#16181a]'
                   }`}>
                     {formData.knowsCoding === 'no' && (
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#a2e043]" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#00f6ac]" />
                     )}
                   </div>
                   <span className={`text-sm font-medium transition-colors ${
@@ -425,7 +425,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
               >
                 <div className={`mt-0.5 w-5 h-5 rounded-md flex items-center justify-center border transition-all shrink-0 ${
                   formData.joinMastermind
-                    ? 'border-[#a2e043] bg-[#84a836]/20 text-[#a2e043]'
+                    ? 'border-[#00f6ac] bg-[#00f6ac]/20 text-[#00f6ac]'
                     : 'border-white/15 bg-black/20 group-hover:border-white/30'
                 }`}>
                   {formData.joinMastermind && (
@@ -447,7 +447,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
               >
                 <div className={`mt-0.5 w-5 h-5 rounded-md flex items-center justify-center border transition-all shrink-0 ${
                   formData.joinNewsletter
-                    ? 'border-[#a2e043] bg-[#84a836]/20 text-[#a2e043]'
+                    ? 'border-[#00f6ac] bg-[#00f6ac]/20 text-[#00f6ac]'
                     : 'border-white/15 bg-black/20 group-hover:border-white/30'
                 }`}>
                   {formData.joinNewsletter && (
@@ -484,7 +484,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
               <button
                 type="submit"
                 disabled={submissionStatus === 'submitting'}
-                className="w-full py-4 rounded-xl bg-[#84a836] hover:bg-[#96bd40] active:scale-[0.99] hover:scale-[1.01] text-[#121a05] font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-[#84a836]/20 transition-all cursor-pointer disabled:opacity-80"
+                className="w-full py-4 rounded-xl bg-[#00f6ac] hover:bg-[#2effc0] active:scale-[0.99] hover:scale-[1.01] text-[#020202] font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-[#00f6ac]/20 transition-all cursor-pointer disabled:opacity-80"
               >
                 {submissionStatus === 'submitting' ? (
                   <>

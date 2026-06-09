@@ -9,14 +9,14 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: #050607;
+  background-color: #020202;
   color: #f3f4f6;
   overflow-x: hidden;
 }
 
 /* Custom styles matching the exact design and glow */
 .custom-glow {
-  box-shadow: 0 0 50px -10px rgba(132, 168, 54, 0.15);
+  box-shadow: 0 0 50px -10px rgba(0, 246, 172, 0.15);
 }
 
 .custom-card-border {
@@ -29,7 +29,7 @@ body {
 }
 
 .custom-input:focus {
-  border-color: rgba(132, 168, 54, 0.6);
+  border-color: rgba(0, 246, 172, 0.6);
   outline: none;
 }
 

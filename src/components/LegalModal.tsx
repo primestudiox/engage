@@ -152,7 +152,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
             {/* Header section with closing button */}
             <div className="flex items-start justify-between mb-5">
               <div>
-                <span className="inline-flex items-center gap-1 bg-[#84a836]/15 text-[#a2e043] text-[11px] font-semibold tracking-wider font-mono uppercase px-2 py-0.5 rounded-md border border-[#84a836]/25">
+                <span className="inline-flex items-center gap-1 bg-[#00f6ac]/15 text-[#00f6ac] text-[11px] font-semibold tracking-wider font-mono uppercase px-2 py-0.5 rounded-md border border-[#00f6ac]/25">
                   <Lock className="h-2.5 w-2.5" /> Security Certified
                 </span>
                 <h3 className="text-2.5xl font-serif font-extrabold tracking-tight mt-2">{active.title}</h3>
@@ -173,7 +173,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
                   key={idx}
                   className="bg-white/[0.015] border border-white/[0.04] p-4.5 rounded-2xl flex items-start gap-4 transition-all hover:bg-white/[0.025] hover:border-white/[0.08]"
                 >
-                  <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-[#84a836]/15 to-transparent border border-[#84a836]/25 text-[#a2e043] font-mono text-xs font-bold flex items-center justify-center select-none">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-[#00f6ac]/15 to-transparent border border-[#00f6ac]/25 text-[#00f6ac] font-mono text-xs font-bold flex items-center justify-center select-none">
                     0{idx + 1}
                   </div>
                   <div>

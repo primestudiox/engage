@@ -32,14 +32,14 @@ export default function FaqAccordion({ items }: FaqAccordionProps) {
               className="w-full flex items-center justify-between px-5.5 py-4.5 text-left transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-3.5 pr-4">
-                <HelpCircle className={`h-4.5 w-4.5 flex-shrink-0 transition-all duration-300 ${isOpen ? 'text-[#a2e043]' : 'text-gray-500'}`} />
+                <HelpCircle className={`h-4.5 w-4.5 flex-shrink-0 transition-all duration-300 ${isOpen ? 'text-[#00f6ac]' : 'text-gray-500'}`} />
                 <span className="text-[14.5px] font-semibold text-white tracking-wide leading-snug">
                   {item.q}
                 </span>
               </div>
               <ChevronDown
                 className={`h-4.5 w-4.5 text-gray-500 transition-transform duration-300 flex-shrink-0 ${
-                  isOpen ? 'transform rotate-180 text-[#a2e043]' : ''
+                  isOpen ? 'transform rotate-180 text-[#00f6ac]' : ''
                 }`}
               />
             </button>

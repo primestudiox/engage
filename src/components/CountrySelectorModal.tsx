@@ -66,7 +66,7 @@ export default function CountrySelectorModal({
                   placeholder="Search by country, code or prefix..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-lg bg-black/30 py-2 pl-9 pr-4 text-sm text-white placeholder-gray-500 border border-white/5 focus:border-[#84a836]/50 focus:outline-none transition-all"
+                  className="w-full rounded-lg bg-black/30 py-2 pl-9 pr-4 text-sm text-white placeholder-gray-500 border border-white/5 focus:border-[#00f6ac]/50 focus:outline-none transition-all"
                   autoFocus
                 />
               </div>
@@ -86,7 +86,7 @@ export default function CountrySelectorModal({
                       }}
                       className={`flex items-center justify-between w-full px-4 py-2.5 rounded-xl text-left text-sm transition-colors ${
                         isSelected
-                          ? 'bg-[#84a836]/10 text-[#a2e043]'
+                          ? 'bg-[#00f6ac]/10 text-[#00f6ac]'
                           : 'hover:bg-white/5 text-gray-300 hover:text-white'
                       }`}
                     >
@@ -97,7 +97,7 @@ export default function CountrySelectorModal({
                         <span className="font-medium">{country.name}</span>
                         <span className="text-xs text-gray-500 font-mono">{country.dialCode}</span>
                       </div>
-                      {isSelected && <Check className="h-4 w-4 text-[#a2e043]" />}
+                      {isSelected && <Check className="h-4 w-4 text-[#00f6ac]" />}
                     </button>
                   );
                 })

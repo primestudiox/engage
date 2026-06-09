@@ -35,7 +35,7 @@ export default function RotatingWords({ words }: RotatingWordsProps) {
             damping: 14,
             opacity: { duration: 0.18 }
           }}
-          className="text-[#a2e043] font-extrabold"
+          className="text-[#00f6ac] font-extrabold"
         >
           {words[index] || ""}
         </motion.span>
