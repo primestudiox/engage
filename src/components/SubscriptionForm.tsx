@@ -1,10 +1,84 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, MessageSquare, Lock, Loader2, Sparkles, CheckCircle, X } from 'lucide-react';
 import { Country, SubscriptionFormData } from '../types';
 import CountrySelectorModal from './CountrySelectorModal';
 import { translations } from '../data/translations';
 import { detectUserCountry, detectCountryFromPhoneNumber } from '../utils/geo';
+
+interface CustomDropdownProps {
+  value: string;
+  onChange: (value: string) => void;
+  options: Array<{ value: string; label: string }>;
+  placeholder: string;
+  error?: string;
+}
+
+function CustomDropdown({ value, onChange, options, placeholder, error }: CustomDropdownProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const selectedOption = options.find((o) => o.value === value);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div ref={dropdownRef} className="relative w-full z-20">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full text-left bg-[#16181a] border border-white/[0.08] px-4 py-3.5 rounded-xl text-sm transition-all flex items-center justify-between cursor-pointer focus:ring-1 focus:ring-[#00f6ac]/30 hover:border-white/15 ${
+          selectedOption ? 'text-white' : 'text-gray-500'
+        } ${error ? 'border-red-500/50' : ''}`}
+      >
+        <span className="truncate pr-2">{selectedOption ? selectedOption.label : placeholder}</span>
+        <ChevronDown className={`h-4 w-4 text-gray-400 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-[#00f6ac]' : ''}`} />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -4, scale: 0.98 }}
+            animate={{ opacity: 1, y: 4, scale: 1 }}
+            exit={{ opacity: 0, y: -4, scale: 0.98 }}
+            transition={{ duration: 0.15 }}
+            className="absolute left-0 right-0 z-40 max-h-56 overflow-y-auto rounded-xl border border-white/10 bg-[#121315] py-2.5 shadow-2xl scrollbar-thin scrollbar-thumb-white/10"
+          >
+            {options.map((opt) => {
+              const isSelected = opt.value === value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => {
+                    onChange(opt.value);
+                    setIsOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#00f6ac]/10 text-[#00f6ac] font-semibold'
+                      : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 // Pre-defined avatars from assets generated
 const avatar1 = "/src/assets/images/founder_avatar_1780480032739.png";
@@ -363,26 +437,18 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
 
             {/* Describe select */}
             <div>
-              <div className="relative">
-                <select
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  className={`w-full custom-input px-4 py-3.5 pr-10 rounded-xl text-sm appearance-none cursor-pointer transition-all ${
-                    formData.description ? 'text-white' : 'text-gray-500'
-                  } ${errors.description ? 'border-red-500/50' : ''}`}
-                >
-                  <option value="" disabled hidden>
-                    {t.form.placeholderDescribe}
-                  </option>
-                  {t.form.describeOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value} className="bg-[#121315]">
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-4 top-4.5 h-4 w-4 text-gray-400 pointer-events-none" />
-              </div>
+              <CustomDropdown
+                value={formData.description}
+                onChange={(val) => {
+                  setFormData((prev) => ({ ...prev, description: val }));
+                  if (errors.description) {
+                    setErrors((prev) => ({ ...prev, description: undefined }));
+                  }
+                }}
+                options={t.form.describeOptions}
+                placeholder={t.form.placeholderDescribe}
+                error={errors.description}
+              />
               {errors.description && (
                 <p className="mt-1 text-xs text-red-500">{errors.description}</p>
               )}
@@ -390,26 +456,18 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
 
             {/* Experience select */}
             <div>
-              <div className="relative">
-                <select
-                  name="experience"
-                  value={formData.experience}
-                  onChange={handleInputChange}
-                  className={`w-full custom-input px-4 py-3.5 pr-10 rounded-xl text-sm appearance-none cursor-pointer transition-all ${
-                    formData.experience ? 'text-white' : 'text-gray-500'
-                  } ${errors.experience ? 'border-red-500/50' : ''}`}
-                >
-                  <option value="" disabled hidden>
-                    {t.form.placeholderExperience}
-                  </option>
-                  {t.form.experienceOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value} className="bg-[#121315]">
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-4 top-4.5 h-4 w-4 text-gray-400 pointer-events-none" />
-              </div>
+              <CustomDropdown
+                value={formData.experience}
+                onChange={(val) => {
+                  setFormData((prev) => ({ ...prev, experience: val }));
+                  if (errors.experience) {
+                    setErrors((prev) => ({ ...prev, experience: undefined }));
+                  }
+                }}
+                options={t.form.experienceOptions}
+                placeholder={t.form.placeholderExperience}
+                error={errors.experience}
+              />
               {errors.experience && (
                 <p className="mt-1 text-xs text-red-500">{errors.experience}</p>
               )}

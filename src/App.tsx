@@ -50,8 +50,8 @@ export default function App() {
       <div className="absolute top-[350px] left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-[radial-gradient(ellipse_80%_50%_at_50%_50%,_rgba(0,246,172,0.07)_0%,_rgba(0,246,172,0.01)_50%,_transparent_100%)] pointer-events-none z-0" />
 
       {/* Side background ambient warm/green light flare */}
-      <div className="absolute top-[200px] right-[-250px] w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(0,246,172,0.03)_0%,_transparent_70%)] pointer-events-none z-0 opacity-70 animate-pulse" style={{ animationDuration: '12s' }} />
-      <div className="absolute top-[500px] left-[-250px] w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(0,246,172,0.02)_0%,_transparent_70%)] pointer-events-none z-0 opacity-60" />
+      <div className="absolute top-[200px] right-[-250px] w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(0,246,172,0.03)_0%,_transparent_70%)] pointer-events-none z-0 opacity-40" />
+      <div className="absolute top-[500px] left-[-250px] w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(0,246,172,0.02)_0%,_transparent_70%)] pointer-events-none z-0 opacity-40" />
 
       {/* Subtle bottom footer green-to-black glow */}
       <div className="absolute bottom-0 left-0 right-0 h-[400px] bg-[radial-gradient(ellipse_100%_70%_at_50%_110%,_rgba(0,246,172,0.05)_0%,_rgba(2,2,2,0)_100%)] pointer-events-none z-0" />

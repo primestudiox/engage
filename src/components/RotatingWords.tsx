@@ -22,20 +22,18 @@ export default function RotatingWords({ words }: RotatingWordsProps) {
   }, [words]);
 
   return (
-    <span className="relative inline-flex h-[1.2em] overflow-hidden align-top px-1.5">
-      <AnimatePresence mode="wait">
+    <span className="relative inline-flex h-[1.25em] overflow-hidden align-top px-1.5 min-w-[20px]">
+      <AnimatePresence mode="popLayout">
         <motion.span
           key={`${words[index]}-${index}`}
-          initial={{ y: 24, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -24, opacity: 0 }}
+          initial={{ y: "100%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "-100%", opacity: 0 }}
           transition={{
-            type: "spring",
-            stiffness: 140,
-            damping: 14,
-            opacity: { duration: 0.18 }
+            y: { type: "tween", ease: [0.16, 1, 0.3, 1], duration: 0.45 },
+            opacity: { duration: 0.25 }
           }}
-          className="text-[#00f6ac] font-extrabold"
+          className="text-[#00f6ac] font-extrabold inline-block"
         >
           {words[index] || ""}
         </motion.span>
