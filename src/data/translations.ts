@@ -14,7 +14,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       sub: 'Skip the noise. Get the signal. AI updates, tools, and live hackathon sessions straight to WhatsApp.',
     },
     founder: {
-      name: 'Vaibhav Sisinty',
+      name: 'Sylvestre Dagoulou',
       role: 'Founder, GrowthSchool',
     },
     form: {
@@ -137,7 +137,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       sub: 'Évitez le bruit du web. Obtenez le signal clair. Mises à jour IA, outils exclusifs et masterminds en direct directement sur WhatsApp.',
     },
     founder: {
-      name: 'Vaibhav Sisinty',
+      name: 'Sylvestre Dagoulou',
       role: 'Fondateur, GrowthSchool',
     },
     form: {
@@ -260,7 +260,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       sub: 'Olvídate del ruido. Obtén la señal clara. Actualizaciones de IA, herramientas selectas y masterminds directo en tu WhatsApp.',
     },
     founder: {
-      name: 'Vaibhav Sisinty',
+      name: 'Sylvestre Dagoulou',
       role: 'Fundador, GrowthSchool',
     },
     form: {
