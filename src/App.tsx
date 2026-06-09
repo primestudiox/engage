@@ -144,9 +144,10 @@ export default function App() {
           <motion.div
             animate={{ y: [0, 5, 0] }}
             transition={{ repeat: Infinity, duration: 2.2 }}
-            className="flex justify-center pt-2"
+            onClick={scrollToForm}
+            className="flex justify-center pt-2 cursor-pointer group"
           >
-            <ChevronDown className="h-4.5 w-4.5 text-gray-600 block" />
+            <ChevronDown className="h-5 w-5 text-gray-600 group-hover:text-[#00f6ac] transition-colors duration-200 block" />
           </motion.div>
         </div>
 
