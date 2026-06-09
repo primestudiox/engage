@@ -5,6 +5,7 @@ import SubscriptionForm from './components/SubscriptionForm';
 import RotatingWords from './components/RotatingWords';
 import LegalModal from './components/LegalModal';
 import FaqAccordion from './components/FaqAccordion';
+import AdminSyncDashboard from './components/AdminSyncDashboard';
 import { translations } from './data/translations';
 
 export default function App() {
@@ -331,6 +332,9 @@ export default function App() {
         type={legalModal.type}
         lang={lang}
       />
+
+      {/* Admin Dashboard Google Sheet Sync Portal */}
+      <AdminSyncDashboard />
     </div>
   );
 }

@@ -13,6 +13,7 @@ export interface SubscriptionFormData {
   knowsCoding: 'yes' | 'no' | null;
   description: string;
   experience: string;
+  readyToInvest: string;
   joinMastermind: boolean;
   joinNewsletter: boolean;
 }
@@ -46,6 +47,8 @@ export interface TranslationSchema {
     describeOptions: { value: string; label: string }[];
     placeholderExperience: string;
     experienceOptions: { value: string; label: string }[];
+    placeholderReadyToInvest: string;
+    readyToInvestOptions: { value: string; label: string }[];
     labelMastermind: string;
     labelNewsletter: string;
     newsletterSubtitle: string;
@@ -62,12 +65,14 @@ export interface TranslationSchema {
       coding: string;
       describe: string;
       experience: string;
+      readyToInvest: string;
     };
     success: {
       title: string;
       subtitle: string;
       groupLabel: string;
       experienceLabel: string;
+      readyToInvestLabel: string;
       mastermindGift: string;
       newsletterGift: string;
       buttonOpenWa: string;

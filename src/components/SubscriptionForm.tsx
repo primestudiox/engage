@@ -5,6 +5,8 @@ import { Country, SubscriptionFormData } from '../types';
 import CountrySelectorModal from './CountrySelectorModal';
 import { translations } from '../data/translations';
 import { detectUserCountry, detectCountryFromPhoneNumber } from '../utils/geo';
+import { db } from '../utils/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 interface CustomDropdownProps {
   value: string;
@@ -32,7 +34,7 @@ function CustomDropdown({ value, onChange, options, placeholder, error }: Custom
   }, []);
 
   return (
-    <div ref={dropdownRef} className="relative w-full z-20">
+    <div ref={dropdownRef} className={`relative w-full ${isOpen ? 'z-30' : 'z-10'}`}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -101,6 +103,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     knowsCoding: null,
     description: '',
     experience: '',
+    readyToInvest: '',
     joinMastermind: true,
     joinNewsletter: true,
   });
@@ -182,6 +185,9 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     if (!formData.experience) {
       newErrors.experience = t.form.errors.experience;
     }
+    if (!formData.readyToInvest) {
+      newErrors.readyToInvest = t.form.errors.readyToInvest;
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -192,9 +198,59 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     if (!validate()) return;
 
     setSubmissionStatus('submitting');
+
+    // Save lead to local storage and Cloud Firestore
+    const leadId = Math.random().toString(36).substring(2, 11);
+    const newLead = {
+      id: leadId,
+      name: formData.name,
+      email: formData.email,
+      country: {
+        name: formData.country.name,
+        code: formData.country.code,
+        dialCode: formData.country.dialCode,
+        flag: formData.country.flag
+      },
+      phone: formData.phone,
+      description: formData.description,
+      experience: formData.experience,
+      readyToInvest: formData.readyToInvest,
+      joinMastermind: formData.joinMastermind,
+      timestamp: new Date().toISOString(),
+      synced: false
+    };
+
+    // 1. Save locally
+    try {
+      const existing = localStorage.getItem('engage_leads');
+      const leadsList = existing ? JSON.parse(existing) : [];
+      leadsList.push(newLead);
+      localStorage.setItem('engage_leads', JSON.stringify(leadsList));
+      window.dispatchEvent(new Event('engage_leads_updated'));
+    } catch (err) {
+      console.error('Failed to save signup info locally:', err);
+    }
+
+    // 2. Save directly to secure Cloud Firestore
+    setDoc(doc(db, 'leads', leadId), {
+      id: newLead.id,
+      name: newLead.name,
+      email: newLead.email,
+      country: newLead.country,
+      phone: newLead.phone,
+      description: newLead.description,
+      experience: newLead.experience,
+      readyToInvest: newLead.readyToInvest,
+      joinMastermind: newLead.joinMastermind,
+      timestamp: newLead.timestamp,
+      synced: false
+    }).catch(err => {
+      console.error('Failed to save signup info to Firestore:', err);
+    });
+
     setTimeout(() => {
       setSubmissionStatus('success');
-    }, 1800);
+    }, 1500);
   };
 
   const getWhatsappLink = () => {
@@ -250,10 +306,16 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{t.form.success.experienceLabel}</p>
-                  <p className="text-white font-medium text-sm mt-0.5">
+                  <p className="text-white font-medium text-sm mt-0.5 animate-pulse text-[#00f6ac]">
                     {t.form.experienceOptions.find(o => o.value === formData.experience)?.label || formData.experience}
                   </p>
                 </div>
+              </div>
+              <div className="border-t border-white/[0.05] pt-3 flex flex-col gap-1">
+                <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{t.form.success.readyToInvestLabel}</p>
+                <p className="text-white font-medium text-sm leading-relaxed">
+                  {t.form.readyToInvestOptions.find(o => o.value === formData.readyToInvest)?.label || formData.readyToInvest}
+                </p>
               </div>
               <div className="border-t border-white/[0.05] pt-3.5">
                 <p className="text-xs text-gray-400 font-medium space-y-1">
@@ -295,6 +357,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                   knowsCoding: null,
                   description: '',
                   experience: '',
+                  readyToInvest: '',
                   joinMastermind: true,
                   joinNewsletter: true,
                 });
@@ -470,6 +533,25 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
               />
               {errors.experience && (
                 <p className="mt-1 text-xs text-red-500">{errors.experience}</p>
+              )}
+            </div>
+
+            {/* Ready to invest select */}
+            <div>
+              <CustomDropdown
+                value={formData.readyToInvest}
+                onChange={(val) => {
+                  setFormData((prev) => ({ ...prev, readyToInvest: val }));
+                  if (errors.readyToInvest) {
+                    setErrors((prev) => ({ ...prev, readyToInvest: undefined }));
+                  }
+                }}
+                options={t.form.readyToInvestOptions}
+                placeholder={t.form.placeholderReadyToInvest}
+                error={errors.readyToInvest}
+              />
+              {errors.readyToInvest && (
+                <p className="mt-1 text-xs text-red-500">{errors.readyToInvest}</p>
               )}
             </div>
 

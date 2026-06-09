@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud_firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety: default deny catches everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Validation helper for subscription leads
+    function isValidLead(data) {
+      return data.id is string && data.id.size() <= 128
+          && data.name is string && data.name.size() <= 150
+          && data.phone is string && data.phone.size() <= 50
+          && data.timestamp is string && data.timestamp.size() <= 100;
+    }
+
+    // Check if the current user is the verified owner/administrator
+    function isAdmin() {
+      return request.auth != null 
+          && request.auth.token.email == "Dsylvestrealain@gmail.com"
+          && request.auth.token.email_verified == true;
+    }
+
+    match /leads/{leadId} {
+      // Anyone is allowed to submit a subscription lead (write-only for visitors)
+      allow create: if isValidLead(request.resource.data);
+      
+      // Only the verified admin can fetch, list, or update (e.g. mark as synced)
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}
