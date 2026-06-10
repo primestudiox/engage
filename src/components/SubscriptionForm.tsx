@@ -255,12 +255,12 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       country_name: newLead.country.name,
       country_code: newLead.country.code,
       dial_code: newLead.country.dialCode,
-      description: newLead.description,
-      experience: newLead.experience,
-      join_mastermind: newLead.joinMastermind,
-      knows_coding: formData.knowsCoding,
+      profile: formData.description,
+      blocage: formData.experience,
+      has_online_business: formData.knowsCoding,
       ready_to_invest: formData.readyToInvest,
-      join_newsletter: formData.joinNewsletter,
+      wants_whatsapp_plan: formData.joinMastermind,
+      wants_whatsapp_audit: formData.joinNewsletter,
     }]).then(({ error }) => {
       if (error) console.error('Failed to save to Supabase:', error);
     });
