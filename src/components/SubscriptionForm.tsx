@@ -14,30 +14,43 @@ interface CustomDropdownProps {
   options: Array<{ value: string; label: string }>;
   placeholder: string;
   error?: string;
+  isOpen: boolean;
+  onToggle: (open: boolean) => void;
 }
 
-function CustomDropdown({ value, onChange, options, placeholder, error }: CustomDropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
+function CustomDropdown({ value, onChange, options, placeholder, error, isOpen, onToggle }: CustomDropdownProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const selectedOption = options.find((o) => o.value === value);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        if (isOpen) onToggle(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+
+    function handleScroll(event: Event) {
+      if (isOpen && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        onToggle(false);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("scroll", handleScroll, { capture: true, passive: true });
+    }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll, { capture: true });
     };
-  }, []);
+  }, [isOpen, onToggle]);
 
   return (
     <div ref={dropdownRef} className={`relative w-full ${isOpen ? 'z-30' : 'z-10'}`}>
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => onToggle(!isOpen)}
         className={`w-full text-left bg-[#16181a] border border-white/[0.08] px-4 py-3.5 rounded-xl text-sm transition-all flex items-center justify-between cursor-pointer focus:ring-1 focus:ring-[#00f6ac]/30 hover:border-white/15 ${
           selectedOption ? 'text-white' : 'text-gray-500'
         } ${error ? 'border-red-500/50' : ''}`}
@@ -49,11 +62,12 @@ function CustomDropdown({ value, onChange, options, placeholder, error }: Custom
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -4, scale: 0.98 }}
-            animate={{ opacity: 1, y: 4, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.98 }}
-            transition={{ duration: 0.15 }}
-            className="absolute left-0 right-0 z-40 max-h-56 overflow-y-auto rounded-xl border border-white/10 bg-[#121315] py-2.5 shadow-2xl scrollbar-thin scrollbar-thumb-white/10"
+            id="dropdown-options-list"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 4 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.12, ease: "easeOut" }}
+            className="absolute left-0 right-0 z-40 max-h-56 overflow-y-auto rounded-xl border border-white/10 bg-[#121315] py-2.5 shadow-2xl scrollbar-thin scrollbar-thumb-white/10 will-change-transform transform-gpu [backface-visibility:hidden]"
           >
             {options.map((opt) => {
               const isSelected = opt.value === value;
@@ -63,7 +77,7 @@ function CustomDropdown({ value, onChange, options, placeholder, error }: Custom
                   type="button"
                   onClick={() => {
                     onChange(opt.value);
-                    setIsOpen(false);
+                    onToggle(false);
                   }}
                   className={`w-full text-left px-4 py-2.5 text-sm transition-colors cursor-pointer ${
                     isSelected
@@ -111,6 +125,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
   const [isCountryModalOpen, setIsCountryModalOpen] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof SubscriptionFormData, string>>>({});
   const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [activeDropdown, setActiveDropdown] = useState<'describe' | 'experience' | 'invest' | null>(null);
 
   useEffect(() => {
     async function autoDetect() {
@@ -269,7 +284,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
   };
 
   return (
-    <div id="registration-card" className="w-full max-w-lg mx-auto overflow-hidden rounded-3xl border border-white/[0.06] bg-[#121315] p-6 md:p-8 custom-glow relative">
+    <div id="registration-card" className="w-full max-w-lg mx-auto overflow-visible rounded-3xl border border-white/[0.06] bg-[#121315] p-6 md:p-8 custom-glow relative">
       <AnimatePresence mode="wait">
         {submissionStatus === 'success' ? (
           <motion.div
@@ -361,6 +376,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                   joinMastermind: true,
                   joinNewsletter: true,
                 });
+                setActiveDropdown(null);
                 setSubmissionStatus('idle');
               }}
               className="mt-5 text-xs text-gray-500 hover:text-white transition-colors cursor-pointer tracking-wide hover:underline"
@@ -369,7 +385,15 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </button>
           </motion.div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <motion.form
+            key="registration-form"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onSubmit={handleSubmit}
+            className="space-y-5"
+          >
             {/* Name Input */}
             <div>
               <input
@@ -511,6 +535,8 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 options={t.form.describeOptions}
                 placeholder={t.form.placeholderDescribe}
                 error={errors.description}
+                isOpen={activeDropdown === 'describe'}
+                onToggle={(open) => setActiveDropdown(open ? 'describe' : null)}
               />
               {errors.description && (
                 <p className="mt-1 text-xs text-red-500">{errors.description}</p>
@@ -530,6 +556,8 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 options={t.form.experienceOptions}
                 placeholder={t.form.placeholderExperience}
                 error={errors.experience}
+                isOpen={activeDropdown === 'experience'}
+                onToggle={(open) => setActiveDropdown(open ? 'experience' : null)}
               />
               {errors.experience && (
                 <p className="mt-1 text-xs text-red-500">{errors.experience}</p>
@@ -549,6 +577,8 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 options={t.form.readyToInvestOptions}
                 placeholder={t.form.placeholderReadyToInvest}
                 error={errors.readyToInvest}
+                isOpen={activeDropdown === 'invest'}
+                onToggle={(open) => setActiveDropdown(open ? 'invest' : null)}
               />
               {errors.readyToInvest && (
                 <p className="mt-1 text-xs text-red-500">{errors.readyToInvest}</p>
@@ -644,7 +674,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 <span>{t.form.lockText}</span>
               </div>
             </div>
-          </form>
+          </motion.form>
         )}
       </AnimatePresence>
 
