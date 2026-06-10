@@ -258,6 +258,9 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       description: newLead.description,
       experience: newLead.experience,
       join_mastermind: newLead.joinMastermind,
+      knows_coding: formData.knowsCoding,
+      ready_to_invest: formData.readyToInvest,
+      join_newsletter: formData.joinNewsletter,
     }]).then(({ error }) => {
       if (error) console.error('Failed to save to Supabase:', error);
     });
