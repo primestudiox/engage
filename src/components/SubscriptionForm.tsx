@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, MessageSquare, Lock, Loader2, Sparkles, CheckCircle, X } from 'lucide-react';
 import { Country, SubscriptionFormData } from '../types';
 import CountrySelectorModal from './CountrySelectorModal';
+import DiscountTimer from './DiscountTimer';
 import { translations } from '../data/translations';
 import { detectUserCountry, detectCountryFromPhoneNumber } from '../utils/geo';
 import { db } from '../utils/firebase';
