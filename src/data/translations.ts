@@ -11,7 +11,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       titlePre: 'Your advantage,',
       titlePost: 'is your',
       rotatingWords: ['skills', 'mindset', 'vision', 'offers', 'business'],
-      sub: "AI alone doesn't generate income. We show you how to turn your ideas into offers people are willing to buy.",
+      sub: 'Every skill hides a business opportunity. We help you turn it into a profitable offer.',
     },
     founder: {
       name: 'Sylvestre Dagoulou',
@@ -137,7 +137,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       titlePre: 'Votre avantage,',
       titlePost: "c'est votre",
       rotatingWords: ['compétence', 'mindset', 'vision', 'offre', 'business'],
-      sub: "L'IA seule ne rapporte rien. Nous vous montrons comment transformer vos idées en offres que les gens sont prêts à acheter.",
+      sub: 'Chaque compétence cache une opportunité business. Nous vous aidons à la transformer en offre rentable.',
     },
     founder: {
       name: 'Sylvestre Dagoulou',
@@ -263,7 +263,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       titlePre: 'Tu ventaja,',
       titlePost: 'es tu',
       rotatingWords: ['habilidad', 'mentalidad', 'visión', 'oferta', 'negocio'],
-      sub: 'La IA por sí sola no genera ingresos. Te mostramos cómo convertir tus ideas en ofertas que la gente está dispuesta a comprar.',
+      sub: 'Cada habilidad esconde una oportunidad de negocio. Te ayudamos a transformarla en una oferta rentable.',
     },
     founder: {
       name: 'Sylvestre Dagoulou',
