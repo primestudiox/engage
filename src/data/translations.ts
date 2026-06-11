@@ -48,7 +48,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       labelNewsletter: 'Join the program immediately',
       newsletterSubtitle: 'Get a 35% discount',
       joinedStats: '100,000+ joined',
-      buttonCtaIdle: 'Get Instant Access →',
+      buttonCtaIdle: 'Start Now →',
       buttonCtaSubmitting: 'Processing details...',
       lockText: 'Your data is safe. No spam, ever.',
       errors: {
@@ -174,7 +174,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       labelNewsletter: 'Rejoindre immédiatement le programme',
       newsletterSubtitle: 'Bénéficiez de 35% de réduction',
       joinedStats: 'Plus de 100 000 membres',
-      buttonCtaIdle: 'Accès Instantané Gratuit →',
+      buttonCtaIdle: 'Commencer maintenant →',
       buttonCtaSubmitting: 'Traitement en cours...',
       lockText: 'Vos données sont sécurisées. Aucun spam, jamais.',
       errors: {
@@ -300,7 +300,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       labelNewsletter: 'Unirse de inmediato al programa',
       newsletterSubtitle: 'Obtén un 35% de descuento',
       joinedStats: 'Más de 100,000 miembros unidos',
-      buttonCtaIdle: 'Obtener Acceso Instantáneo →',
+      buttonCtaIdle: 'Comenzar Ahora →',
       buttonCtaSubmitting: 'Procesando registro...',
       lockText: 'Tus datos están seguros. Jamás enviaremos spam.',
       errors: {
