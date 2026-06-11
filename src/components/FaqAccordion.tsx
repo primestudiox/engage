@@ -52,7 +52,7 @@ export default function FaqAccordion({ items }: FaqAccordionProps) {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.25, ease: "easeInOut" }}
                 >
-                  <div className="px-5.5 pb-5 pt-1 text-[13.5px] text-gray-400 leading-relaxed font-medium border-t border-white/[0.02]">
+                  <div className="px-5.5 pb-5 pt-1 text-[13.5px] text-gray-400 leading-relaxed font-medium border-t border-white/[0.02] whitespace-pre-line">
                     {item.a}
                   </div>
                 </motion.div>

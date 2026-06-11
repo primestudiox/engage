@@ -83,7 +83,7 @@ export default function App() {
           {/* Left: Minimalist double horizontal lines menu trigger */}
           <button
             onClick={scrollToForm}
-            className="flex items-center gap-3.5 select-none hover:opacity-85 transition-opacity cursor-pointer group focus:outline-none"
+            className="flex md:flex portrait:hidden md:portrait:flex items-center gap-3.5 select-none hover:opacity-85 transition-opacity cursor-pointer group focus:outline-none"
           >
             <div className="flex flex-col gap-1.5 justify-center">
               <span className="w-6 h-[1.5px] bg-white/80 group-hover:bg-white transition-colors" />
@@ -157,7 +157,7 @@ export default function App() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="text-gray-400 font-medium leading-relaxed max-w-lg mx-auto text-sm md:text-base px-2 line-clamp-2 overflow-hidden"
+            className="text-gray-400 font-medium leading-relaxed max-w-lg mx-auto text-sm md:text-base px-2"
           >
             {t.hero.sub}
           </motion.p>

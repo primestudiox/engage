@@ -103,20 +103,20 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       sub: 'Everything you need to know about Engage AI Community.',
       items: [
         {
-          q: 'Is this really free?',
-          a: 'Yes, the Whatsapp community and weekly resources are 100% free. Our aim is to foster a globally minded community of AI enthusiasts.',
+          q: "What if I don't have a business idea yet?",
+          a: "That is precisely one of the first steps. We start from your skills, interests, and experience to identify opportunities tailored to your profile.",
         },
         {
-          q: 'Why WhatsApp?',
-          a: 'WhatsApp provides instantaneous, friction-free delivery of hot alerts, tools, and prompts directly into your pocket. No inbox noise.',
+          q: "I don't have any special skills.",
+          a: "Most people underestimate what they already know how to do. A skill can come from your job, your studies, your personal experiences, or even a subject you understand better than average. Our goal is precisely to help you identify what can become an opportunity.",
         },
         {
-          q: 'What if I am a absolute beginner?',
-          a: 'No worries! We curate content tailored for all levels. From absolute beginners wanting to auto-summarize files, up to seasoned devs developing autonomous agents.',
+          q: 'Do I need to be an expert in artificial intelligence?',
+          a: "This program is not intended to make you an AI specialist. AI is simply used as a leverage to accelerate the creation, production, and validation of your business.",
         },
         {
-          q: 'Can I unsubscribe later?',
-          a: 'Absolutely. You can leave the Whatsapp channel or opt-out of the email digest with a single click at any time.',
+          q: 'What will I get at the end of the 10 days?',
+          a: "At the end of the program, you will have:\n\n✅ identified an opportunity\n\n✅ structured an offer\n\n✅ used AI to accelerate your production\n\n✅ set up the first systems of your activity\n\n✅ a clear roadmap to obtain your first clients",
         },
       ],
     },
@@ -229,20 +229,20 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       sub: 'Tout ce qu’il faut savoir sur notre communauté technologique.',
       items: [
         {
-          q: 'Est-ce vraiment gratuit ?',
-          a: 'Oui, l’accès à la communauté WhatsApp ainsi que les partages hebdomadaires d’outils sont 100% gratuits et le resteront.',
+          q: "Que se passe-t-il si je n'ai pas encore d'idée de business ?",
+          a: "C'est précisément l'une des premières étapes. Nous partons de vos compétences, de vos centres d'intérêt et de votre expérience afin d'identifier des opportunités adaptées à votre profil.",
         },
         {
-          q: 'Pourquoi WhatsApp ?',
-          a: 'Contrairement aux mails qui se perdent, WhatsApp permet de recevoir instantanément vos alertes clés et vos prompts directement.',
+          q: "Je n'ai pas de compétence particulière.",
+          a: "La plupart des personnes sous-estiment ce qu'elles savent déjà faire. Une compétence peut provenir de votre métier, de vos études, de vos expériences personnelles ou même d'un sujet que vous maîtrisez mieux que la moyenne. Notre objectif est justement de vous aider à identifier ce qui peut devenir une opportunité.",
         },
         {
-          q: 'Est-ce accessible aux débutants ?',
-          a: 'Absolument ! Nous traduisons la complexité en concepts simples et applicables, quel que soit votre niveau actuel.',
+          q: 'Dois-je être expert en intelligence artificielle ?',
+          a: "Ce programme n'a pas pour objectif de faire de vous un spécialiste de l'IA. L'IA est simplement utilisée comme un levier pour accélérer la création, la production et la mise en place de votre business.",
         },
         {
-          q: 'Puis-je quitter le groupe ?',
-          a: 'Bien sûr. Vous pouvez quitter le canal WhatsApp ou vous désabonner de la newsletter en un clic à tout moment.',
+          q: 'Que vais-je obtenir à la fin des 10 jours ?',
+          a: "À la fin du programme, vous aurez :\n\n✅ identifié une opportunité\n\n✅ structuré une offre\n\n✅ utilisé l'IA pour accélérer votre production\n\n✅ mis en place les premiers systèmes de votre activité\n\n✅ une feuille de route claire pour obtenir vos premiers clients",
         },
       ],
     },
@@ -355,20 +355,20 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       sub: 'Todo lo que necesitas saber acerca de nuestra comunidad.',
       items: [
         {
-          q: '¿Es realmente gratis?',
-          a: 'Sí, pertenecer a nuestro canal de WhatsApp y recibir herramientas semanales es completamente gratis.',
+          q: "¿Qué pasa si aún no tengo una idea de negocio?",
+          a: "Ese es precisamente uno de los primeros pasos. Partimos de tus habilidades, intereses y experiencia para identificar oportunidades adaptadas a tu perfil.",
         },
         {
-          q: '¿Por qué WhatsApp?',
-          a: 'WhatsApp permite que las alertas críticas y las plantillas lleguen directo a tu bolsillo sin retrasos ni filtros.',
+          q: "¿No tengo ninguna habilidad especial?",
+          a: "La mayoría de las personas subestiman lo que ya saben hacer. Una habilidad puede provenir de tu trabajo, tus estudios, tus experiencias personales o incluso un tema que dominas mejor que la media. Nuestro objetivo es precisamente ayudarte a identificar lo que puede convertirse en una oportunidad.",
         },
         {
-          q: '¿Es apto si soy principiante?',
-          a: '¡Por supuesto! Traducimos temas de alta complejidad técnica a ideas aplicables del día a día.',
+          q: '¿Debo ser experto en inteligencia artificial?',
+          a: "Este programa no tiene como objetivo convertirte en un especialista en IA. La IA se utiliza simplemente como una palanca para acelerar la creación, producción e implementación de tu negocio.",
         },
         {
-          q: '¿Me puedo salir después?',
-          a: 'Absolutamente. Puedes abandonar el grupo de Whatsapp o cancelar la newsletter con un solo toque en cualquier momento.',
+          q: '¿Qué obtendré al final de los 10 días?',
+          a: "Al final del programa, tendrás:\n\n✅ identificado una oportunidad\n\n✅ estructurado una oferta\n\n✅ utilizado la IA para acelerar tu producción\n\n✅ implementado los primeros sistemas de tu actividad\n\n✅ una hoja de ruta clara para conseguir tus primeros clientes",
         },
       ],
     },
