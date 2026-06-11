@@ -118,9 +118,9 @@ export default function App() {
             transition={{ delay: 0.15 }}
             className="space-y-4"
           >
-            <h1 className="notranslate text-[22px] min-[360px]:text-[25px] min-[400px]:text-3xl sm:text-5xl md:text-6.5xl font-extrabold font-serif text-white tracking-tight leading-[1.05] max-w-xl mx-auto" translate="no">
+            <h1 className="text-4xl sm:text-5xl md:text-6.5xl font-extrabold font-serif text-white tracking-tight leading-[1.05] max-w-xl mx-auto">
               {t.hero.titlePre}
-              <br className="block" />
+              <br className="hidden md:block" />
               <RotatingWords words={t.hero.rotatingWords} />
               {t.hero.titlePost}
             </h1>
