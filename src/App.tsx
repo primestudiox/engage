@@ -10,6 +10,7 @@ import DiscountTimer from './components/DiscountTimer';
 import { translations } from './data/translations';
 import founderAvatar from './assets/images/founder_avatar_1780480032739.png';
 import SiteLogo from './components/SiteLogo';
+import PwaInstallPrompt from './components/PwaInstallPrompt';
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'fr' | 'es'>('en');
@@ -61,6 +62,7 @@ export default function App() {
       className="notranslate min-h-screen bg-[#020202] text-gray-300 flex flex-col items-center justify-between selection:bg-[#00f6ac]/30 selection:text-[#00f6ac] font-sans antialiased relative overflow-x-hidden"
       translate="no"
     >
+      <PwaInstallPrompt lang={lang} />
       {/* Ambient background glow layers starting from vibrant green down to deep velvet black */}
       <div className="absolute top-0 left-0 right-0 h-[800px] bg-[radial-gradient(ellipse_120%_80%_at_50%_-10%,_rgba(0,246,172,0.18)_0%,_rgba(0,246,172,0.05)_45%,_rgba(2,2,2,0)_100%)] pointer-events-none z-0" />
       

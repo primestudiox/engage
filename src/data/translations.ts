@@ -77,24 +77,24 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       },
     },
     whatYouGet: {
-      title: "What You'll Get",
-      sub: 'Exclusive advantages designed to keep you lightyears ahead of the competition.',
+      title: "What You'll Achieve",
+      sub: 'A clear methodology to transform your expertise and launch a structured business model.',
       cards: [
         {
-          title: 'AI Updates',
-          desc: 'Stay current with what actually matters in AI, summarized succinctly to save you precious hours of research.',
+          title: 'Skills',
+          desc: 'Turn your skills, knowledge, or experience into monetizable assets.',
         },
         {
-          title: 'Curated Resources',
-          desc: 'Handpicked tools, checklists, actionable guides, and prompts designed to supercharge your daily workflow.',
+          title: 'Opportunity',
+          desc: 'Identify hidden business opportunities behind what you already know how to do.',
         },
         {
-          title: 'Session Invites',
-          desc: 'Exclusive invites to weekend AI masterminds, live hackathons, Q&A loops, and expert product workshops.',
+          title: 'Offer',
+          desc: 'Build an offer that clients understand, desire, and purchase.',
         },
         {
-          title: 'Free Tools',
-          desc: 'Direct access to high utility tools, custom automation formulas, and ready-to-use AI templates.',
+          title: 'Systems',
+          desc: 'Set up simple systems to attract prospects and make sales.',
         },
       ],
     },
@@ -204,23 +204,23 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     whatYouGet: {
       title: 'Ce Que Vous Allez Obtenir',
-      sub: 'Des avantages d’élite conçus pour vous maintenir à la pointe des révolutions technologiques.',
+      sub: 'Une méthodologie claire pour transformer votre expertise et lancer un modèle d’affaires structuré.',
       cards: [
         {
-          title: 'Actualités IA Claires',
-          desc: 'Restez informé de ce qui compte vraiment dans l’écosystème IA, résumé pour vous faire gagner de précieuses heures.',
+          title: 'Skills',
+          desc: 'Transformez vos compétences, connaissances ou expériences en actifs monétisables.',
         },
         {
-          title: 'Ressources Triées',
-          desc: 'Outils triés sur le volet, guides pratiques, fiches récapitulatives et prompts optimisés pour vos projets.',
+          title: 'Opportunity',
+          desc: 'Identifiez les opportunités business cachées derrière ce que vous savez déjà faire.',
         },
         {
-          title: 'Masterminds En Direct',
-          desc: 'Invitations exclusives à nos ateliers du week-end, hackathons thématiques, sessions de questions-réponses.',
+          title: 'Offer',
+          desc: 'Construisez une offre que les clients comprennent, désirent et achètent.',
         },
         {
-          title: 'Outils Offerts',
-          desc: 'Accès direct à des templates de scripts, d’automatisations sans code et d’assistants virtuels prêts à l’emploi.',
+          title: 'Systems',
+          desc: 'Mettez en place des systèmes simples pour attirer des prospects et vendre.',
         },
       ],
     },
@@ -329,24 +329,24 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       },
     },
     whatYouGet: {
-      title: 'Lo Que Obtendrás',
-      sub: 'Ventajas exclusivas diseñadas para mantenerte años luz por delante de la competencia.',
+      title: 'Lo Que Lograrás',
+      sub: 'Una metodología clara para transformar tu experiencia y lanzar un modelo de negocio estructurado.',
       cards: [
         {
-          title: 'Noticias Claras de IA',
-          desc: 'Mantente al día con lo que realmente importa en IA, resumido de forma concisa para ahorrarte horas de búsqueda.',
+          title: 'Skills',
+          desc: 'Transforma tus habilidades, conocimientos o experiencias en activos monetizables.',
         },
         {
-          title: 'Recursos Curados',
-          desc: 'Herramientas selectas, listas de verificación, guías y prompts listos para potenciar tu ritmo de trabajo.',
+          title: 'Opportunity',
+          desc: 'Identifica las oportunidades de negocio ocultas detrás de lo que ya sabes hacer.',
         },
         {
-          title: 'Invitación a Clases',
-          desc: 'Acceso exclusivo a masterminds de fin de semana, hackátocas en vivo y mesas redondas de dudas.',
+          title: 'Offer',
+          desc: 'Construye una oferta que los clientes entiendan, deseen y compren.',
         },
         {
-          title: 'Utilerías Sin Costo',
-          desc: 'Acceso directo a automatizaciones prácticas, fórmulas eficientes de scripts y plantillas pre-optimizadas.',
+          title: 'Systems',
+          desc: 'Implementa sistemas sencillos para atraer prospectos y vender.',
         },
       ],
     },
