@@ -13,9 +13,10 @@ import {
   LogOut, 
   Clock 
 } from 'lucide-react';
-import { initAuth, googleSignIn, logout, getAccessToken, db } from '../utils/firebase';
+import { initAuth, googleSignIn, logout, getAccessToken } from '../utils/firebase';
 import { getOrCreateLeadsSheet, appendLeadsToSheet, LeadData } from '../utils/sheets';
-import { collection, getDocs, doc, writeBatch, deleteDoc } from 'firebase/firestore';
+import { supabase } from '../lib/supabase';
+import { getFlagEmoji } from '../utils/geo';
 import { User } from 'firebase/auth';
 
 export default function AdminSyncDashboard() {
@@ -48,30 +49,49 @@ export default function AdminSyncDashboard() {
     };
   }, []);
 
-  // Load leads from Cloud Firestore (primary) fallback to localStorage
+  // Load leads from Supabase (primary) fallback to localStorage
   const loadLeads = async (currentUser: User | null) => {
     setIsLoadingLeads(true);
     setSyncError(null);
 
-    // If signed-in admin, load from Firestore
+    // If signed-in admin, load from Supabase
     if (currentUser && currentUser.email === 'Dsylvestrealain@gmail.com') {
       try {
-        const colRef = collection(db, 'leads');
-        const snapshot = await getDocs(colRef);
-        const fbLeads: LeadData[] = [];
-        snapshot.forEach((d) => {
-          fbLeads.push(d.data() as LeadData);
-        });
+        const { data: rows, error: sbError } = await supabase
+          .from('leads')
+          .select('*');
+
+        if (sbError) {
+          throw sbError;
+        }
+
+        const sbLeads: LeadData[] = (rows || []).map((row: any) => ({
+          id: row.id?.toString() || '',
+          name: row.name || '',
+          phone: row.phone || '',
+          country: {
+            name: row.country_name || '',
+            code: row.country_code || '',
+            dialCode: row.dial_code || '',
+            flag: row.country_code ? getFlagEmoji(row.country_code) : '🇨🇮',
+          },
+          description: row.profile || '',
+          experience: row.blocage || '',
+          readyToInvest: row.ready_to_invest || '',
+          joinMastermind: row.wants_whatsapp_plan || false,
+          timestamp: row.created_at || new Date().toISOString(),
+          synced: row.synced || false,
+        }));
         
         // Sort leads by timestamp newest first
-        fbLeads.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-        setLeads(fbLeads);
-        localStorage.setItem('engage_leads', JSON.stringify(fbLeads));
+        sbLeads.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+        setLeads(sbLeads);
+        localStorage.setItem('engage_leads', JSON.stringify(sbLeads));
         setIsLoadingLeads(false);
         return;
       } catch (err: any) {
-        console.warn('Could not load leads from Firestore, falling back to local cache...', err);
-        setSyncError('Firestore load restricted. Ensure you are logged in with the official admin Google Account.');
+        console.warn('Could not load leads from Supabase, falling back to local cache...', err);
+        setSyncError('Supabase load restricted. Ensure tables are readable and configuration is correct.');
       }
     }
 
@@ -181,16 +201,18 @@ export default function AdminSyncDashboard() {
       if (pendingLeads.length > 0) {
         await appendLeadsToSheet(spreadsheetId, activeToken, pendingLeads);
         
-        // 3. Update synced tag in Cloud Firestore (multi-record update using batch)
+        // 3. Update synced tag in Supabase
         if (user && user.email === 'Dsylvestrealain@gmail.com') {
-          const batch = writeBatch(db);
-          pendingLeads.forEach((lead) => {
-            if (lead.id) {
-              const docRef = doc(db, 'leads', lead.id);
-              batch.update(docRef, { synced: true });
+          const ids = pendingLeads.map((l) => l.id).filter(Boolean);
+          if (ids.length > 0) {
+            const { error: updateErr } = await supabase
+              .from('leads')
+              .update({ synced: true })
+              .in('id', ids);
+            if (updateErr) {
+              console.error('Failed to update synced status in Supabase:', updateErr);
             }
-          });
-          await batch.commit();
+          }
         } else {
           // If fallback local storage sync
           const localUpdated = leads.map(l => ({ ...l, synced: true }));
@@ -220,21 +242,22 @@ export default function AdminSyncDashboard() {
     if (targetCount === 0) return;
 
     const confirmed = window.confirm(
-      `CRITICAL WARNING: This will permanently delete all ${targetCount} leads from Cloud Firestore. This action is irreversible (but will NOT delete synced entries from Google Sheets). Continue?`
+      `CRITICAL WARNING: This will permanently delete all ${targetCount} leads from Supabase. This action is irreversible (but will NOT delete synced entries from Google Sheets). Continue?`
     );
     
     if (confirmed) {
       if (user && user.email === 'Dsylvestrealain@gmail.com') {
         try {
-          const batch = writeBatch(db);
-          leads.forEach((lead) => {
-            if (lead.id) {
-              batch.delete(doc(db, 'leads', lead.id));
-            }
-          });
-          await batch.commit();
+          const ids = leads.map(l => l.id).filter(Boolean);
+          if (ids.length > 0) {
+            const { error: delErr } = await supabase
+              .from('leads')
+              .delete()
+              .in('id', ids);
+            if (delErr) throw delErr;
+          }
         } catch (err) {
-          console.error('Failed to clear Firestore collection:', err);
+          console.error('Failed to clear Supabase table:', err);
         }
       }
       localStorage.removeItem('engage_leads');

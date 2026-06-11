@@ -127,6 +127,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
   const [isCountryModalOpen, setIsCountryModalOpen] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof SubscriptionFormData | 'options', string>>>({});
   const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [isDuplicate, setIsDuplicate] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<'describe' | 'experience' | 'invest' | null>(null);
 
   useEffect(() => {
@@ -214,11 +215,53 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
     setSubmissionStatus('submitting');
+
+    const cleanEmail = formData.email.trim();
+    const cleanPhone = formData.phone.trim();
+
+    let remoteExists = false;
+    let localExists = false;
+
+    // 1. Check if they exist in Supabase remotely (to handle different devices/cleared cache)
+    try {
+      const orClause = [
+        cleanEmail ? `email.eq.${cleanEmail}` : '',
+        cleanPhone ? `phone.eq.${cleanPhone}` : ''
+      ].filter(Boolean).join(',');
+
+      if (orClause) {
+        const { data: dupLeads, error: checkErr } = await supabase
+          .from('leads')
+          .select('id')
+          .or(orClause);
+
+        if (!checkErr && dupLeads && dupLeads.length > 0) {
+          remoteExists = true;
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to query Supabase for duplicate check:', err);
+    }
+
+    // 2. Check local storage cache just in case
+    try {
+      const existing = localStorage.getItem('engage_leads');
+      const leadsList = existing ? JSON.parse(existing) : [];
+      localExists = leadsList.some((l: any) => 
+        (cleanEmail && l.email?.toLowerCase().trim() === cleanEmail.toLowerCase()) ||
+        (cleanPhone && l.phone?.trim() === cleanPhone)
+      );
+    } catch (lsErr) {
+      console.warn('Failed to parse localStorage cache for local duplicate check:', lsErr);
+    }
+
+    const alreadyRegistered = remoteExists || localExists;
+    setIsDuplicate(alreadyRegistered);
 
     // Helper to generate UUID v4
     const generateUUIDv4 = (): string => {
@@ -232,7 +275,6 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       });
     };
 
-    // Save lead to local storage and Cloud Firestore
     const leadId = generateUUIDv4();
     const newLead = {
       id: leadId,
@@ -248,90 +290,89 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       description: formData.description,
       experience: formData.experience,
       readyToInvest: formData.readyToInvest,
-      joinMastermind: formData.joinMastermind,
       timestamp: new Date().toISOString(),
       synced: false
     };
 
-    // 1. Save locally
-    try {
-      const existing = localStorage.getItem('engage_leads');
-      const leadsList = existing ? JSON.parse(existing) : [];
-      leadsList.push(newLead);
-      localStorage.setItem('engage_leads', JSON.stringify(leadsList));
-      window.dispatchEvent(new Event('engage_leads_updated'));
-    } catch (err) {
-      console.error('Failed to save signup info locally:', err);
-    }
+    // 3. If NOT registered yet, execute registration writes sequentially so they are guaranteed to arrive
+    if (!alreadyRegistered) {
+      // Save to Supabase (primary)
+      try {
+        const { error: sbErr } = await supabase.from('leads').insert([{
+          name: newLead.name,
+          email: newLead.email,
+          phone: newLead.phone,
+          country_name: newLead.country.name,
+          country_code: newLead.country.code,
+          dial_code: newLead.country.dialCode,
+          profile: formData.description,
+          blocage: formData.experience,
+          has_online_business: formData.knowsCoding,
+          ready_to_invest: formData.readyToInvest,
+          wants_whatsapp_plan: formData.joinMastermind,
+          wants_whatsapp_audit: formData.joinNewsletter,
+        }]);
 
-    // 2. Save to Supabase
-    ((formData: any) => {
-      supabase.from('leads').insert([{
-        name: newLead.name,
-        email: newLead.email,
-        phone: newLead.phone,
-        country_name: newLead.country.name,
-        country_code: newLead.country.code,
-        dial_code: newLead.country.dialCode,
-        profile: formData.profile,
-        blocage: formData.blocage,
-        has_online_business: formData.has_online_business,
-        ready_to_invest: formData.ready_to_invest,
-        wants_whatsapp_plan: formData.wants_whatsapp_plan,
-        wants_whatsapp_audit: formData.wants_whatsapp_audit,
-      }]).then(({ error }) => {
-        if (error) console.error('Failed to save to Supabase:', error);
-      });
-    })({
-      ...formData,
-      profile: formData.description,
-      blocage: formData.experience,
-      has_online_business: formData.knowsCoding,
-      ready_to_invest: formData.readyToInvest,
-      wants_whatsapp_plan: formData.joinMastermind,
-      wants_whatsapp_audit: formData.joinNewsletter,
-    });
-
-    // 3. Send to Make.com Webhook if configured
-    const webhookUrl = (import.meta as any).env.VITE_MAKE_WEBHOOK_URL || 'https://hook.eu2.make.com/23vjjmgjfmm9y90mnz2dgglqrsnvw3by';
-    if (webhookUrl) {
-      const payload = {
-        id: newLead.id,
-        name: newLead.name,
-        email: newLead.email,
-        phone: `${newLead.country.dialCode}${newLead.phone.replace(/[^0-9]/g, '')}`,
-        country_name: newLead.country.name,
-        country_code: newLead.country.code,
-        dial_code: newLead.country.dialCode,
-        profile: formData.description,
-        blocage: formData.experience,
-        has_online_business: formData.knowsCoding,
-        ready_to_invest: formData.readyToInvest,
-        wants_whatsapp_plan: formData.joinMastermind,
-        wants_whatsapp_audit: formData.joinNewsletter,
-        timestamp: newLead.timestamp
-      };
-
-      fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      })
-      .then(response => {
-        if (!response.ok) {
-          console.warn('Webhook response not ok status:', response.status);
+        if (sbErr) {
+          console.error('Failed to save to Supabase:', sbErr);
+        } else {
+          console.log('Lead successfully saved to Supabase.');
         }
-      })
-      .catch(err => {
-        console.error('Failed to send lead to Make.com webhook:', err);
-      });
+      } catch (sbErr) {
+        console.error('Exception saving to Supabase:', sbErr);
+      }
+
+      // Send to Make.com Webhook
+      const webhookUrl = (import.meta as any).env.VITE_MAKE_WEBHOOK_URL || 'https://hook.eu2.make.com/23vjjmgjfmm9y90mnz2dgglqrsnvw3by';
+      if (webhookUrl) {
+        const payload = {
+          id: newLead.id,
+          name: newLead.name,
+          email: newLead.email,
+          phone: `${newLead.country.dialCode}${newLead.phone.replace(/[^0-9]/g, '')}`,
+          country_name: newLead.country.name,
+          country_code: newLead.country.code,
+          dial_code: newLead.country.dialCode,
+          profile: formData.description,
+          blocage: formData.experience,
+          has_online_business: formData.knowsCoding,
+          ready_to_invest: formData.readyToInvest,
+          wants_whatsapp_plan: formData.joinMastermind,
+          wants_whatsapp_audit: formData.joinNewsletter,
+          timestamp: newLead.timestamp
+        };
+
+        try {
+          const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+          if (!response.ok) {
+            console.warn('Webhook response not ok status:', response.status);
+          } else {
+            console.log('Lead successfully sent to Make.com webhook.');
+          }
+        } catch (err) {
+          console.error('Failed to send lead to Make.com webhook:', err);
+        }
+      }
+
+      // Save locally (to remember this registration)
+      try {
+        const existing = localStorage.getItem('engage_leads');
+        const leadsList = existing ? JSON.parse(existing) : [];
+        leadsList.push(newLead);
+        localStorage.setItem('engage_leads', JSON.stringify(leadsList));
+        window.dispatchEvent(new Event('engage_leads_updated'));
+      } catch (err) {
+        console.error('Failed to save signup info locally:', err);
+      }
     }
 
-    setTimeout(() => {
-      setSubmissionStatus('success');
-    }, 1500);
+    setSubmissionStatus('success');
   };
 
   const getWhatsappLink = () => {
@@ -362,53 +403,61 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="text-center py-6 flex flex-col items-center justify-center"
+            className="text-center py-6 flex flex-col items-center justify-center animate-fade-in"
           >
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1, type: "spring", stiffness: 200, damping: 15 }}
-              className="w-16 h-16 bg-[#00f6ac]/20 text-[#00f6ac] rounded-full flex items-center justify-center mb-6 border border-[#00f6ac]/30"
+              className="w-16 h-16 bg-[#00f6ac] text-[#020202] rounded-full flex items-center justify-center mb-6 shadow-lg shadow-[#00f6ac]/30 border border-[#00f6ac]"
             >
-              <CheckCircle className="h-9 w-9" />
+              <CheckCircle className="h-9 w-9 stroke-[2.5]" />
             </motion.div>
 
-            <h3 className="text-3.5xl font-serif text-white mb-2 leading-tight tracking-tight">
-              <span>{t.form.success.title}</span>
+            <h3 className="text-3.5xl font-serif text-white mb-2 leading-tight tracking-tight font-extrabold font-serif">
+              <span>{isDuplicate ? (lang === 'fr' ? 'Ravi de vous revoir !' : lang === 'es' ? '¡Bienvenido de nuevo!' : 'Welcome Back!') : t.form.success.title}</span>
             </h3>
-            <p className="text-[#00f6ac] font-medium text-sm mb-6 flex items-center gap-1.5 justify-center">
-              <Sparkles className="h-4 w-4 animate-pulse" /> <span>{t.form.success.subtitle} ({formData.country.flag})</span>
+            <p className="text-[#00f6ac] font-medium text-xs md:text-sm mb-6 flex items-center gap-1.5 justify-center uppercase tracking-wider font-sans">
+              {isDuplicate ? (
+                <>
+                  <CheckCircle className="h-4 w-4 stroke-[2.5] text-[#00f6ac]" /> <span>{lang === 'fr' ? 'Déjà inscrit' : lang === 'es' ? 'Ya registrado' : 'Already registered'} ({formData.country.flag})</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4 animate-pulse text-[#00f6ac]" /> <span>{t.form.success.subtitle} ({formData.country.flag})</span>
+                </>
+              )}
             </p>
 
-            <div className="w-full bg-white/[0.02] border border-white/[0.05] rounded-2xl p-5 mb-8 text-left space-y-4">
+            <div className="w-full bg-[#020202]/40 border border-white/[0.08] rounded-2xl p-5 mb-8 text-left space-y-4 shadow-2xl backdrop-blur-sm hover:border-[#00f6ac]/20 transition-colors duration-300">
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-widest font-mono"><span>{t.form.success.subscriberLabel}</span></p>
-                <p className="text-white font-semibold text-lg"><span>{formData.name}</span></p>
+                <p className="text-[10px] text-[#00f6ac]/90 uppercase tracking-[0.2em] font-sans font-semibold"><span>{t.form.success.subscriberLabel}</span></p>
+                <p className="text-white font-bold text-xl font-serif mt-0.5"><span>{formData.name}</span></p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 border-t border-white/[0.06] pt-3">
                 <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-widest font-mono"><span>{t.form.success.groupLabel}</span></p>
+                  <p className="text-[10px] text-[#00f6ac]/90 uppercase tracking-[0.2em] font-sans font-semibold"><span>{t.form.success.groupLabel}</span></p>
                   <p className="text-white font-medium text-sm font-mono mt-0.5"><span>{formData.country.dialCode} {formData.phone}</span></p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-widest font-mono"><span>{t.form.success.experienceLabel}</span></p>
-                  <p className="text-white font-medium text-sm mt-0.5 animate-pulse text-[#00f6ac]">
+                  <p className="text-[10px] text-[#00f6ac]/90 uppercase tracking-[0.2em] font-sans font-semibold"><span>{t.form.success.experienceLabel}</span></p>
+                  <p className="text-[#00f6ac] font-semibold text-xs mt-1 leading-normal uppercase tracking-wider">
                     <span>{t.form.experienceOptions.find(o => o.value === formData.experience)?.label || formData.experience}</span>
                   </p>
                 </div>
               </div>
-              <div className="border-t border-white/[0.05] pt-3 flex flex-col gap-1">
-                <p className="text-xs text-gray-500 uppercase tracking-widest font-mono"><span>{t.form.success.readyToInvestLabel}</span></p>
-                <p className="text-white font-medium text-sm leading-relaxed">
+              <div className="border-t border-white/[0.06] pt-3 flex flex-col gap-1">
+                <p className="text-[10px] text-[#00f6ac]/90 uppercase tracking-[0.2em] font-sans font-semibold"><span>{t.form.success.readyToInvestLabel}</span></p>
+                <p className="text-white font-medium text-xs md:text-sm leading-relaxed mt-0.5">
                   <span>{t.form.readyToInvestOptions.find(o => o.value === formData.readyToInvest)?.label || formData.readyToInvest}</span>
                 </p>
               </div>
-              <div className="border-t border-white/[0.05] pt-3.5">
+              <div className="border-t border-white/[0.06] pt-3.5">
                 <p className="text-xs text-gray-400 font-medium space-y-1">
                   {formData.joinMastermind && (
-                    <span className="block text-[#00f6ac] font-semibold">{t.form.success.mastermindGift}</span>
+                    <span className="block text-[#00f6ac] font-semibold">🎁 {t.form.success.mastermindGift}</span>
                   )}
                   {formData.joinNewsletter && (
-                    <span className="block text-gray-400 mt-1">{t.form.success.newsletterGift}</span>
+                    <span className="block text-[#00f6ac] font-semibold">⚡ {t.form.success.newsletterGift}</span>
                   )}
                 </p>
               </div>
@@ -419,14 +468,13 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
               href={getWhatsappLink()}
               target="_blank"
               referrerPolicy="no-referrer"
-              className="w-full py-4.5 px-6 rounded-2xl bg-[#25D366] hover:bg-[#20ba56] text-white font-semibold flex items-center justify-center gap-3 shadow-lg shadow-[#25d366]/10 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+              className="w-full py-4.5 px-6 rounded-2xl bg-[#00f6ac] hover:bg-[#2effc0] text-[#020202] font-extrabold flex items-center justify-center gap-3 shadow-lg shadow-[#00f6ac]/15 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer text-xs uppercase tracking-widest font-sans border border-[#00f6ac]"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M3.50002 12C3.50002 7.30558 7.3056 3.5 12 3.5C16.6944 3.5 20.5 7.30558 20.5 12C20.5 16.6944 16.6944 20.5 12 20.5C10.3278 20.5 8.77127 20.0182 7.45798 19.1861C7.21357 19.0313 6.91408 18.9899 6.63684 19.0726L3.75769 19.9319L4.84173 17.3953C4.96986 17.0955 4.94379 16.7521 4.77187 16.4751C3.9657 15.176 3.50002 13.6439 3.50002 12ZM12 1.5C6.20103 1.5 1.50002 6.20101 1.50002 12C1.50002 13.8381 1.97316 15.5683 2.80465 17.0727L1.08047 21.107C0.928048 21.4637 0.99561 21.8763 1.25382 22.1657C1.51203 22.4552 1.91432 22.5692 2.28599 22.4582L6.78541 21.1155C8.32245 21.9965 10.1037 22.5 12 22.5C17.799 22.5 22.5 17.799 22.5 12C22.5 6.20101 17.799 1.5 12 1.5ZM14.2925 14.1824L12.9783 15.1081C12.3628 14.7575 11.6823 14.2681 10.9997 13.5855C10.2901 12.8759 9.76402 12.1433 9.37612 11.4713L10.2113 10.7624C10.5697 10.4582 10.6678 9.94533 10.447 9.53028L9.38284 7.53028C9.23954 7.26097 8.98116 7.0718 8.68115 7.01654C8.38113 6.96129 8.07231 7.046 7.84247 7.24659L7.52696 7.52195C6.76823 8.18414 6.3195 9.2723 6.69141 10.3741C7.07698 11.5163 7.89983 13.314 9.58552 14.9997C11.3991 16.8133 13.2413 17.5275 14.3186 17.8049C15.1866 18.0283 16.008 17.7288 16.5868 17.2572L17.1783 16.7752C17.4313 16.5691 17.5678 16.2524 17.544 15.9269C17.5201 15.6014 17.3389 15.308 17.0585 15.1409L15.3802 14.1409C15.0412 13.939 14.6152 13.9552 14.2925 14.1824Z"
-                  fill="currentColor"
                 />
               </svg>
               <span>{t.form.success.buttonOpenWa}</span>
@@ -447,9 +495,10 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                   joinNewsletter: true,
                 });
                 setActiveDropdown(null);
+                setIsDuplicate(false);
                 setSubmissionStatus('idle');
               }}
-              className="mt-5 text-xs text-gray-500 hover:text-white transition-colors cursor-pointer tracking-wide hover:underline"
+              className="mt-5 text-[10px] uppercase tracking-[0.2em] font-sans font-semibold text-gray-500 hover:text-[#00f6ac] transition-colors cursor-pointer hover:underline"
             >
               {t.form.success.buttonAnother}
             </button>
