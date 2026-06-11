@@ -61,6 +61,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
         describe: 'Please select your profile and situation',
         experience: 'Please select your biggest obstacle',
         readyToInvest: 'Please select your investment readiness',
+        options: 'Please select at least one of the options below',
       },
       success: {
         title: "You're All Set!",
@@ -186,6 +187,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
         describe: 'Veuillez sélectionner votre profil et votre situation',
         experience: 'Veuillez sélectionner votre plus gros blocage',
         readyToInvest: 'Veuillez sélectionner votre niveau d’investissement',
+        options: 'Veuillez sélectionner au moins une des options ci-dessous',
       },
       success: {
         title: 'Vous y êtes !',
@@ -311,6 +313,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
         describe: 'Selecciona tu perfil y tu situación',
         experience: 'Por favor selecciona tu mayor obstáculo',
         readyToInvest: 'Por favor selecciona tu disposición a invertir',
+        options: 'Por favor selecciona al menos una de las opciones de abajo',
       },
       success: {
         title: '¡Ya estás dentro!',

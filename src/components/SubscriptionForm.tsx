@@ -118,12 +118,12 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     description: '',
     experience: '',
     readyToInvest: '',
-    joinMastermind: true,
-    joinNewsletter: true,
+    joinMastermind: false,
+    joinNewsletter: false,
   });
 
   const [isCountryModalOpen, setIsCountryModalOpen] = useState(false);
-  const [errors, setErrors] = useState<Partial<Record<keyof SubscriptionFormData, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof SubscriptionFormData | 'options', string>>>({});
   const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [activeDropdown, setActiveDropdown] = useState<'describe' | 'experience' | 'invest' | null>(null);
 
@@ -162,6 +162,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
 
   const handleCheckboxChange = (name: 'joinMastermind' | 'joinNewsletter') => {
     setFormData((prev) => ({ ...prev, [name]: !prev[name] }));
+    setErrors((prev) => ({ ...prev, options: undefined }));
   };
 
   const handleCountrySelect = (country: Country) => {
@@ -176,7 +177,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
   };
 
   const validate = () => {
-    const newErrors: Partial<Record<keyof SubscriptionFormData, string>> = {};
+    const newErrors: Partial<Record<keyof SubscriptionFormData | 'options', string>> = {};
 
     if (!formData.name.trim()) {
       newErrors.name = t.form.errors.name;
@@ -202,6 +203,9 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     }
     if (!formData.readyToInvest) {
       newErrors.readyToInvest = t.form.errors.readyToInvest;
+    }
+    if (!formData.joinMastermind && !formData.joinNewsletter) {
+      newErrors.options = t.form.errors.options;
     }
 
     setErrors(newErrors);
@@ -273,6 +277,43 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       wants_whatsapp_plan: formData.joinMastermind,
       wants_whatsapp_audit: formData.joinNewsletter,
     });
+
+    // 3. Send to Make.com Webhook if configured
+    const webhookUrl = (import.meta as any).env.VITE_MAKE_WEBHOOK_URL || 'https://hook.eu2.make.com/23vjjmgjfmm9y90mnz2dgglqrsnvw3by';
+    if (webhookUrl) {
+      const payload = {
+        id: newLead.id,
+        name: newLead.name,
+        email: newLead.email,
+        phone: `${newLead.country.dialCode}${newLead.phone.replace(/[^0-9]/g, '')}`,
+        country_name: newLead.country.name,
+        country_code: newLead.country.code,
+        dial_code: newLead.country.dialCode,
+        profile: formData.description,
+        blocage: formData.experience,
+        has_online_business: formData.knowsCoding,
+        ready_to_invest: formData.readyToInvest,
+        wants_whatsapp_plan: formData.joinMastermind,
+        wants_whatsapp_audit: formData.joinNewsletter,
+        timestamp: newLead.timestamp
+      };
+
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
+      .then(response => {
+        if (!response.ok) {
+          console.warn('Webhook response not ok status:', response.status);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to send lead to Make.com webhook:', err);
+      });
+    }
 
     setTimeout(() => {
       setSubmissionStatus('success');
@@ -642,6 +683,10 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                   <p className="text-gray-500 text-[10.5px] mt-0.5 font-sans">{t.form.newsletterSubtitle}</p>
                 </div>
               </button>
+              
+              {errors.options && (
+                <p className="text-[11.5px] font-medium text-red-500 text-left pt-1 animate-pulse">{errors.options}</p>
+              )}
             </div>
 
             {/* Subscriber stats (Grouped Overlapping Avatars inside form) */}

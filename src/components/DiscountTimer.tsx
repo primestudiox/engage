@@ -45,80 +45,59 @@ const TIMER_TEXTS = {
   }
 };
 
-const calculateWashingtonDCCountdown = (): { targetTimestamp: number; timeLeftInSeconds: number } => {
-  const nowUtc = Date.now();
-  
-  try {
-    // 1. Get the current date/time components in America/New_York timezone
-    const dtf = new Intl.DateTimeFormat('en-US', {
-      timeZone: 'America/New_York',
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: false
-    });
-    
-    const parts = dtf.formatToParts(new Date(nowUtc));
-    const map: Record<string, number> = {};
-    parts.forEach(p => {
-      if (p.type !== 'literal') {
-        map[p.type] = parseInt(p.value, 10);
-      }
-    });
-    
-    // Helper to get UTC timestamp from NYC local parts
-    const getUtcFromNycParts = (year: number, month: number, day: number, hour: number, minute: number, second: number): number => {
-      const guessUtc = Date.UTC(year, month - 1, day, hour, minute, second);
-      const formatter = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'America/New_York',
-        year: 'numeric', month: 'numeric', day: 'numeric',
-        hour: 'numeric', minute: 'numeric', second: 'numeric',
-        hour12: false
-      });
-      
-      let currentEstimated = guessUtc;
-      for (let i = 0; i < 3; i++) {
-        const p = formatter.formatToParts(new Date(currentEstimated));
-        const m: Record<string, number> = {};
-        p.forEach(x => { if (x.type !== 'literal') m[x.type] = parseInt(x.value, 10); });
-        
-        const diffMs = Date.UTC(year, month - 1, day, hour, minute, second) - 
-                       Date.UTC(m.year, m.month - 1, m.day, m.hour, m.minute, m.second);
-        if (diffMs === 0) break;
-        currentEstimated += diffMs;
-      }
-      return currentEstimated;
-    };
-    
-    // Calculate 00:10:00 (end of day plus 10 minutes, meaning 10 minutes past midnight)
-    const todayThreshold = getUtcFromNycParts(map.year, map.month, map.day, 0, 10, 0);
-    
-    let targetUtc: number;
-    if (nowUtc < todayThreshold) {
-      // We are before today's 00:10:00 EDT (e.g. between midnight and 00:10:00)
-      targetUtc = todayThreshold;
-    } else {
-      // Target is tomorrow's 00:10:00 EDT
-      const tomorrow = new Date(nowUtc + 24 * 60 * 60 * 1000);
-      const tomorrowParts = dtf.formatToParts(tomorrow);
-      const tomMap: Record<string, number> = {};
-      tomorrowParts.forEach(p => {
-        if (p.type !== 'literal') {
-          tomMap[p.type] = parseInt(p.value, 10);
-        }
-      });
-      targetUtc = getUtcFromNycParts(tomMap.year, tomMap.month, tomMap.day, 0, 10, 0);
+const getWashingtonTime = () => {
+  const d = new Date();
+  const dtf = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: false
+  });
+  const parts = dtf.formatToParts(d);
+  const map: Record<string, number> = {};
+  parts.forEach(p => {
+    if (p.type !== 'literal') {
+      map[p.type] = parseInt(p.value, 10);
     }
-    
+  });
+  return map;
+};
+
+const calculateWashingtonDCCountdown = (): { targetTimestamp: number; timeLeftInSeconds: number } => {
+  try {
+    const dc = getWashingtonTime();
+    const hour = dc.hour ?? 0;
+    const minute = dc.minute ?? 0;
+    const second = dc.second ?? 0;
+
+    const currentSecondsOfDay = hour * 3600 + minute * 60 + second;
+    const activeDurationSeconds = 9 * 60 + 59; // 599 seconds (9 minutes 59 seconds)
+
+    let timeLeftInSeconds = 0;
+
+    if (currentSecondsOfDay <= activeDurationSeconds) {
+      // 1. Inside active countdown window (00:00:00 to 00:09:59)
+      timeLeftInSeconds = activeDurationSeconds - currentSecondsOfDay;
+    } else {
+      // 2. Outside active countdown window (00:10:00 to 23:59:59)
+      // Ticks down from 1 day, 0 hours, 9 minutes, and 59 seconds (86999 seconds at 00:10:00)
+      timeLeftInSeconds = 86999 - (currentSecondsOfDay - 600);
+    }
+
+    timeLeftInSeconds = Math.max(0, timeLeftInSeconds);
+    const nowUtc = Date.now();
+    const targetTimestamp = nowUtc + timeLeftInSeconds * 1000;
+
     return {
-      targetTimestamp: targetUtc,
-      timeLeftInSeconds: Math.max(0, Math.floor((targetUtc - nowUtc) / 1000))
+      targetTimestamp,
+      timeLeftInSeconds
     };
   } catch (err) {
-    // Fallback if Intl or formatToParts is unsupported (should not happen in modern browsers)
+    // Fallback if unsupported
     const fallbackTarget = Date.now() + 24 * 60 * 60 * 1000;
     return {
       targetTimestamp: fallbackTarget,

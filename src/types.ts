@@ -66,6 +66,7 @@ export interface TranslationSchema {
       describe: string;
       experience: string;
       readyToInvest: string;
+      options: string;
     };
     success: {
       title: string;
