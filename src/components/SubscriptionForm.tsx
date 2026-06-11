@@ -348,7 +348,11 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
   };
 
   return (
-    <div id="registration-card" className="w-full max-w-lg mx-auto overflow-visible rounded-3xl border border-white/[0.06] bg-[#121315] p-6 md:p-8 custom-glow relative">
+    <div 
+      id="registration-card" 
+      className="notranslate w-full max-w-lg mx-auto overflow-visible rounded-3xl border border-white/[0.06] bg-[#121315] p-6 md:p-8 custom-glow relative"
+      translate="no"
+    >
       <AnimatePresence mode="wait">
         {submissionStatus === 'success' ? (
           <motion.div
@@ -367,33 +371,33 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </motion.div>
 
             <h3 className="text-3.5xl font-serif text-white mb-2 leading-tight tracking-tight">
-              {t.form.success.title}
+              <span>{t.form.success.title}</span>
             </h3>
             <p className="text-[#00f6ac] font-medium text-sm mb-6 flex items-center gap-1.5 justify-center">
-              <Sparkles className="h-4 w-4 animate-pulse" /> {t.form.success.subtitle} ({formData.country.flag})
+              <Sparkles className="h-4 w-4 animate-pulse" /> <span>{t.form.success.subtitle} ({formData.country.flag})</span>
             </p>
 
             <div className="w-full bg-white/[0.02] border border-white/[0.05] rounded-2xl p-5 mb-8 text-left space-y-4">
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{t.form.success.subscriberLabel}</p>
-                <p className="text-white font-semibold text-lg">{formData.name}</p>
+                <p className="text-xs text-gray-500 uppercase tracking-widest font-mono"><span>{t.form.success.subscriberLabel}</span></p>
+                <p className="text-white font-semibold text-lg"><span>{formData.name}</span></p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{t.form.success.groupLabel}</p>
-                  <p className="text-white font-medium text-sm font-mono mt-0.5">{formData.country.dialCode} {formData.phone}</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-widest font-mono"><span>{t.form.success.groupLabel}</span></p>
+                  <p className="text-white font-medium text-sm font-mono mt-0.5"><span>{formData.country.dialCode} {formData.phone}</span></p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{t.form.success.experienceLabel}</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-widest font-mono"><span>{t.form.success.experienceLabel}</span></p>
                   <p className="text-white font-medium text-sm mt-0.5 animate-pulse text-[#00f6ac]">
-                    {t.form.experienceOptions.find(o => o.value === formData.experience)?.label || formData.experience}
+                    <span>{t.form.experienceOptions.find(o => o.value === formData.experience)?.label || formData.experience}</span>
                   </p>
                 </div>
               </div>
               <div className="border-t border-white/[0.05] pt-3 flex flex-col gap-1">
-                <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{t.form.success.readyToInvestLabel}</p>
+                <p className="text-xs text-gray-500 uppercase tracking-widest font-mono"><span>{t.form.success.readyToInvestLabel}</span></p>
                 <p className="text-white font-medium text-sm leading-relaxed">
-                  {t.form.readyToInvestOptions.find(o => o.value === formData.readyToInvest)?.label || formData.readyToInvest}
+                  <span>{t.form.readyToInvestOptions.find(o => o.value === formData.readyToInvest)?.label || formData.readyToInvest}</span>
                 </p>
               </div>
               <div className="border-t border-white/[0.05] pt-3.5">
@@ -497,7 +501,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
               <div className="flex items-center gap-2">
                 <span className="text-base">{formData.country.flag}</span>
                 <span className="text-gray-300 font-medium">
-                  {formData.country.name} ({t.form.detectedLabel})
+                  <span>{formData.country.name} ({t.form.detectedLabel})</span>
                 </span>
               </div>
               <button
@@ -505,7 +509,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 onClick={() => setIsCountryModalOpen(true)}
                 className="text-xs text-[#00f6ac] hover:text-[#2effc0] hover:underline font-semibold transition-colors cursor-pointer"
               >
-                {t.form.changeLabel}
+                <span>{t.form.changeLabel}</span>
               </button>
             </div>
 
@@ -540,7 +544,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             {/* Coding Selector */}
             <div className="bg-black/10 p-3.5 rounded-xl border border-white/[0.02]">
               <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5 font-mono">
-                {t.form.labelCoding}
+                <span>{t.form.labelCoding}</span>
               </label>
               <div className="flex items-center gap-6">
                 <button
@@ -582,7 +586,9 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 </button>
               </div>
               {errors.knowsCoding && (
-                <p className="mt-2 text-xs text-red-500">{errors.knowsCoding}</p>
+                <p className="mt-2 text-xs text-red-500">
+                  <span>{errors.knowsCoding}</span>
+                </p>
               )}
             </div>
 
@@ -669,7 +675,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                   )}
                 </div>
                 <p className="text-xs text-gray-300 leading-normal select-none">
-                  {t.form.labelMastermind}
+                  <span>{t.form.labelMastermind}</span>
                 </p>
               </button>
 
@@ -691,8 +697,10 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                   )}
                 </div>
                 <div className="text-xs text-gray-300 leading-normal select-none">
-                  <p>{t.form.labelNewsletter}</p>
-                  <p className="text-gray-500 text-[10.5px] mt-0.5 font-sans">{t.form.newsletterSubtitle}</p>
+                  <p><span>{t.form.labelNewsletter}</span></p>
+                  <p className="text-gray-500 text-[10.5px] mt-0.5 font-sans">
+                    <span>{t.form.newsletterSubtitle}</span>
+                  </p>
                 </div>
               </button>
               
