@@ -250,70 +250,75 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       console.error('Failed to save signup info locally:', err);
     }
 
-    // 2. Save to Supabase
-    ((formData: any) => {
-      supabase.from('leads').insert([{
-        name: newLead.name,
-        email: newLead.email,
-        phone: newLead.phone,
-        country_name: newLead.country.name,
-        country_code: newLead.country.code,
-        dial_code: newLead.country.dialCode,
-        profile: formData.profile,
-        blocage: formData.blocage,
-        has_online_business: formData.has_online_business,
-        ready_to_invest: formData.ready_to_invest,
-        wants_whatsapp_plan: formData.wants_whatsapp_plan,
-        wants_whatsapp_audit: formData.wants_whatsapp_audit,
-      }]).then(({ error }) => {
-        if (error) console.error('Failed to save to Supabase:', error);
-      });
-    })({
-      ...formData,
-      profile: formData.description,
-      blocage: formData.experience,
-      has_online_business: formData.knowsCoding,
-      ready_to_invest: formData.readyToInvest,
-      wants_whatsapp_plan: formData.joinMastermind,
-      wants_whatsapp_audit: formData.joinNewsletter,
-    });
+    // 2. Save to Supabase & 3. Send to Make.com Webhook using Option B (retrieving the standard database UUID)
+    const handleDbAndWebhookFlow = async () => {
+      try {
+        const insertPayload = {
+          name: newLead.name,
+          email: newLead.email,
+          phone: newLead.phone,
+          country_name: newLead.country.name,
+          country_code: newLead.country.code,
+          dial_code: newLead.country.dialCode,
+          profile: formData.description,
+          blocage: formData.experience,
+          has_online_business: formData.knowsCoding,
+          ready_to_invest: formData.readyToInvest,
+          wants_whatsapp_plan: formData.joinMastermind,
+          wants_whatsapp_audit: formData.joinNewsletter,
+        };
 
-    // 3. Send to Make.com Webhook if configured
-    const webhookUrl = (import.meta as any).env.VITE_MAKE_WEBHOOK_URL || 'https://hook.eu2.make.com/23vjjmgjfmm9y90mnz2dgglqrsnvw3by';
-    if (webhookUrl) {
-      const payload = {
-        id: newLead.id,
-        name: newLead.name,
-        email: newLead.email,
-        phone: `${newLead.country.dialCode}${newLead.phone.replace(/[^0-9]/g, '')}`,
-        country_name: newLead.country.name,
-        country_code: newLead.country.code,
-        dial_code: newLead.country.dialCode,
-        profile: formData.description,
-        blocage: formData.experience,
-        has_online_business: formData.knowsCoding,
-        ready_to_invest: formData.readyToInvest,
-        wants_whatsapp_plan: formData.joinMastermind,
-        wants_whatsapp_audit: formData.joinNewsletter,
-        timestamp: newLead.timestamp
-      };
+        const { data, error } = await supabase
+          .from('leads')
+          .insert([insertPayload])
+          .select();
 
-      fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      })
-      .then(response => {
-        if (!response.ok) {
-          console.warn('Webhook response not ok status:', response.status);
+        let finalId = newLead.id; // Fallback to client-side short ID if database fails
+        if (error) {
+          console.error('Failed to save to Supabase:', error);
+        } else if (data && data[0] && data[0].id) {
+          finalId = data[0].id; // The database-generated UUID!
+          console.log('Saved to Supabase with database-generated UUID:', finalId);
         }
-      })
-      .catch(err => {
-        console.error('Failed to send lead to Make.com webhook:', err);
-      });
-    }
+
+        // Send to Make.com Webhook with the matched UUID
+        const webhookUrl = (import.meta as any).env.VITE_MAKE_WEBHOOK_URL || 'https://hook.eu2.make.com/23vjjmgjfmm9y90mnz2dgglqrsnvw3by';
+        if (webhookUrl) {
+          const webhookPayload = {
+            id: finalId, // Matches Supabase UUID exactly!
+            name: newLead.name,
+            email: newLead.email,
+            phone: `${newLead.country.dialCode}${newLead.phone.replace(/[^0-9]/g, '')}`,
+            country_name: newLead.country.name,
+            country_code: newLead.country.code,
+            dial_code: newLead.country.dialCode,
+            profile: formData.description,
+            blocage: formData.experience,
+            has_online_business: formData.knowsCoding,
+            ready_to_invest: formData.readyToInvest,
+            wants_whatsapp_plan: formData.joinMastermind,
+            wants_whatsapp_audit: formData.joinNewsletter,
+            timestamp: newLead.timestamp
+          };
+
+          const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(webhookPayload),
+          });
+
+          if (!response.ok) {
+            console.warn('Webhook response not ok status:', response.status);
+          }
+        }
+      } catch (err) {
+        console.error('Error in database/webhook flow:', err);
+      }
+    };
+
+    handleDbAndWebhookFlow();
 
     setTimeout(() => {
       setSubmissionStatus('success');
