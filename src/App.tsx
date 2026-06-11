@@ -9,9 +9,11 @@ import AdminSyncDashboard from './components/AdminSyncDashboard';
 import DiscountTimer from './components/DiscountTimer';
 import { translations } from './data/translations';
 import founderAvatar from './assets/images/founder_avatar_1780480032739.png';
+import SiteLogo from './components/SiteLogo';
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'fr' | 'es'>('en');
+  const [profileImg, setProfileImg] = useState<string>(founderAvatar);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [legalModal, setLegalModal] = useState<{ isOpen: boolean; type: 'privacy' | 'terms' }>({
     isOpen: false,
@@ -72,27 +74,47 @@ export default function App() {
       {/* Subtle bottom footer green-to-black glow */}
       <div className="absolute bottom-0 left-0 right-0 h-[400px] bg-[radial-gradient(ellipse_100%_70%_at_50%_110%,_rgba(0,246,172,0.05)_0%,_rgba(2,2,2,0)_100%)] pointer-events-none z-0" />
 
-      {/* Floating Top Header Banner */}
-      <header className="w-full max-w-4xl px-4 pt-6 z-30">
-        <div className="w-full flex items-center justify-between py-3 px-5 md:px-6 rounded-2xl bg-[#0e1012] border border-white/[0.05] shadow-xl">
-          {/* Logo brand */}
-          <span className="font-serif text-lg font-bold text-white tracking-wide flex items-center gap-2">
-            <span className="w-5.5 h-5.5 rounded-lg bg-gradient-to-br from-[#00f6ac] to-[#2effc0] flex items-center justify-center text-[#020202] text-xs font-mono font-extrabold select-none shadow-sm shadow-[#00f6ac]/10">
-              S
+      {/* Minimalist Top Header (matching the provided screenshot format and style) */}
+      <header className="w-full bg-transparent bg-opacity-0 border-none shadow-none pt-4.5 pb-0 z-40 relative">
+        <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          
+          {/* Left: Minimalist double horizontal lines menu trigger */}
+          <button
+            onClick={scrollToForm}
+            className="flex items-center gap-3.5 select-none hover:opacity-85 transition-opacity cursor-pointer group focus:outline-none"
+          >
+            <div className="flex flex-col gap-1.5 justify-center">
+              <span className="w-6 h-[1.5px] bg-white/80 group-hover:bg-white transition-colors" />
+              <span className="w-6 h-[1.5px] bg-white/80 group-hover:bg-white transition-colors" />
+            </div>
+            <span className="text-[11px] font-sans font-medium uppercase tracking-[0.2em] text-white/80 group-hover:text-white">
+              MENU
             </span>
-            {t.nav.logo}
-          </span>
+          </button>
 
-          <div className="flex items-center gap-4.5">
-            {/* Scroll CTA Button */}
-            <button
-              onClick={scrollToForm}
-              className="px-4 py-1.5 md:px-4.5 md:py-2 rounded-xl bg-[#00f6ac] hover:bg-[#2effc0] text-[#020202] text-xs font-bold tracking-wide transition-all duration-200 active:scale-95 cursor-pointer shadow-md shadow-[#00f6ac]/5 hover:shadow-[#00f6ac]/10"
-            >
-              {t.nav.cta}
-            </button>
+          {/* Center: Brand name logo */}
+          <div 
+            onClick={scrollToForm}
+            className="flex items-center gap-2.5 md:gap-3 cursor-pointer select-none group"
+          >
+            <SiteLogo className="w-5.5 h-5.5 text-white hover:scale-105 transition-transform" />
+            <span className="font-serif text-lg sm:text-xl font-bold text-white uppercase tracking-[0.25em]">
+              {t.nav.logo}
+            </span>
           </div>
+
+          {/* Right: CTA Scroll Button replacing the contact link */}
+          <button
+            onClick={scrollToForm}
+            className="px-4 py-1.5 md:px-4.5 md:py-2 rounded-xl bg-[#00f6ac] hover:bg-[#2effc0] text-[#020202] text-xs font-bold tracking-wide transition-all duration-200 active:scale-95 cursor-pointer shadow-md shadow-[#00f6ac]/5 hover:shadow-[#00f6ac]/10"
+          >
+            {t.nav.cta}
+          </button>
+
         </div>
+        
+        {/* Aesthetic partial-width underline divider */}
+        <div className="w-[85%] md:w-[90%] max-w-5xl h-[1px] bg-white/[0.08] mx-auto mt-4.5" />
       </header>
 
       {/* Hero & Form Section */}
@@ -106,7 +128,7 @@ export default function App() {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00f6ac]/10 border border-[#00f6ac]/20 shadow-sm"
           >
             <span className="w-2 h-2 rounded-full bg-[#00f6ac] animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-wider text-[#00f6ac] font-mono">
+            <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#00f6ac] font-sans">
               {t.hero.badge}
             </span>
           </motion.div>
@@ -147,8 +169,13 @@ export default function App() {
             className="flex items-center justify-center gap-3 bg-[#111315]/40 border border-white/[0.04] rounded-full py-1.5 pl-2 pr-4.5 w-fit mx-auto cursor-pointer hover:bg-[#111315]/75 hover:border-white/[0.09] transition-all duration-200"
           >
             <img
-              src={founderAvatar}
+              src={profileImg}
               alt="Sylvestre Dagoulou"
+              onError={() => {
+                if (profileImg !== 'https://www.gravatar.com/avatar/31ebd0028cb26653716cdcad8cdb73ca?s=400') {
+                  setProfileImg('https://www.gravatar.com/avatar/31ebd0028cb26653716cdcad8cdb73ca?s=400');
+                }
+              }}
               referrerPolicy="no-referrer"
               className="w-8.5 h-8.5 rounded-full object-cover border border-[#00f6ac]/40"
             />
