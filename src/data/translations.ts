@@ -10,7 +10,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       badge: 'Business AI Challenge • 10 Days',
       titlePre: 'Your advantage,',
       titlePost: 'is your',
-      rotatingWords: ['skills', 'execution', 'offers', 'business', 'vision', 'mindset'],
+      rotatingWords: ['skills', 'mindset', 'vision', 'offers', 'business'],
       sub: 'AI alone brings in nothing. What creates income is a business built around an opportunity. We show you how to turn your ideas into offers people are ready to buy.',
     },
     founder: {
@@ -130,13 +130,13 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
   fr: {
     nav: {
       logo: 'Engage',
-      cta: 'Rejoindre la Communauté →',
+      cta: "S'inscrire →",
     },
     hero: {
       badge: 'Challenge Business IA • 10 Jours',
       titlePre: 'Votre avantage,',
       titlePost: "c'est votre",
-      rotatingWords: ['compétence', 'exécution', 'offre', 'business', 'vision', 'audace'],
+      rotatingWords: ['compétence', 'mindset', 'vision', 'offre', 'business'],
       sub: "L'IA seule ne rapporte rien. Ce qui crée des revenus, c'est un business construit autour d'une opportunité. Nous vous montrons comment transformer vos idées en offres que les gens sont prêts à acheter.",
     },
     founder: {
@@ -262,7 +262,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       badge: 'Reto de Negocio e IA • 10 Días',
       titlePre: 'Tu ventaja,',
       titlePost: 'es tu',
-      rotatingWords: ['habilidad', 'ejecución', 'oferta', 'negocio', 'visión', 'audacia'],
+      rotatingWords: ['habilidad', 'mentalidad', 'visión', 'oferta', 'negocio'],
       sub: 'La IA por sí sola no genera ingresos. Lo que genera ingresos es un negocio construido alrededor de una oportunidad. Te enseñamos cómo transformar tus ideas en ofertas que la gente esté dispuesta a comprar.',
     },
     founder: {
