@@ -6,8 +6,7 @@ import CountrySelectorModal from './CountrySelectorModal';
 import DiscountTimer from './DiscountTimer';
 import { translations } from '../data/translations';
 import { detectUserCountry, detectCountryFromPhoneNumber } from '../utils/geo';
-import { db } from '../utils/firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { supabase } from '../lib/supabase';
 
 interface CustomDropdownProps {
   value: string;
@@ -247,21 +246,22 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       console.error('Failed to save signup info locally:', err);
     }
 
-    // 2. Save directly to secure Cloud Firestore
-    setDoc(doc(db, 'leads', leadId), {
-      id: newLead.id,
+    // 2. Save to Supabase
+    supabase.from('leads').insert([{
       name: newLead.name,
       email: newLead.email,
-      country: newLead.country,
       phone: newLead.phone,
-      description: newLead.description,
-      experience: newLead.experience,
-      readyToInvest: newLead.readyToInvest,
-      joinMastermind: newLead.joinMastermind,
-      timestamp: newLead.timestamp,
-      synced: false
-    }).catch(err => {
-      console.error('Failed to save signup info to Firestore:', err);
+      country_name: newLead.country.name,
+      country_code: newLead.country.code,
+      dial_code: newLead.country.dialCode,
+      profile: formData.description,
+      blocage: formData.experience,
+      has_online_business: formData.knowsCoding,
+      ready_to_invest: formData.readyToInvest,
+      wants_whatsapp_plan: formData.joinMastermind,
+      wants_whatsapp_audit: formData.joinNewsletter,
+    }]).then(({ error }) => {
+      if (error) console.error('Failed to save to Supabase:', error);
     });
 
     setTimeout(() => {

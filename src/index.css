@@ -134,6 +134,10 @@ body {
     padding: 1rem !important;
   }
 
+  .discount-clock-num {
+    font-size: 2.25rem !important;
+  }
+
   .discount-mid-block {
     flex-direction: column !important;
     width: 100% !important;
