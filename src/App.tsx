@@ -25,6 +25,8 @@ export default function App() {
         setLang('fr');
       } else if (cleanLang === 'es') {
         setLang('es');
+      } else if (cleanLang === 'en') {
+        setLang('en');
       } else {
         setLang('en');
       }
@@ -32,6 +34,14 @@ export default function App() {
       console.warn('Could not auto-detect browser language:', e);
     }
   }, []);
+
+  useEffect(() => {
+    try {
+      document.documentElement.lang = lang;
+    } catch (e) {
+      console.warn('Could not update html lang attribute:', e);
+    }
+  }, [lang]);
 
   const t = translations[lang];
 

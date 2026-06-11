@@ -247,21 +247,31 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     }
 
     // 2. Save to Supabase
-    supabase.from('leads').insert([{
-      name: newLead.name,
-      email: newLead.email,
-      phone: newLead.phone,
-      country_name: newLead.country.name,
-      country_code: newLead.country.code,
-      dial_code: newLead.country.dialCode,
+    ((formData: any) => {
+      supabase.from('leads').insert([{
+        name: newLead.name,
+        email: newLead.email,
+        phone: newLead.phone,
+        country_name: newLead.country.name,
+        country_code: newLead.country.code,
+        dial_code: newLead.country.dialCode,
+        profile: formData.profile,
+        blocage: formData.blocage,
+        has_online_business: formData.has_online_business,
+        ready_to_invest: formData.ready_to_invest,
+        wants_whatsapp_plan: formData.wants_whatsapp_plan,
+        wants_whatsapp_audit: formData.wants_whatsapp_audit,
+      }]).then(({ error }) => {
+        if (error) console.error('Failed to save to Supabase:', error);
+      });
+    })({
+      ...formData,
       profile: formData.description,
       blocage: formData.experience,
       has_online_business: formData.knowsCoding,
       ready_to_invest: formData.readyToInvest,
       wants_whatsapp_plan: formData.joinMastermind,
       wants_whatsapp_audit: formData.joinNewsletter,
-    }]).then(({ error }) => {
-      if (error) console.error('Failed to save to Supabase:', error);
     });
 
     setTimeout(() => {
