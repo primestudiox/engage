@@ -7,6 +7,8 @@ import DiscountTimer from './DiscountTimer';
 import { translations } from '../data/translations';
 import { detectUserCountry, detectCountryFromPhoneNumber } from '../utils/geo';
 import { supabase } from '../lib/supabase';
+import founderAvatar from '../assets/images/founder_avatar_1780480032739.png';
+import femaleAvatar from '../assets/images/female_avatar_1780480049317.png';
 
 interface CustomDropdownProps {
   value: string;
@@ -62,12 +64,12 @@ function CustomDropdown({ value, onChange, options, placeholder, error, isOpen, 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            id="dropdown-options-list"
+            id={`dropdown-opts-${placeholder.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 4 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.12, ease: "easeOut" }}
-            className="absolute left-0 right-0 z-40 max-h-56 overflow-y-auto rounded-xl border border-white/10 bg-[#121315] py-2.5 shadow-2xl scrollbar-thin scrollbar-thumb-white/10 will-change-transform transform-gpu [backface-visibility:hidden]"
+            className="absolute left-0 right-0 z-40 max-h-56 overflow-y-auto rounded-xl border border-white/10 bg-[#121315] py-2.5 shadow-2xl scrollbar-thin scrollbar-thumb-white/10"
           >
             {options.map((opt) => {
               const isSelected = opt.value === value;
@@ -85,7 +87,7 @@ function CustomDropdown({ value, onChange, options, placeholder, error, isOpen, 
                       : 'text-gray-300 hover:bg-white/5 hover:text-white'
                   }`}
                 >
-                  {opt.label}
+                  <span>{opt.label}</span>
                 </button>
               );
             })}
@@ -97,8 +99,8 @@ function CustomDropdown({ value, onChange, options, placeholder, error, isOpen, 
 }
 
 // Pre-defined avatars from assets generated
-const avatar1 = "https://scontent.fabj6-1.fna.fbcdn.net/v/t39.30808-6/605514303_122149163684953147_5820363259698051303_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1650&ctp=s2048x1650&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeE0uIb8nC9dMtAyqMtmK_5euKDY95JgAdq4oNj3kmAB2iGmOghUNNbs6s5BPOWJg6Y2rjkdkBjarBQPSdBIztJH&_nc_ohc=Y_c6HxMPnIgQ7kNvwF-PSUz&_nc_oc=Adr8QHHbeYZB4HPn18Wde9PrCDBF87_U34OGxqXgMpPvQqAGo7h8R8x3OLu1LWaP8Np7RRCrfP9K2mDU-acALMu8&_nc_zt=23&_nc_ht=scontent.fabj6-1.fna&_nc_gid=jaMgEU8mxiNcZZoLxee60A&_nc_ss=7b2a8&oh=00_Af-bE8uzkJ2CHpd8NvZLs5q7bHl8Hz7vZAOz37yoRXjIRg&oe=6A2DC325";
-const avatar2 = "/src/assets/images/female_avatar_1780480049317.png";
+const avatar1 = founderAvatar;
+const avatar2 = femaleAvatar;
 const avatar3 = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop";
 const avatar4 = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&auto=format&fit=crop";
 

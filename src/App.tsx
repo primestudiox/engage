@@ -8,6 +8,7 @@ import FaqAccordion from './components/FaqAccordion';
 import AdminSyncDashboard from './components/AdminSyncDashboard';
 import DiscountTimer from './components/DiscountTimer';
 import { translations } from './data/translations';
+import founderAvatar from './assets/images/founder_avatar_1780480032739.png';
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'fr' | 'es'>('en');
@@ -54,7 +55,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#020202] text-gray-300 flex flex-col items-center justify-between selection:bg-[#00f6ac]/30 selection:text-[#00f6ac] font-sans antialiased relative overflow-x-hidden">
+    <div 
+      className="notranslate min-h-screen bg-[#020202] text-gray-300 flex flex-col items-center justify-between selection:bg-[#00f6ac]/30 selection:text-[#00f6ac] font-sans antialiased relative overflow-x-hidden"
+      translate="no"
+    >
       {/* Ambient background glow layers starting from vibrant green down to deep velvet black */}
       <div className="absolute top-0 left-0 right-0 h-[800px] bg-[radial-gradient(ellipse_120%_80%_at_50%_-10%,_rgba(0,246,172,0.18)_0%,_rgba(0,246,172,0.05)_45%,_rgba(2,2,2,0)_100%)] pointer-events-none z-0" />
       
@@ -141,7 +145,7 @@ export default function App() {
             className="flex items-center justify-center gap-3 bg-[#111315]/40 border border-white/[0.04] rounded-full py-1.5 pl-2 pr-4.5 w-fit mx-auto cursor-pointer hover:bg-[#111315]/75 hover:border-white/[0.09] transition-all duration-200"
           >
             <img
-              src="https://scontent.fabj6-1.fna.fbcdn.net/v/t39.30808-6/605514303_122149163684953147_5820363259698051303_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1650&ctp=s2048x1650&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeE0uIb8nC9dMtAyqMtmK_5euKDY95JgAdq4oNj3kmAB2iGmOghUNNbs6s5BPOWJg6Y2rjkdkBjarBQPSdBIztJH&_nc_ohc=Y_c6HxMPnIgQ7kNvwF-PSUz&_nc_oc=Adr8QHHbeYZB4HPn18Wde9PrCDBF87_U34OGxqXgMpPvQqAGo7h8R8x3OLu1LWaP8Np7RRCrfP9K2mDU-acALMu8&_nc_zt=23&_nc_ht=scontent.fabj6-1.fna&_nc_gid=jaMgEU8mxiNcZZoLxee60A&_nc_ss=7b2a8&oh=00_Af-bE8uzkJ2CHpd8NvZLs5q7bHl8Hz7vZAOz37yoRXjIRg&oe=6A2DC325"
+              src={founderAvatar}
               alt="Sylvestre Dagoulou"
               referrerPolicy="no-referrer"
               className="w-8.5 h-8.5 rounded-full object-cover border border-[#00f6ac]/40"
