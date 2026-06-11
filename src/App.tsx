@@ -118,11 +118,13 @@ export default function App() {
             transition={{ delay: 0.15 }}
             className="space-y-4"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6.5xl font-extrabold font-serif text-white tracking-tight leading-[1.05] max-w-xl mx-auto">
+            <h1 className="notranslate text-[22px] min-[360px]:text-[25px] min-[400px]:text-3xl sm:text-5xl md:text-6.5xl font-extrabold font-serif text-white tracking-tight leading-[1.05] max-w-xl mx-auto" translate="no">
               {t.hero.titlePre}
-              <br className="hidden md:block" />
-              <RotatingWords words={t.hero.rotatingWords} />
-              {t.hero.titlePost}
+              <br className="block" />
+              <span>{t.hero.titlePost}</span>{' '}
+              {t.hero.rotatingWords && t.hero.rotatingWords.length > 0 && (
+                <RotatingWords words={t.hero.rotatingWords} />
+              )}
             </h1>
           </motion.div>
 
@@ -131,7 +133,7 @@ export default function App() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="text-gray-400 font-medium leading-relaxed max-w-lg mx-auto text-sm md:text-base px-2"
+            className="text-gray-400 font-medium leading-relaxed max-w-lg mx-auto text-sm md:text-base px-2 line-clamp-2 overflow-hidden"
           >
             {t.hero.sub}
           </motion.p>
