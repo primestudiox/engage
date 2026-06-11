@@ -11,7 +11,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       titlePre: 'Your advantage,',
       titlePost: 'is your',
       rotatingWords: ['skills', 'mindset', 'vision', 'offers', 'business'],
-      sub: 'AI alone brings in nothing. What creates income is a business built around an opportunity. We show you how to turn your ideas into offers people are ready to buy.',
+      sub: "AI alone doesn't generate income. We show you how to turn your ideas into offers people are willing to buy.",
     },
     founder: {
       name: 'Sylvestre Dagoulou',
@@ -263,7 +263,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       titlePre: 'Tu ventaja,',
       titlePost: 'es tu',
       rotatingWords: ['habilidad', 'mentalidad', 'visión', 'oferta', 'negocio'],
-      sub: 'La IA por sí sola no genera ingresos. Lo que genera ingresos es un negocio construido alrededor de una oportunidad. Te enseñamos cómo transformar tus ideas en ofertas que la gente esté dispuesta a comprar.',
+      sub: 'La IA por sí sola no genera ingresos. Te mostramos cómo convertir tus ideas en ofertas que la gente está dispuesta a comprar.',
     },
     founder: {
       name: 'Sylvestre Dagoulou',
