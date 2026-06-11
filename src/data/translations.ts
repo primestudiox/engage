@@ -116,7 +116,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
         },
         {
           q: 'What will I get at the end of the 10 days?',
-          a: "At the end of the program, you will have:\n\n✅ identified an opportunity\n\n✅ structured an offer\n\n✅ used AI to accelerate your production\n\n✅ set up the first systems of your activity\n\n✅ a clear roadmap to obtain your first clients",
+          a: "At the end of the program, you will have identified a clear opportunity, structured your offer, used AI to accelerate your production, set up the initial systems of your activity, and defined a clear roadmap to obtain your first clients.",
         },
       ],
     },
@@ -137,7 +137,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
       titlePre: 'Votre avantage,',
       titlePost: "c'est votre",
       rotatingWords: ['compétence', 'mindset', 'vision', 'offre', 'business'],
-      sub: "L'IA seule ne rapporte rien. Ce qui crée des revenus, c'est un business construit autour d'une opportunité. Nous vous montrons comment transformer vos idées en offres que les gens sont prêts à acheter.",
+      sub: "L'IA seule ne rapporte rien. Nous vous montrons comment transformer vos idées en offres que les gens sont prêts à acheter.",
     },
     founder: {
       name: 'Sylvestre Dagoulou',
@@ -242,7 +242,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
         },
         {
           q: 'Que vais-je obtenir à la fin des 10 jours ?',
-          a: "À la fin du programme, vous aurez :\n\n✅ identifié une opportunité\n\n✅ structuré une offre\n\n✅ utilisé l'IA pour accélérer votre production\n\n✅ mis en place les premiers systèmes de votre activité\n\n✅ une feuille de route claire pour obtenir vos premiers clients",
+          a: "À la fin du programme, vous aurez identifier une opportunité, structurer une offre, utiliser l'IA pour accélérer votre production, mettre en place les premiers systèmes de votre activité et définir une feuille de route claire pour obtenir vos premiers clients.",
         },
       ],
     },
@@ -368,7 +368,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
         },
         {
           q: '¿Qué obtendré al final de los 10 días?',
-          a: "Al final del programa, tendrás:\n\n✅ identificado una oportunidad\n\n✅ estructurado una oferta\n\n✅ utilizado la IA para acelerar tu producción\n\n✅ implementado los primeros sistemas de tu actividad\n\n✅ una hoja de ruta clara para conseguir tus primeros clientes",
+          a: "Al final del programa, habrás identificado una oportunidad, estructurado tu oferta, utilizado la IA para acelerar tu producción, implementado los primeros sistemas de tu actividad y definido una hoja de ruta clara para conseguir tus primeros clientes.",
         },
       ],
     },

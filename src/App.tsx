@@ -23,19 +23,51 @@ export default function App() {
 
   useEffect(() => {
     try {
-      const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || 'en';
-      const cleanLang = browserLang.toLowerCase().slice(0, 2);
+      let detectedLang = '';
+
+      // Check if phone or tablet
+      const isMobileOrTablet = /mobi|android|iphone|ipad|ipod|tablet/i.test(navigator.userAgent) || 
+        (typeof navigator !== 'undefined' && navigator.maxTouchPoints && navigator.maxTouchPoints > 1);
+
+      if (isMobileOrTablet) {
+        // Try to obtain the language of the mobile/tablet device
+        detectedLang = navigator.language || 
+          (navigator.languages && navigator.languages[0]) || 
+          (navigator as any).userLanguage || 
+          '';
+        
+        // Fallback to system-level date format locale if empty
+        if (!detectedLang) {
+          try {
+            detectedLang = Intl.DateTimeFormat().resolvedOptions().locale;
+          } catch (_) {}
+        }
+      } else {
+        // Computer: prioritize system locale language
+        try {
+          detectedLang = Intl.DateTimeFormat().resolvedOptions().locale;
+        } catch (_) {}
+
+        if (!detectedLang) {
+          detectedLang = navigator.language || 
+            (navigator as any).systemLanguage || 
+            (navigator as any).userLanguage || 
+            (navigator.languages && navigator.languages[0]) || 
+            '';
+        }
+      }
+
+      const cleanLang = detectedLang ? detectedLang.toLowerCase().slice(0, 2) : 'en';
       if (cleanLang === 'fr') {
         setLang('fr');
       } else if (cleanLang === 'es') {
         setLang('es');
-      } else if (cleanLang === 'en') {
-        setLang('en');
       } else {
         setLang('en');
       }
     } catch (e) {
-      console.warn('Could not auto-detect browser language:', e);
+      console.warn('Could not auto-detect language:', e);
+      setLang('en');
     }
   }, []);
 
