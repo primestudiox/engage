@@ -71,6 +71,7 @@ export interface TranslationSchema {
       title: string;
       subtitle: string;
       groupLabel: string;
+      subscriberLabel: string;
       experienceLabel: string;
       readyToInvestLabel: string;
       mastermindGift: string;

@@ -153,7 +153,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
             <div className="flex items-start justify-between mb-5">
               <div>
                 <span className="inline-flex items-center gap-1 bg-[#00f6ac]/15 text-[#00f6ac] text-[11px] font-semibold tracking-wider font-mono uppercase px-2 py-0.5 rounded-md border border-[#00f6ac]/25">
-                  <Lock className="h-2.5 w-2.5" /> Security Certified
+                  <Lock className="h-2.5 w-2.5" /> {lang === 'fr' ? 'Sécurité Certifiée' : lang === 'es' ? 'Seguridad Certificada' : 'Security Certified'}
                 </span>
                 <h3 className="text-2.5xl font-serif font-extrabold tracking-tight mt-2">{active.title}</h3>
                 <p className="text-xs text-gray-500 mt-0.5">{active.sub}</p>
@@ -190,7 +190,7 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
                 onClick={onClose}
                 className="w-full py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white font-semibold text-xs tracking-wider uppercase transition-all cursor-pointer border border-white/5 hover:border-white/10"
               >
-                Close / Fermer
+                {lang === 'fr' ? 'Fermer' : lang === 'es' ? 'Cerrar' : 'Close'}
               </button>
             </div>
           </motion.div>

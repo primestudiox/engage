@@ -6,8 +6,8 @@ import CountrySelectorModal from './CountrySelectorModal';
 import DiscountTimer from './DiscountTimer';
 import { translations } from '../data/translations';
 import { detectUserCountry, detectCountryFromPhoneNumber } from '../utils/geo';
-
-import { supabase } from '../lib/supabase';
+import { db } from '../utils/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 interface CustomDropdownProps {
   value: string;
@@ -247,22 +247,21 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       console.error('Failed to save signup info locally:', err);
     }
 
-    // 2. Save to Supabase
-    supabase.from('leads').insert([{
+    // 2. Save directly to secure Cloud Firestore
+    setDoc(doc(db, 'leads', leadId), {
+      id: newLead.id,
       name: newLead.name,
       email: newLead.email,
+      country: newLead.country,
       phone: newLead.phone,
-      country_name: newLead.country.name,
-      country_code: newLead.country.code,
-      dial_code: newLead.country.dialCode,
-      profile: formData.description,
-      blocage: formData.experience,
-      has_online_business: formData.knowsCoding,
-      ready_to_invest: formData.readyToInvest,
-      wants_whatsapp_plan: formData.joinMastermind,
-      wants_whatsapp_audit: formData.joinNewsletter,
-    }]).then(({ error }) => {
-      if (error) console.error('Failed to save to Supabase:', error);
+      description: newLead.description,
+      experience: newLead.experience,
+      readyToInvest: newLead.readyToInvest,
+      joinMastermind: newLead.joinMastermind,
+      timestamp: newLead.timestamp,
+      synced: false
+    }).catch(err => {
+      console.error('Failed to save signup info to Firestore:', err);
     });
 
     setTimeout(() => {
@@ -313,7 +312,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
 
             <div className="w-full bg-white/[0.02] border border-white/[0.05] rounded-2xl p-5 mb-8 text-left space-y-4">
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">Subscriber</p>
+                <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{t.form.success.subscriberLabel}</p>
                 <p className="text-white font-semibold text-lg">{formData.name}</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -685,6 +684,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
         onClose={() => setIsCountryModalOpen(false)}
         selectedCountry={formData.country}
         onSelectCountry={handleCountrySelect}
+        lang={lang}
       />
     </div>
   );

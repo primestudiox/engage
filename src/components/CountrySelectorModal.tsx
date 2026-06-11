@@ -9,15 +9,36 @@ interface CountrySelectorModalProps {
   onClose: () => void;
   selectedCountry: Country;
   onSelectCountry: (country: Country) => void;
+  lang: 'en' | 'fr' | 'es';
 }
+
+const TEXTS = {
+  en: {
+    title: "Select Country / Code",
+    searchPlaceholder: "Search by country, code or prefix...",
+    notFound: "No countries found"
+  },
+  fr: {
+    title: "Sélectionner un pays / indicatif",
+    searchPlaceholder: "Rechercher un pays, code ou indicatif...",
+    notFound: "Aucun pays trouvé"
+  },
+  es: {
+    title: "Seleccionar país / prefijo",
+    searchPlaceholder: "Buscar por país, código o prefijo...",
+    notFound: "No se encontraron países"
+  }
+};
 
 export default function CountrySelectorModal({
   isOpen,
   onClose,
   selectedCountry,
   onSelectCountry,
+  lang,
 }: CountrySelectorModalProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const t = TEXTS[lang] || TEXTS.en;
 
   const filteredCountries = countries.filter(
     (c) =>
@@ -48,7 +69,7 @@ export default function CountrySelectorModal({
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/5 p-4">
-              <h3 className="text-lg font-medium tracking-tight">Select Country / Code</h3>
+              <h3 className="text-lg font-medium tracking-tight">{t.title}</h3>
               <button
                 onClick={onClose}
                 className="rounded-lg p-1 text-gray-400 hover:bg-white/5 hover:text-white transition-colors"
@@ -62,12 +83,12 @@ export default function CountrySelectorModal({
               <div className="relative">
                 <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
                 <input
-                  type="text"
-                  placeholder="Search by country, code or prefix..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-lg bg-black/30 py-2 pl-9 pr-4 text-sm text-white placeholder-gray-500 border border-white/5 focus:border-[#00f6ac]/50 focus:outline-none transition-all"
-                  autoFocus
+                   type="text"
+                   placeholder={t.searchPlaceholder}
+                   value={searchQuery}
+                   onChange={(e) => setSearchQuery(e.target.value)}
+                   className="w-full rounded-lg bg-black/30 py-2 pl-9 pr-4 text-sm text-white placeholder-gray-500 border border-white/5 focus:border-[#00f6ac]/50 focus:outline-none transition-all"
+                   autoFocus
                 />
               </div>
             </div>
@@ -103,7 +124,7 @@ export default function CountrySelectorModal({
                 })
               ) : (
                 <div className="py-8 text-center text-sm text-gray-500">
-                  No countries found
+                  {t.notFound}
                 </div>
               )}
             </div>
