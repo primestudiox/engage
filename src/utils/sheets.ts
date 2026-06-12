@@ -3,6 +3,7 @@
 export interface LeadData {
   id?: string;
   name: string;
+  gender?: string;
   phone: string;
   country: {
     name: string;
@@ -66,13 +67,14 @@ export async function getOrCreateLeadsSheet(accessToken: string): Promise<string
 
   // Set up the header columns
   const firstSheetName = createdSheet.sheets?.[0]?.properties?.title || 'Sheet1';
-  const range = `${firstSheetName}!A1:I1`;
+  const range = `${firstSheetName}!A1:J1`;
   const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(range)}:append?valueInputOption=USER_ENTERED`;
   
   const headers = [
     [
       'Subscription Timestamp',
       'Name',
+      'Gender',
       'Country',
       'Country Code',
       'Phone Number',
@@ -123,12 +125,13 @@ export async function appendLeadsToSheet(
     sheetName = metaData.sheets?.[0]?.properties?.title || 'Sheet1';
   }
 
-  const range = `${sheetName}!A:I`;
+  const range = `${sheetName}!A:J`;
   const appendUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(range)}:append?valueInputOption=USER_ENTERED`;
 
   const rows = leads.map((lead) => [
     lead.timestamp,
     lead.name,
+    lead.gender || '',
     lead.country.name,
     lead.country.dialCode,
     lead.phone,

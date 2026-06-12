@@ -116,6 +116,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     email: '',
     country: { name: 'Ivory Coast', code: 'CI', flag: '🇨🇮', dialCode: '+225' },
     phone: '',
+    gender: null,
     knowsCoding: null,
     description: '',
     experience: '',
@@ -128,7 +129,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
   const [errors, setErrors] = useState<Partial<Record<keyof SubscriptionFormData | 'options', string>>>({});
   const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [isDuplicate, setIsDuplicate] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<'describe' | 'experience' | 'invest' | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<'gender' | 'describe' | 'experience' | 'invest' | null>(null);
 
   useEffect(() => {
     async function autoDetect() {
@@ -194,6 +195,9 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       newErrors.phone = t.form.errors.phone;
     } else if (!/^\d{6,14}$/.test(formData.phone.replace(/[\s-()]/g, ''))) {
       newErrors.phone = t.form.errors.phoneInvalid;
+    }
+    if (!formData.gender) {
+      newErrors.gender = t.form.errors.gender;
     }
     if (!formData.knowsCoding) {
       newErrors.knowsCoding = t.form.errors.coding;
@@ -288,6 +292,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
       id: leadId,
       name: formData.name,
       email: formData.email,
+      gender: formData.gender === 'M' ? 'Homme' : formData.gender === 'F' ? 'Femme' : '',
       country: {
         name: formData.country.name,
         code: formData.country.code,
@@ -306,9 +311,10 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
     if (!alreadyRegistered) {
       // Save to Supabase (primary)
       try {
-        const { error: sbErr } = await supabase.from('leads').insert([{
+        const leadPayload: any = {
           name: newLead.name,
           email: newLead.email,
+          gender: newLead.gender,
           phone: newLead.phone,
           country_name: newLead.country.name,
           country_code: newLead.country.code,
@@ -319,12 +325,27 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
           ready_to_invest: formData.readyToInvest,
           wants_whatsapp_plan: formData.joinMastermind,
           wants_whatsapp_audit: formData.joinNewsletter,
-        }]);
+        };
+
+        let { error: sbErr } = await supabase.from('leads').insert([leadPayload]);
+
+        // If it failed because the 'gender' column doesn't exist on the 'leads' table in Supabase,
+        // retry the insertion without the 'gender' field so that the signup is STILL secured!
+        if (sbErr && (
+          sbErr.code === '42703' || 
+          sbErr.message?.toLowerCase().includes('gender') || 
+          sbErr.message?.toLowerCase().includes('column')
+        )) {
+          console.warn('Supabase insertion failed due to missing gender column, retrying without gender column to guarantee registration is saved...');
+          const { gender, ...payloadWithoutGender } = leadPayload;
+          const retryResult = await supabase.from('leads').insert([payloadWithoutGender]);
+          sbErr = retryResult.error;
+        }
 
         if (sbErr) {
           console.error('Failed to save to Supabase:', sbErr);
         } else {
-          console.log('Lead successfully saved to Supabase.');
+          console.log('Lead successfully saved to Supabase (Primary Database).');
         }
       } catch (sbErr) {
         console.error('Exception saving to Supabase:', sbErr);
@@ -338,6 +359,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
           name: newLead.name,
           email: newLead.email,
           phone: `${newLead.country.dialCode}${newLead.phone.replace(/[^0-9]/g, '')}`,
+          gender: newLead.gender,
           country_name: newLead.country.name,
           country_code: newLead.country.code,
           dial_code: newLead.country.dialCode,
@@ -494,14 +516,15 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                 setFormData({
                   name: '',
                   email: '',
-                  country: { name: 'Ivory Coast', code: 'CI', flag: '🇨🇮', dialCode: '+225' },
+                  country: formData.country,
                   phone: '',
+                  gender: null,
                   knowsCoding: null,
                   description: '',
                   experience: '',
                   readyToInvest: '',
-                  joinMastermind: true,
-                  joinNewsletter: true,
+                  joinMastermind: false,
+                  joinNewsletter: false,
                 });
                 setActiveDropdown(null);
                 setIsDuplicate(false);
@@ -598,6 +621,30 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
               </div>
               {errors.phone && (
                 <p className="mt-1 text-xs text-red-500">{errors.phone}</p>
+              )}
+            </div>
+
+            {/* Gender Selector Dropdown */}
+            <div>
+              <CustomDropdown
+                value={formData.gender || ''}
+                onChange={(val) => {
+                  setFormData((prev) => ({ ...prev, gender: val as 'M' | 'F' }));
+                  if (errors.gender) {
+                    setErrors((prev) => ({ ...prev, gender: undefined }));
+                  }
+                }}
+                options={[
+                  { value: 'M', label: t.form.optionGenderMale },
+                  { value: 'F', label: t.form.optionGenderFemale }
+                ]}
+                placeholder={t.form.labelGender}
+                error={errors.gender}
+                isOpen={activeDropdown === 'gender'}
+                onToggle={(open) => setActiveDropdown(open ? 'gender' : null)}
+              />
+              {errors.gender && (
+                <p className="mt-1 text-xs text-red-500">{errors.gender}</p>
               )}
             </div>
 

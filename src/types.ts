@@ -10,6 +10,7 @@ export interface SubscriptionFormData {
   email: string;
   country: Country;
   phone: string;
+  gender: 'M' | 'F' | null;
   knowsCoding: 'yes' | 'no' | null;
   description: string;
   experience: string;
@@ -40,6 +41,9 @@ export interface TranslationSchema {
     detectedLabel: string;
     changeLabel: string;
     placeholderPhone: string;
+    labelGender: string;
+    optionGenderMale: string;
+    optionGenderFemale: string;
     labelCoding: string;
     optionCodingYes: string;
     optionCodingNo: string;
@@ -62,6 +66,7 @@ export interface TranslationSchema {
       emailInvalid: string;
       phone: string;
       phoneInvalid: string;
+      gender: string;
       coding: string;
       describe: string;
       experience: string;

@@ -68,6 +68,7 @@ export default function AdminSyncDashboard() {
         const sbLeads: LeadData[] = (rows || []).map((row: any) => ({
           id: row.id?.toString() || '',
           name: row.name || '',
+          gender: row.gender || '',
           phone: row.phone || '',
           country: {
             name: row.country_name || '',
@@ -506,9 +507,20 @@ export default function AdminSyncDashboard() {
                           className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/[0.08] transition-all flex items-center justify-between text-left"
                         >
                           <div className="space-y-1 pr-4 truncate">
-                            <div className="flex items-center gap-1.5">
+                            <div className="flex items-center gap-1.5 flex-wrap">
                               <span className="text-xs font-bold text-white truncate">{lead.name}</span>
-                              <span className="text-[10px] font-mono text-gray-500 shrink-0">({lead.country.flag})</span>
+                              <span className="text-[10px] font-mono text-gray-400 shrink-0">({lead.country.flag})</span>
+                              {lead.gender && (
+                                <span className={`text-[8px] px-1 py-0.1 rounded font-mono font-semibold shrink-0 ${
+                                  lead.gender === 'Homme' || lead.gender === 'Hombre' || lead.gender === 'Male' || lead.gender === 'M'
+                                    ? 'bg-sky-500/15 text-sky-400 border border-sky-500/20'
+                                    : 'bg-pink-500/15 text-pink-400 border border-pink-500/20'
+                                }`}>
+                                  {lead.gender === 'M' ? 'Homme' : 
+                                   lead.gender === 'F' ? 'Femme' : 
+                                   lead.gender}
+                                </span>
+                              )}
                             </div>
                             <p className="text-[10px] font-mono text-gray-400 truncate">
                               {lead.country.dialCode} {lead.phone}
