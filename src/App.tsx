@@ -11,30 +11,9 @@ import { translations } from './data/translations';
 import founderAvatar from './assets/images/founder_avatar_1780480032739.png';
 import SiteLogo from './components/SiteLogo';
 import PwaInstallPrompt from './components/PwaInstallPrompt';
-import BlurCustomizer from './components/BlurCustomizer';
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'fr' | 'es'>('en');
-
-  // Customizer levels for dynamic Tailwinds/CSS blurs and opacities
-  const [discountBackdropBlur, setDiscountBackdropBlur] = useState<number>(() => {
-    return Number(localStorage.getItem('blur_discountBackdropBlur') ?? 12);
-  });
-  const [discountBackdropOpacity, setDiscountBackdropOpacity] = useState<number>(() => {
-    return Number(localStorage.getItem('blur_discountBackdropOpacity') ?? 0.5);
-  });
-  const [discountCardBlur, setDiscountCardBlur] = useState<number>(() => {
-    return Number(localStorage.getItem('blur_discountCardBlur') ?? 16);
-  });
-  const [discountCardOpacity, setDiscountCardOpacity] = useState<number>(() => {
-    return Number(localStorage.getItem('blur_discountCardOpacity') ?? 0.82);
-  });
-  const [formBlur, setFormBlur] = useState<number>(() => {
-    return Number(localStorage.getItem('blur_formBlur') ?? 16);
-  });
-  const [formOpacity, setFormOpacity] = useState<number>(() => {
-    return Number(localStorage.getItem('blur_formOpacity') ?? 0.8);
-  });
   const [profileImg, setProfileImg] = useState<string>(founderAvatar);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [legalModal, setLegalModal] = useState<{ isOpen: boolean; type: 'privacy' | 'terms' }>({
@@ -114,14 +93,6 @@ export default function App() {
     <div 
       className="notranslate min-h-screen bg-[#020202] text-gray-300 flex flex-col items-center justify-between selection:bg-[#00f6ac]/30 selection:text-[#00f6ac] font-sans antialiased relative overflow-x-hidden"
       translate="no"
-      style={{
-        '--discount-backdrop-blur': `blur(${discountBackdropBlur}px)`,
-        '--discount-backdrop-bg': `rgba(2, 2, 2, ${discountBackdropOpacity})`,
-        '--discount-card-bg': `rgba(7, 8, 10, ${discountCardOpacity})`,
-        '--discount-card-blur': `blur(${discountCardBlur}px)`,
-        '--form-bg': `rgba(18, 19, 21, ${formOpacity})`,
-        '--form-blur': `blur(${formBlur}px)`,
-      } as React.CSSProperties}
     >
       <PwaInstallPrompt lang={lang} />
       {/* Ambient background glow layers starting from vibrant green down to deep velvet black */}
@@ -445,22 +416,6 @@ export default function App() {
 
       {/* Admin Dashboard Google Sheet Sync Portal */}
       <AdminSyncDashboard />
-
-      {/* Visual Adjustments & Blur Customization Studio */}
-      <BlurCustomizer
-        discountBackdropBlur={discountBackdropBlur}
-        setDiscountBackdropBlur={setDiscountBackdropBlur}
-        discountBackdropOpacity={discountBackdropOpacity}
-        setDiscountBackdropOpacity={setDiscountBackdropOpacity}
-        discountCardBlur={discountCardBlur}
-        setDiscountCardBlur={setDiscountCardBlur}
-        discountCardOpacity={discountCardOpacity}
-        setDiscountCardOpacity={setDiscountCardOpacity}
-        formBlur={formBlur}
-        setFormBlur={setFormBlur}
-        formOpacity={formOpacity}
-        setFormOpacity={setFormOpacity}
-      />
     </div>
   );
 }

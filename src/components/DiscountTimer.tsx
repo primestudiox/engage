@@ -124,30 +124,9 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
     setTargetTime(targetTimestamp);
     setTimeLeft(timeLeftInSeconds);
     
-    // Only show the discount timer when the registration form is NOT visible in the viewport
-    const checkFormVisibility = () => {
-      const formEl = document.getElementById('registration-card');
-      if (!formEl) {
-        setIsVisible(true);
-        return;
-      }
-      const rect = formEl.getBoundingClientRect();
-      const isFormVisible = rect.top < window.innerHeight && rect.bottom > 0;
-      setIsVisible(!isFormVisible);
-    };
-
-    // Small delay before first check so form can render
-    const timer = setTimeout(() => {
-      checkFormVisibility();
-      window.addEventListener('scroll', checkFormVisibility, { passive: true });
-      window.addEventListener('resize', checkFormVisibility, { passive: true });
-    }, 1250);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('scroll', checkFormVisibility);
-      window.removeEventListener('resize', checkFormVisibility);
-    };
+    // Set visibility after brief delay for smooth entrance
+    const timer = setTimeout(() => setIsVisible(true), 1250);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -219,12 +198,7 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
             transition={{ type: "spring", stiffness: 140, damping: 20 }}
             id="discount-floating-card"
             onClick={handleClaimClick}
-            className="fixed bottom-0 right-0 left-0 z-[9999] border-t border-white/[0.08] hover:border-[#00ff88]/35 p-6 lg:p-8 shadow-[0_-32px_64px_rgba(0,0,0,0.95),_0_0_40px_rgba(0,255,136,0.04)] transition-all duration-500 group cursor-pointer select-none"
-            style={{
-              backgroundColor: 'var(--discount-card-bg, #07080a)',
-              backdropFilter: 'var(--discount-card-blur, blur(16px))',
-              WebkitBackdropFilter: 'var(--discount-card-blur, blur(16px))',
-            }}
+            className="fixed bottom-0 right-0 left-0 z-[9999] bg-[#07080a] border-t border-white/[0.08] hover:border-[#00ff88]/35 p-6 lg:p-8 shadow-[0_-32px_64px_rgba(0,0,0,0.95),_0_0_40px_rgba(0,255,136,0.04)] transition-all duration-500 group cursor-pointer select-none"
           >
             {/* Ambient neon green organic background glows */}
             <div className="absolute -top-12 -right-12 w-48 h-48 bg-[radial-gradient(circle,_rgba(0,255,136,0.08)_0%,_transparent_75%)] pointer-events-none z-0 rounded-full" />

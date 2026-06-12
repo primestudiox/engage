@@ -424,12 +424,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
   return (
     <div 
       id="registration-card" 
-      className="notranslate w-full max-w-lg mx-auto overflow-visible rounded-3xl border border-white/[0.06] p-6 md:p-8 custom-glow relative transition-all duration-300"
-      style={{
-        backgroundColor: 'var(--form-bg, #121315)',
-        backdropFilter: 'var(--form-blur, blur(16px))',
-        WebkitBackdropFilter: 'var(--form-blur, blur(16px))',
-      }}
+      className="notranslate w-full max-w-lg mx-auto overflow-visible rounded-3xl border border-white/[0.06] bg-[#121315] p-6 md:p-8 custom-glow relative"
       translate="no"
     >
       <AnimatePresence mode="wait">
