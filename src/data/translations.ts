@@ -126,7 +126,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     footer: {
       respectPrivacy: 'We respect your privacy. No spam, ever.',
-      copyright: 'Engage © 2026',
+      copyright: 'Engage by Seveneyed © 2026',
       privacyPolicy: 'Privacy Policy',
       termsOfUse: 'Terms of Use',
     },
@@ -256,7 +256,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     footer: {
       respectPrivacy: 'Données protégées. Zéro spam, c’est promis.',
-      copyright: 'Engage © 2026',
+      copyright: 'Engage by Seveneyed © 2026',
       privacyPolicy: 'Politique de Confidentialité',
       termsOfUse: 'Conditions d’Utilisation',
     },
@@ -386,7 +386,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     footer: {
       respectPrivacy: 'Respetamos tu privacidad. Sin spam, garantizado.',
-      copyright: 'Engage © 2026',
+      copyright: 'Engage by Seveneyed © 2026',
       privacyPolicy: 'Política de Privacidad',
       termsOfUse: 'Términos de Uso',
     },
