@@ -198,7 +198,12 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
             transition={{ type: "spring", stiffness: 140, damping: 20 }}
             id="discount-floating-card"
             onClick={handleClaimClick}
-            className="fixed bottom-0 right-0 left-0 z-[9999] bg-[#07080a] border-t border-white/[0.08] hover:border-[#00ff88]/35 p-6 lg:p-8 shadow-[0_-32px_64px_rgba(0,0,0,0.95),_0_0_40px_rgba(0,255,136,0.04)] transition-all duration-500 group cursor-pointer select-none"
+            className="fixed bottom-0 right-0 left-0 z-[9999] border-t border-white/[0.08] hover:border-[#00ff88]/35 p-6 lg:p-8 shadow-[0_-32px_64px_rgba(0,0,0,0.95),_0_0_40px_rgba(0,255,136,0.04)] transition-all duration-500 group cursor-pointer select-none"
+            style={{
+              backgroundColor: 'var(--discount-card-bg, #07080a)',
+              backdropFilter: 'var(--discount-card-blur, blur(16px))',
+              WebkitBackdropFilter: 'var(--discount-card-blur, blur(16px))',
+            }}
           >
             {/* Ambient neon green organic background glows */}
             <div className="absolute -top-12 -right-12 w-48 h-48 bg-[radial-gradient(circle,_rgba(0,255,136,0.08)_0%,_transparent_75%)] pointer-events-none z-0 rounded-full" />

@@ -98,7 +98,9 @@ body {
     height: auto !important;
     max-height: 95vh !important;
     overflow: hidden !important;
-    background-color: #07080a !important;
+    background-color: var(--discount-card-bg, #07080a) !important;
+    backdrop-filter: var(--discount-card-blur, blur(16px)) !important;
+    -webkit-backdrop-filter: var(--discount-card-blur, blur(16px)) !important;
   }
 
   .discount-inner-wrapper {
@@ -329,9 +331,9 @@ body {
   width: 100vw !important;
   height: 100vh !important;
   display: block !important;
-  background-color: rgba(0, 0, 0, 0.5) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  background-color: var(--discount-backdrop-bg, rgba(0, 0, 0, 0.5)) !important;
+  backdrop-filter: var(--discount-backdrop-blur, blur(12px)) !important;
+  -webkit-backdrop-filter: var(--discount-backdrop-blur, blur(12px)) !important;
   z-index: 9998 !important;
   pointer-events: auto !important;
   transition: opacity 0.3s ease !important;
