@@ -124,8 +124,8 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
     setTargetTime(targetTimestamp);
     setTimeLeft(timeLeftInSeconds);
     
-    // Set visibility after brief delay for smooth entrance
-    const timer = setTimeout(() => setIsVisible(true), 1250);
+    // Set visibility after 5-second delay to check if the user stays on the page
+    const timer = setTimeout(() => setIsVisible(true), 5000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -162,7 +162,15 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
     if (e) {
       e.stopPropagation();
     }
-    window.open("https://sylvestredagoulou.com/prd_ceg3v3rg/checkout?chw_pvar=RNPAFY", "_blank", "noopener,noreferrer");
+    // Obscurcit l'URL originale par découpage et encodage Base64 pour éviter qu'elle soit facilement copiable ou détectable via les outils de développement (DevTools)
+    const p1 = "aHR0cHM6Ly9zeWx2ZXN0cmVkYWdvdWxvdS5jb20vc";
+    const p2 = "HJkX2NlZzN2M3JnL2NoZWNrb3V0P2Nod19wdmFyPVJOUEFGWQ==";
+    try {
+      const u = window.atob(p1 + p2);
+      window.open(u, "_blank", "noopener,noreferrer");
+    } catch (err) {
+      console.error("Navigation error:", err);
+    }
   };
 
   if (isDismissed) return null;
