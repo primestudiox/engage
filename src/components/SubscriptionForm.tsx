@@ -376,18 +376,19 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
   };
 
   const getWhatsappLink = () => {
-    const rawPhone = formData.phone.replace(/[^0-9]/g, '');
-    const cleanDial = formData.country.dialCode.replace('+', '');
-    const finalPhone = `${cleanDial}${rawPhone}`;
+    // Read the company's WhatsApp number from the environment or use default 2250707070707
+    const companyPhone = import.meta.env.VITE_COMPANY_WHATSAPP_NUMBER || '2250707070707';
+    const cleanCompanyPhone = companyPhone.replace(/[^0-9]/g, '');
+    
     let text = '';
     if (lang === 'fr') {
-      text = encodeURIComponent(`Bonjour ! Je viens de m’inscrire à Engage. Veuillez m’ajouter au canal de la communauté IA.`);
+      text = encodeURIComponent(`Bonjour Sylvestre ! Je m’appelle ${formData.name}. Je viens de m’inscrire à Engage et je souhaite rejoindre notre communauté WhatsApp.`);
     } else if (lang === 'es') {
-      text = encodeURIComponent(`¡Hola! Me acabo de registrar en Engage. Por favor agrégame al canal de la comunidad de IA.`);
+      text = encodeURIComponent(`¡Hola Sylvestre! Mi nombre es ${formData.name}. Me acabo de registrar en Engage y quiero unirme a nuestra comunidad de WhatsApp.`);
     } else {
-      text = encodeURIComponent(`Hello! I just subscribed to Engage. Please add me to the AI Community group.`);
+      text = encodeURIComponent(`Hello Sylvestre! My name is ${formData.name}. I just registered for Engage and would like to join our WhatsApp community.`);
     }
-    return `https://api.whatsapp.com/send?phone=${finalPhone}&text=${text}`;
+    return `https://api.whatsapp.com/send?phone=${cleanCompanyPhone}&text=${text}`;
   };
 
   return (
