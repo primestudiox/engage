@@ -124,9 +124,30 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
     setTargetTime(targetTimestamp);
     setTimeLeft(timeLeftInSeconds);
     
-    // Set visibility after brief delay for smooth entrance
-    const timer = setTimeout(() => setIsVisible(true), 1250);
-    return () => clearTimeout(timer);
+    // Only show the discount timer when the registration form is NOT visible in the viewport
+    const checkFormVisibility = () => {
+      const formEl = document.getElementById('registration-card');
+      if (!formEl) {
+        setIsVisible(true);
+        return;
+      }
+      const rect = formEl.getBoundingClientRect();
+      const isFormVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      setIsVisible(!isFormVisible);
+    };
+
+    // Small delay before first check so form can render
+    const timer = setTimeout(() => {
+      checkFormVisibility();
+      window.addEventListener('scroll', checkFormVisibility, { passive: true });
+      window.addEventListener('resize', checkFormVisibility, { passive: true });
+    }, 1250);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', checkFormVisibility);
+      window.removeEventListener('resize', checkFormVisibility);
+    };
   }, []);
 
   useEffect(() => {
