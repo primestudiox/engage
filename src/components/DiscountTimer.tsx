@@ -158,16 +158,11 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
     }, 300);
   };
 
-  const handleClaimClick = () => {
-    const formElement = document.getElementById('registration-card');
-    if (formElement) {
-      formElement.scrollIntoView({ behavior: 'smooth' });
-      // Add visual glow reminder effect temporarily on registration card
-      formElement.classList.add('animate-shake');
-      setTimeout(() => {
-        formElement.classList.remove('animate-shake');
-      }, 1000);
+  const handleClaimClick = (e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
     }
+    window.open("https://sylvestredagoulou.com/prd_ceg3v3rg/checkout?chw_pvar=RNPAFY", "_blank", "noopener,noreferrer");
   };
 
   if (isDismissed) return null;
