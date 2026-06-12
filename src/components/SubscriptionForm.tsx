@@ -223,6 +223,14 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
 
     const cleanEmail = formData.email.trim();
     const cleanPhone = formData.phone.trim();
+    const cleanName = formData.name.trim();
+
+    // Strict guard to prevent empty data submissions to database and webhook
+    if (!cleanName || !cleanEmail || !cleanPhone) {
+      console.warn('Form submission aborted: core fields (name, email, or phone) are missing or empty.');
+      setSubmissionStatus('idle');
+      return;
+    }
 
     let remoteExists = false;
     let localExists = false;
