@@ -684,7 +684,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Gender Selector Dropdown */}
-            <div className="chrome-gpu-fix">
+            <div className={`chrome-gpu-fix relative ${activeDropdown === 'gender' ? 'z-[50]' : 'z-10'}`}>
               <CustomDropdown
                 value={formData.gender || ''}
                 onChange={(val) => {
@@ -759,7 +759,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Describe select */}
-            <div className="chrome-gpu-fix">
+            <div className={`chrome-gpu-fix relative ${activeDropdown === 'describe' ? 'z-[50]' : 'z-10'}`}>
               <CustomDropdown
                 value={formData.description}
                 onChange={(val) => {
@@ -780,7 +780,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Experience select */}
-            <div className="chrome-gpu-fix">
+            <div className={`chrome-gpu-fix relative ${activeDropdown === 'experience' ? 'z-[50]' : 'z-10'}`}>
               <CustomDropdown
                 value={formData.experience}
                 onChange={(val) => {
@@ -801,7 +801,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Ready to invest select */}
-            <div className="chrome-gpu-fix">
+            <div className={`chrome-gpu-fix relative ${activeDropdown === 'invest' ? 'z-[50]' : 'z-10'}`}>
               <CustomDropdown
                 value={formData.readyToInvest}
                 onChange={(val) => {
