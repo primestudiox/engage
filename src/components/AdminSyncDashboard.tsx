@@ -79,7 +79,7 @@ export default function AdminSyncDashboard() {
           description: row.profile || '',
           experience: row.blocage || '',
           readyToInvest: row.ready_to_invest || '',
-          joinMastermind: row.wants_whatsapp_plan || false,
+          joinMastermind: row.wants_whatsapp_audit || row.wants_whatsapp_plan || false,
           timestamp: row.created_at || new Date().toISOString(),
           synced: row.synced || false,
         }));

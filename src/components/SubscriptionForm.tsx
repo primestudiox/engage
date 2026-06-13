@@ -309,6 +309,27 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
 
     // 3. If NOT registered yet, execute registration writes sequentially so they are guaranteed to arrive
     if (!alreadyRegistered) {
+      // Calculate scoring parameters according to lead qualification system rules
+      const urgency_points = formData.readyToInvest === 'yes_now' ? 40 : formData.readyToInvest === 'yes_soon' ? 20 : 0;
+      const audit_points = formData.joinMastermind ? 30 : 0;  // first checkbox (wants_whatsapp_audit)
+      const reduction_points = formData.joinNewsletter ? 20 : 0;  // second checkbox (wants_whatsapp_discount)
+      const profile_points = formData.description === 'entrepreneur_scale' ? 10 : formData.description === 'freelance_clients' ? 7 : 5;
+      const computedScore = urgency_points + audit_points + reduction_points + profile_points;
+
+      let computedTemperature = 'frozen';
+      if (computedScore >= 90) computedTemperature = 'ultra_hot';
+      else if (computedScore >= 70) computedTemperature = 'hot';
+      else if (computedScore >= 50) computedTemperature = 'warm';
+      else if (computedScore >= 30) computedTemperature = 'cold';
+
+      let computedIntent = 'observer';
+      if (formData.joinMastermind && formData.joinNewsletter) computedIntent = 'ready_to_buy';
+      else if (formData.joinMastermind) computedIntent = 'consultation';
+      else if (formData.joinNewsletter) computedIntent = 'buyer';
+
+      const profilBusinessStr = formData.description === 'entrepreneur_scale' ? 'entrepreneur' : formData.description === 'freelance_clients' ? 'freelance' : 'debutant';
+      const urgenceStr = formData.readyToInvest === 'yes_now' ? 'immediate' : formData.readyToInvest === 'yes_soon' ? '1_to_3_months' : 'looking_for_free';
+
       // Save to Supabase (primary)
       try {
         const leadPayload: any = {
@@ -323,23 +344,55 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
           blocage: formData.experience,
           has_online_business: formData.knowsCoding,
           ready_to_invest: formData.readyToInvest,
-          wants_whatsapp_plan: formData.joinMastermind,
-          wants_whatsapp_audit: formData.joinNewsletter,
+          wants_whatsapp_audit: formData.joinMastermind,
+          wants_whatsapp_discount: formData.joinNewsletter,
+          lead_score: computedScore,
+          lead_temperature: computedTemperature,
+          intent: computedIntent,
+          profil_business: profilBusinessStr,
+          urgence: urgenceStr
         };
 
         let { error: sbErr } = await supabase.from('leads').insert([leadPayload]);
 
-        // If it failed because the 'gender' column doesn't exist on the 'leads' table in Supabase,
-        // retry the insertion without the 'gender' field so that the signup is STILL secured!
+        // If it failed because of new evaluation columns that might not exist in Supabase yet,
+        // retry the insertion without those columns to guarantee that the lead is ALWAYS saved!
         if (sbErr && (
           sbErr.code === '42703' || 
-          sbErr.message?.toLowerCase().includes('gender') || 
-          sbErr.message?.toLowerCase().includes('column')
+          sbErr.message?.toLowerCase().includes('column') ||
+          sbErr.message?.toLowerCase().includes('does not exist')
         )) {
-          console.warn('Supabase insertion failed due to missing gender column, retrying without gender column to guarantee registration is saved...');
-          const { gender, ...payloadWithoutGender } = leadPayload;
-          const retryResult = await supabase.from('leads').insert([payloadWithoutGender]);
-          sbErr = retryResult.error;
+          console.warn('Supabase insertion failed with unknown column. Retrying standard fallback payload...');
+          
+          const standardPayload = {
+            name: newLead.name,
+            email: newLead.email,
+            gender: newLead.gender,
+            phone: newLead.phone,
+            country_name: newLead.country.name,
+            country_code: newLead.country.code,
+            dial_code: newLead.country.dialCode,
+            profile: formData.description,
+            blocage: formData.experience,
+            has_online_business: formData.knowsCoding,
+            ready_to_invest: formData.readyToInvest,
+            wants_whatsapp_audit: formData.joinMastermind,
+            wants_whatsapp_discount: formData.joinNewsletter
+          };
+
+          const retryStandard = await supabase.from('leads').insert([standardPayload]);
+          sbErr = retryStandard.error;
+
+          // If standard payload fails as well due to missing 'gender' column
+          if (sbErr && (
+            sbErr.code === '42703' || 
+            sbErr.message?.toLowerCase().includes('gender')
+          )) {
+            console.warn('Standard fallback failed due to gender column, retrying without gender column...');
+            const { gender, ...payloadWithoutGender } = standardPayload;
+            const retryMinimal = await supabase.from('leads').insert([payloadWithoutGender]);
+            sbErr = retryMinimal.error;
+          }
         }
 
         if (sbErr) {
@@ -367,9 +420,15 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
           blocage: formData.experience,
           has_online_business: formData.knowsCoding,
           ready_to_invest: formData.readyToInvest,
-          wants_whatsapp_plan: formData.joinMastermind,
-          wants_whatsapp_audit: formData.joinNewsletter,
-          timestamp: newLead.timestamp
+          wants_whatsapp_audit: formData.joinMastermind,
+          wants_whatsapp_discount: formData.joinNewsletter,
+          timestamp: newLead.timestamp,
+          // New computed leads qualification & scoring fields for direct integration
+          profil_business: profilBusinessStr,
+          urgence: urgenceStr,
+          lead_score: computedScore,
+          lead_temperature: computedTemperature,
+          intent: computedIntent
         };
 
         try {
@@ -383,7 +442,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
           if (!response.ok) {
             console.warn('Webhook response not ok status:', response.status);
           } else {
-            console.log('Lead successfully sent to Make.com webhook.');
+            console.log('Lead successfully sent to Make.com webhook with scoring metrics.');
           }
         } catch (err) {
           console.error('Failed to send lead to Make.com webhook:', err);
@@ -781,7 +840,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                     </svg>
                   )}
                 </div>
-                <p className="text-xs text-gray-300 leading-normal select-none">
+                <p className="text-xs text-gray-300 group-hover:text-white transition-colors duration-200 leading-normal select-none">
                   <span>{t.form.labelMastermind}</span>
                 </p>
               </button>
@@ -803,9 +862,9 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                     </svg>
                   )}
                 </div>
-                <div className="text-xs text-gray-300 leading-normal select-none">
+                <div className="text-xs text-gray-300 group-hover:text-white transition-colors duration-200 leading-normal select-none">
                   <p><span>{t.form.labelNewsletter}</span></p>
-                  <p className="text-gray-500 text-[10.5px] mt-0.5 font-sans">
+                  <p className="text-gray-500 text-[10.5px] mt-0.5 font-sans group-hover:text-gray-400 transition-colors duration-200">
                     <span>{t.form.newsletterSubtitle}</span>
                   </p>
                 </div>

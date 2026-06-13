@@ -164,7 +164,7 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
     }
     // Obscurcit l'URL originale par découpage et encodage Base64 pour éviter qu'elle soit facilement copiable ou détectable via les outils de développement (DevTools)
     const p1 = "aHR0cHM6Ly9zeWx2ZXN0cmVkYWdvdWxvdS5jb20vc";
-    const p2 = "HJkX2NlZzN2M3JnL2NoZWNrb3V0P2Nod19wdmFyPVJOUEFGWQ==";
+    const p2 = "HJkX3dyZng3NzBmL2NoZWNrb3V0P2Nod19wdmFyPVFSWVNJMQ==";
     try {
       const u = window.atob(p1 + p2);
       window.open(u, "_blank", "noopener,noreferrer");
