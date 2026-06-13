@@ -15,7 +15,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     founder: {
       name: 'Sylvestre Dagoulou',
-      role: 'Founder, GrowthSchool',
+      role: 'Systems · Assets · Scale',
     },
     form: {
       placeholderName: 'Your Name',
@@ -145,7 +145,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     founder: {
       name: 'Sylvestre Dagoulou',
-      role: 'Fondateur, GrowthSchool',
+      role: 'Systèmes · Actifs · Scale',
     },
     form: {
       placeholderName: 'Votre Nom',
@@ -275,7 +275,7 @@ export const translations: Record<'en' | 'fr' | 'es', TranslationSchema> = {
     },
     founder: {
       name: 'Sylvestre Dagoulou',
-      role: 'Fundador, GrowthSchool',
+      role: 'Sistemas · Activos · Scale',
     },
     form: {
       placeholderName: 'Tu Nombre',

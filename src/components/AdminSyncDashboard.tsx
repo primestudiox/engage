@@ -35,11 +35,13 @@ export default function AdminSyncDashboard() {
   // Parse URL to decide if the secret Admin Dashboard Trigger should render
   useEffect(() => {
     const checkAdminParam = () => {
-      const hasParam = window.location.search.includes('admin=true') || window.location.hash.includes('admin');
+      const params = new URLSearchParams(window.location.search);
+      const hasParam = params.get('admin') === 'true' || window.location.hash === '#admin' || window.location.hash === '#admin-portal';
       setIsAdminUrl(hasParam);
     };
 
     checkAdminParam();
+    window.onpopstate = checkAdminParam;
     window.addEventListener('hashchange', checkAdminParam);
     window.addEventListener('popstate', checkAdminParam);
     

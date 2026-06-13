@@ -237,7 +237,7 @@ export default function App() {
             </div>
             <div className="text-left leading-tight">
               <p className="text-xs font-bold text-white font-serif">{t.founder.name}</p>
-              <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">{t.founder.role}</p>
+              <p className="text-[10px] text-gray-500 font-semibold tracking-wider">{t.founder.role}</p>
             </div>
           </motion.div>
 
