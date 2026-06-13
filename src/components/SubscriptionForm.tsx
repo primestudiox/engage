@@ -877,8 +877,8 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
 
             {/* Subscriber stats (Grouped Overlapping Avatars inside form) */}
             <div className="flex items-center justify-center gap-3 pt-2">
-              <div className="flex -space-x-2.5">
-                {[avatar1, avatar2, avatar3, avatar4].map((src, i) => (
+              <div className="flex -space-x-2.5 items-center">
+                {[avatar1, avatar2, avatar3].map((src, i) => (
                   <img
                     key={i}
                     src={src}
@@ -892,6 +892,9 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                     className="w-7.5 h-7.5 rounded-full border border-[#111315] object-cover ring-1 ring-white/10 hover:scale-110 active:scale-95 transition-all duration-200 grayscale"
                   />
                 ))}
+                <div className="relative z-10 w-7.5 h-7.5 rounded-full border border-[#111315] bg-[#1e2124] ring-1 ring-white/10 flex items-center justify-center text-[10px] font-bold text-[#00f6ac] font-mono select-none">
+                  +99
+                </div>
               </div>
               <span className="text-xs font-mono text-gray-400 font-semibold">{t.form.joinedStats}</span>
             </div>

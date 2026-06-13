@@ -184,13 +184,14 @@ export default function App() {
             transition={{ delay: 0.15 }}
             className="space-y-4"
           >
-            <h1 className="notranslate text-[22px] min-[360px]:text-[25px] min-[400px]:text-3xl sm:text-5xl md:text-6.5xl font-extrabold font-serif text-white tracking-tight leading-[1.05] max-w-xl mx-auto" translate="no">
-              {t.hero.titlePre}
-              <br className="block" />
-              <span>{t.hero.titlePost}</span>{' '}
-              {t.hero.rotatingWords && t.hero.rotatingWords.length > 0 && (
-                <RotatingWords words={t.hero.rotatingWords} />
-              )}
+            <h1 className="notranslate text-[26px] min-[360px]:text-[29px] min-[400px]:text-[34px] sm:text-5xl md:text-6.5xl font-extrabold font-serif text-white tracking-tight leading-[1.08] max-w-2xl mx-auto" translate="no">
+              <span className="block">{t.hero.titlePre}</span>
+              <span className="block whitespace-nowrap">
+                {t.hero.titlePost}{' '}
+                {t.hero.rotatingWords && t.hero.rotatingWords.length > 0 && (
+                  <RotatingWords words={t.hero.rotatingWords} />
+                )}
+              </span>
             </h1>
           </motion.div>
 
@@ -265,8 +266,8 @@ export default function App() {
         {/* "What You'll Get" Bento-style dynamic features grid */}
         <section className="w-full max-w-3xl mt-32 mb-10 space-y-10">
           <div className="text-center space-y-3.5">
-            <span className="inline-flex items-center gap-1.5 bg-[#00f6ac]/10 text-[#00f6ac] text-[10px] font-bold tracking-widest font-mono uppercase px-3 py-1 rounded-full border border-[#00f6ac]/15 justify-center">
-              🧭 Features
+            <span className="inline-flex items-center bg-[#00f6ac]/10 text-[#00f6ac] text-[10px] font-bold tracking-widest font-mono uppercase px-3 py-1 rounded-full border border-[#00f6ac]/15 justify-center">
+              Features
             </span>
             <h2 className="text-3xl font-serif font-extrabold text-white tracking-tight">
               {t.whatYouGet.title}
