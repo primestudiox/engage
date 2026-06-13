@@ -10,10 +10,37 @@
     <title>Engage | Acquisition Ai Business</title>
     <script>
       if ("serviceWorker" in navigator) {
+        // Prevent infinite reload loop safeguard
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          if (refreshing) return;
+          refreshing = true;
+          window.location.reload();
+        });
+
         window.addEventListener("load", () => {
           navigator.serviceWorker
             .register("/sw.js")
-            .then((reg) => console.log("Service Worker registered successfully:", reg.scope))
+            .then((reg) => {
+              console.log("Service Worker registered successfully:", reg.scope);
+              
+              // Proactively check for updates immediately on load
+              reg.update().catch(err => console.debug("Initial SW update check failed:", err));
+
+              // Check for updates periodically (every 10 minutes)
+              setInterval(() => {
+                reg.update().catch(err => console.debug("Periodic SW update check failed:", err));
+              }, 10 * 60 * 1000);
+
+              // Force a update check whenever the window comes into focus or visibility changes (resolves app reopening issue)
+              const checkUpdate = () => {
+                if (document.visibilityState === "visible") {
+                  reg.update().catch(err => console.debug("Active SW check failed:", err));
+                }
+              };
+              document.addEventListener("visibilitychange", checkUpdate);
+              window.addEventListener("focus", checkUpdate);
+            })
             .catch((err) => console.error("Service Worker registration failed:", err));
         });
       }
