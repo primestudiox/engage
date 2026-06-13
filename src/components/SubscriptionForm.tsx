@@ -100,9 +100,9 @@ function CustomDropdown({ value, onChange, options, placeholder, error, isOpen, 
 
 // Pre-defined avatars from assets generated
 const avatar1 = founderAvatar;
-const avatar2 = femaleAvatar;
-const avatar3 = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop";
-const avatar4 = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&auto=format&fit=crop";
+const avatar2 = "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=256&auto=format&fit=crop";
+const avatar3 = "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=256&auto=format&fit=crop";
+const avatar4 = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=256&auto=format&fit=crop";
 
 interface SubscriptionFormProps {
   lang: 'en' | 'fr' | 'es';

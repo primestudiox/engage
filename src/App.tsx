@@ -268,10 +268,10 @@ export default function App() {
             <span className="inline-flex items-center gap-1.5 bg-[#00f6ac]/10 text-[#00f6ac] text-[10px] font-bold tracking-widest font-mono uppercase px-3 py-1 rounded-full border border-[#00f6ac]/15 justify-center">
               🧭 Features
             </span>
-            <h2 className="text-3.5xl md:text-4.5xl font-serif font-extrabold text-white tracking-tight leading-none">
+            <h2 className="text-3xl font-serif font-extrabold text-white tracking-tight">
               {t.whatYouGet.title}
             </h2>
-            <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
+            <p className="text-gray-400 text-xs max-w-sm mx-auto leading-relaxed font-medium">
               {t.whatYouGet.sub}
             </p>
           </div>
