@@ -339,12 +339,23 @@ body {
   width: 100vw !important;
   height: 100vh !important;
   display: block !important;
-  background-color: rgba(0, 0, 0, 0.5) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  /* Dim background using secure transparent alpha overlay (safe everywhere, no black-out bugs) */
+  background-color: rgba(2, 2, 2, 0.65) !important;
   z-index: 9998 !important;
   pointer-events: auto !important;
   transition: opacity 0.3s ease !important;
+}
+
+/* Isolate backdrop-filter to a pseudo-element with zero raw bg-color to prevent composite collapse in Chrome & Firefox */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .discount-backdrop::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    pointer-events: none !important;
+  }
 }
 
 @media (orientation: landscape) {
