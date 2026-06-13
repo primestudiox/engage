@@ -18,33 +18,33 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
         items: [
           {
             title: 'Data Collection',
-            desc: 'We collect the information you provide voluntarily during registration (such as name, email address, phone number, and experience parameters) to configure your WhatsApp community access.',
+            desc: 'We collect the information you provide voluntarily during registration (such as name, email address, phone number, business status, profile, biggest obstacle, and investment readiness) to register you for the 10-Day Challenge and process your requests.',
           },
           {
             title: 'Utilization of Information',
-            desc: 'This data is used solely to deliver the WhatsApp community invite, personalize content suggestions (like beginner vs developer tools), and communicate weekly summaries.',
+            desc: 'This data is used solely to deliver the Business AI Challenge details, process requested audits (Mastermind), communicate newsletters with special program discounts (35%), and grant access to the WhatsApp group.',
           },
           {
             title: 'Privacy Protection',
-            desc: 'Your private contact details are kept secure and are never rented, shared, or sold to third-party services. General analytics are fully anonymized.',
+            desc: 'Your private contact details are kept fully secure and are never rented, shared, or sold to third-party services. You retain complete control over your personal data and can request deletion at any time.',
           },
         ],
       },
       terms: {
         title: 'Terms of Use',
-        sub: 'Guidelines for participating in the Engage community.',
+        sub: 'Guidelines for participating in the Business AI Challenge and community.',
         items: [
           {
-            title: 'Community Access',
-            desc: 'Access to the WhatsApp updates channel and curated AI resources is offered completely free of charge for personal and professional growth.',
+            title: 'Registration & Audits',
+            desc: 'Participation in the 10-Day Business AI Challenge, weekly newsletter, and the option to request a personalized audit or special offers are completely voluntary and designed for professional growth.',
           },
           {
-            title: 'Code of Conduct',
-            desc: 'All community participants are expected to maintain professional courtesy. Spamming, harassing other members, or distributing malicious tools is strictly prohibited.',
+            title: 'Community Code of Conduct',
+            desc: 'All community participants in WhatsApp and other channels must maintain professional courtesy. Spamming, unsolicious marketing, or distributing harmful content is strictly prohibited.',
           },
           {
-            title: 'Disclaimer of Warranty',
-            desc: 'Curated resources, custom prompts, and weekly Masterclass content are provided "as-is" without warranty. Users execute templates at their own discretion.',
+            title: 'Educational Disclaimer',
+            desc: 'Challenge materials, potential business plans, and strategy advice are provided "as-is" for educational and illustrative purposes. Custom strategies depend on execution; no financial results are guaranteed.',
           },
         ],
       },
@@ -56,33 +56,33 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
         items: [
           {
             title: 'Collecte des données',
-            desc: 'Nous récoltons les informations fournies volontairement lors de votre inscription (nom, email, téléphone, expertise) afin de configurer votre accès à la communauté.',
+            desc: 'Nous récoltons les informations fournies volontairement lors de votre inscription (nom, email, téléphone, statut d\'entreprise, profil, obstacle majeur, intérêt d\'investissement) afin d\'enregistrer votre participation au Challenge de 10 Jours et traiter vos demandes.',
           },
           {
             title: 'Utilisation des informations',
-            desc: 'Ces données servent uniquement à la bonne transmission du lien d\'invitation WhatsApp, à la personnalisation des conseils et à l\'envoi des résumés hebdomadaires.',
+            desc: 'Ces données servent uniquement d\'accès au Challenge Business IA, de traitement des demandes d\'audit personnalisé (Mastermind), d\'envoi de la newsletter avec offres spéciales (-35% de réduction) et de transmission du lien WhatsApp.',
           },
           {
             title: 'Protection de la vie privée',
-            desc: 'Vos détails de contact privés restent stockés en sécurité et ne sont jamais loués, partagés ou vendus à des tiers pour des fins commerciales.',
+            desc: 'Vos détails de contact privés restent stockés de manière hautement sécurisée. Ils ne sont jamais loués, partagés ou vendus à des tiers. Vous disposez d\'un droit total d\'accès, de modification ou de suppression.',
           },
         ],
       },
       terms: {
         title: 'Conditions d’Utilisation',
-        sub: 'Règles d’usage pour participer à Engage.',
+        sub: 'Règles d’usage pour participer au Challenge Business IA.',
         items: [
           {
-            title: 'Accès Communautaire',
-            desc: 'La participation au groupe WhatsApp et l\'accès aux ressources IA sont facultatifs et offerts gratuitement à titre individuel et professionnel.',
+            title: 'Inscription & Audits',
+            desc: 'La participation au Challenge de 10 Jours, la newsletter et l\'accès aux demandes d\'audit personnalisé ou réductions promotionnelles sont facultatives et proposées pour stimuler votre croissance entrepreneuriale.',
           },
           {
-            title: 'Code de Conduite',
-            desc: 'Les membres doivent faire preuve d\'un comportement courtois et constructif. Le spam ou la promotion de contenus malveillants entraîne un bannissement immédiat.',
+            title: 'Code de Conduite de la Communauté',
+            desc: 'Tous les participants au groupe WhatsApp ou canaux associés doivent faire preuve de courtoisie professionnelle. Les spams, la publicité sauvage et le démarchage non sollicité entraînent une exclusion immédiate.',
           },
           {
             title: 'Limite de Responsabilité',
-            desc: 'Les guides, configurations et scripts tiers sont partagés à but éducatif. Engage ne peut être tenu responsable d\'une perte de données liée à leur usage.',
+            desc: 'Les supports du challenge, exemples de plans d\'affaires IA et livrables sont fournis à titre éducatif et indicatif. Les résultats dépendent entièrement de votre exécution ; aucun revenu ou gain n\'est garanti.',
           },
         ],
       },
@@ -94,33 +94,33 @@ export default function LegalModal({ isOpen, onClose, type, lang }: LegalModalPr
         items: [
           {
             title: 'Recopilación de datos',
-            desc: 'Guardamos la información proporcionada voluntariamente al registrarte (como nombre, correo, teléfono y conocimientos de programación) para habilitar tu cuenta.',
+            desc: 'Guardamos la información proporcionada voluntariamente al registrarte (nombre, correo, teléfono, estado del negocio, perfil, mayor obstáculo y disponibilidad a invertir) para registrar tu participación al Desafío de 10 Días y procesar tus solicitudes.',
           },
           {
             title: 'Uso de tu información',
-            desc: 'Esta información se utiliza únicamente para darte acceso al grupo de WhatsApp, refinar tus sugerencias semanales y enviar boletines de actualizaciones IA.',
+            desc: 'Esta información se utiliza únicamente para el Desafío de IA Empresarial, procesar la auditoría solicitada (Mastermind), enviar boletines con descuentos especiales (35% de descuento) y dar acceso al grupo privado de WhatsApp.',
           },
           {
             title: 'Protección de privacidad',
-            desc: 'Tus datos de contacto privados nunca se alquilan, comparten ni venden a servicios de terceros sin tu consentimiento explícito.',
+            desc: 'Tus datos de contacto privados se guardan en servidores seguros. Nunca se alquilan ni venden a terceros sin consentimiento. Cuentas con derecho absoluto para solicitar su baja o rectificación.',
           },
         ],
       },
       terms: {
         title: 'Términos de Uso',
-        sub: 'Políticas para participar en Engage.',
+        sub: 'Políticas para participar en el Desafío de IA Empresarial.',
         items: [
           {
-            title: 'Acceso a la comunidad',
-            desc: 'El ingreso al canal de WhatsApp "Engage" y las utilerías gratuitas se garantizan sin costo alguno para tu aprendizaje continuo.',
+            title: 'Registro y Auditorías',
+            desc: 'La participación en el Desafío de 10 Días, boletines informativos o solicitudes de asesoramiento personalizado son opcionales y destinados exclusivamente al desarrollo profesional y empresarial.',
           },
           {
-            title: 'Código de Conducta',
-            desc: 'Se requiere respeto profesional en todos los canales. Queda prohibido el spam, publicidad no autorizada o distribución de herramientas dañinas.',
+            title: 'Código de Conducta Comunitaria',
+            desc: 'Se requiere respeto profesional en todos los canales como WhatsApp. El envío de spam, prospección no solicitada o conductas difamatorias conllevará la expulsión inmediata.',
           },
           {
             title: 'Exclusión de Garantías',
-            desc: 'Los prompts y recomendaciones se proveen "tal cual" sin soporte garantizado. El usuario es responsable de su ejecución en entornos productivos.',
+            desc: 'Los materiales del curso, planes de negocio guía y consejos se entregan de forma informativa. El éxito depende de tu implementación directa; no se garantizan resultados económicos concretos.',
           },
         ],
       },

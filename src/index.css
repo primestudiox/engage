@@ -33,6 +33,16 @@ body {
   outline: none;
 }
 
+/* Fixes random graphics-layer paint invisibility on Mobile Chrome browsers (Compositor GPU bugs) */
+.chrome-gpu-fix {
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  transform: translate3d(0, 0, 0) !important;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+  will-change: transform, opacity !important;
+  isolation: isolate;
+}
+
 /* Custom Scrollbar for the entire site (Webkit Browsers) */
 ::-webkit-scrollbar {
   width: 8px;

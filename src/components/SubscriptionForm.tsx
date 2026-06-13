@@ -602,10 +602,10 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onSubmit={handleSubmit}
-            className="space-y-5"
+            className="space-y-5 chrome-gpu-fix"
           >
             {/* Name Input */}
-            <div>
+            <div className="chrome-gpu-fix">
               <input
                 type="text"
                 name="name"
@@ -622,7 +622,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Email Input */}
-            <div>
+            <div className="chrome-gpu-fix">
               <input
                 type="email"
                 name="email"
@@ -639,7 +639,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Country Selector Status Column */}
-            <div className="flex items-center justify-between custom-input px-4 py-3.5 rounded-xl text-sm border-white/5">
+            <div className="chrome-gpu-fix flex items-center justify-between custom-input px-4 py-3.5 rounded-xl text-sm border-white/5">
               <div className="flex items-center gap-2">
                 <span className="text-base">{formData.country.flag}</span>
                 <span className="text-gray-300 font-medium">
@@ -656,7 +656,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Phone Entry */}
-            <div>
+            <div className="chrome-gpu-fix">
               <div className="flex rounded-xl overflow-hidden bg-black/30 border border-white/5 focus-within:border-[#00f6ac]/40">
                 <button
                   type="button"
@@ -684,7 +684,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Gender Selector Dropdown */}
-            <div>
+            <div className="chrome-gpu-fix">
               <CustomDropdown
                 value={formData.gender || ''}
                 onChange={(val) => {
@@ -708,7 +708,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Coding Selector */}
-            <div className="bg-black/10 p-3.5 rounded-xl border border-white/[0.02]">
+            <div className="chrome-gpu-fix bg-black/10 p-3.5 rounded-xl border border-white/[0.02]">
               <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5 font-mono">
                 <span>{t.form.labelCoding}</span>
               </label>
@@ -759,7 +759,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Describe select */}
-            <div>
+            <div className="chrome-gpu-fix">
               <CustomDropdown
                 value={formData.description}
                 onChange={(val) => {
@@ -780,7 +780,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Experience select */}
-            <div>
+            <div className="chrome-gpu-fix">
               <CustomDropdown
                 value={formData.experience}
                 onChange={(val) => {
@@ -801,7 +801,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
             </div>
 
             {/* Ready to invest select */}
-            <div>
+            <div className="chrome-gpu-fix">
               <CustomDropdown
                 value={formData.readyToInvest}
                 onChange={(val) => {
