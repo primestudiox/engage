@@ -345,16 +345,9 @@ body {
   /* Apply backdrop-filter directly on the element for maximum compatibility (iOS, Android, Chrome, etc.) */
   backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
-  
-  /* GPU paint promotion to fix composite/rendering bugs on Google Chrome for Android and WebViews */
-  transform: translate3d(0, 0, 0) !important;
-  -webkit-transform: translate3d(0, 0, 0) !important;
-  will-change: backdrop-filter !important;
-  backface-visibility: hidden !important;
 
   z-index: 9998 !important;
-  pointer-events: auto !important;
-  transition: opacity 0.3s ease !important;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 @media (orientation: landscape) {

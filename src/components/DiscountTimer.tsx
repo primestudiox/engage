@@ -176,23 +176,22 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
   if (isDismissed) return null;
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <>
-          {/* Transparent blocking overlay active specifically in portrait mode */}
-          <motion.div
-            key="discount-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="discount-backdrop"
-            onClick={(e) => {
-              e.stopPropagation();
-              // Prevent clicks and actions to the backend page elements
-            }}
-          />
-          
+    <>
+      {/* 
+        Fully standard HTML div backdrop to bypass all Framer Motion GPU compositing layer bugs.
+        By avoiding motion.div here, we prevent dynamic scale/translucency optimizations that isolate backdrop-filter in mobile Chromium.
+      */}
+      <div
+        className={`discount-backdrop ${
+          isVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      />
+
+      <AnimatePresence>
+        {isVisible && (
           <motion.div
             key="discount-card"
             initial={{ opacity: 0, y: 30, scale: 0.97 }}
@@ -315,8 +314,8 @@ export default function DiscountTimer({ lang }: DiscountTimerProps) {
 
             </div>
           </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
