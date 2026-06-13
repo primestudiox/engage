@@ -224,7 +224,7 @@ export default function App() {
                 referrerPolicy="no-referrer"
                 onDragStart={(e) => e.preventDefault()}
                 onContextMenu={(e) => e.preventDefault()}
-                className="w-full h-full rounded-full object-cover border border-[#00f6ac]/40 select-none pointer-events-none"
+                className="w-full h-full rounded-full object-cover border border-[#00f6ac]/40 select-none pointer-events-none grayscale"
                 style={{ WebkitTouchCallout: 'none', userSelect: 'none' }}
               />
               {/* Invisible cover to protect against direct element inspector targeting, right-click, or dragging */}

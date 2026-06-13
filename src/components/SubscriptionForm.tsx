@@ -889,7 +889,7 @@ export default function SubscriptionForm({ lang }: SubscriptionFormProps) {
                         e.currentTarget.src = 'https://www.gravatar.com/avatar/31ebd0028cb26653716cdcad8cdb73ca?s=400';
                       }
                     }}
-                    className="w-7.5 h-7.5 rounded-full border border-[#111315] object-cover ring-1 ring-white/10 hover:scale-110 active:scale-95 transition-all duration-200"
+                    className="w-7.5 h-7.5 rounded-full border border-[#111315] object-cover ring-1 ring-white/10 hover:scale-110 active:scale-95 transition-all duration-200 grayscale"
                   />
                 ))}
               </div>

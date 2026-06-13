@@ -369,7 +369,7 @@ export default function AdminSyncDashboard() {
                           <img 
                             src={user.photoURL} 
                             alt={user.displayName || 'Google Account'} 
-                            className="w-8 h-8 rounded-full border border-white/10"
+                            className="w-8 h-8 rounded-full border border-white/10 grayscale"
                             referrerPolicy="no-referrer"
                           />
                         ) : (
