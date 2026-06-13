@@ -14,7 +14,7 @@ import PwaInstallPrompt from './components/PwaInstallPrompt';
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'fr' | 'es'>('en');
-  const [profileImg, setProfileImg] = useState<string>(founderAvatar);
+  const [profileImg, setProfileImg] = useState<string>('https://scontent.fabj6-1.fna.fbcdn.net/v/t39.30808-6/605514303_122149163684953147_5820363259698051303_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1650&ctp=s2048x1650&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF1zO8M3wBjhmIWYmp75rSduKDY95JgAdq4oNj3kmAB2mlCNmnbxLgSOwic3esBUYflCg-riYf6COU6zlTzG2EV&_nc_ohc=-zjjTO2gk3oQ7kNvwF_IHTB&_nc_oc=AdqH4hm_-B82ByT3EKNoIYHALOCrq41q22lOiDIZDzhGfMQ00bUlbH1UTaPtV_b3PcpTzLAJYjHO5--gfvi7wKdE&_nc_zt=23&_nc_ht=scontent.fabj6-1.fna&_nc_gid=S3hsRwnr87anvxGiona-lw&_nc_ss=7b2a8&oh=00_Af_Tk9iptLuR8bRriNK_jqGBUgUv7xz22S1PxvTIcbKBjA&oe=6A3298A5');
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [legalModal, setLegalModal] = useState<{ isOpen: boolean; type: 'privacy' | 'terms' }>({
     isOpen: false,
