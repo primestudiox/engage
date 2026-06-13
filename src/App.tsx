@@ -14,7 +14,17 @@ import PwaInstallPrompt from './components/PwaInstallPrompt';
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'fr' | 'es'>('en');
-  const [profileImg, setProfileImg] = useState<string>('https://scontent.fabj6-1.fna.fbcdn.net/v/t39.30808-6/605514303_122149163684953147_5820363259698051303_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1650&ctp=s2048x1650&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF1zO8M3wBjhmIWYmp75rSduKDY95JgAdq4oNj3kmAB2mlCNmnbxLgSOwic3esBUYflCg-riYf6COU6zlTzG2EV&_nc_ohc=-zjjTO2gk3oQ7kNvwF_IHTB&_nc_oc=AdqH4hm_-B82ByT3EKNoIYHALOCrq41q22lOiDIZDzhGfMQ00bUlbH1UTaPtV_b3PcpTzLAJYjHO5--gfvi7wKdE&_nc_zt=23&_nc_ht=scontent.fabj6-1.fna&_nc_gid=S3hsRwnr87anvxGiona-lw&_nc_ss=7b2a8&oh=00_Af_Tk9iptLuR8bRriNK_jqGBUgUv7xz22S1PxvTIcbKBjA&oe=6A3298A5');
+  const [profileImg, setProfileImg] = useState<string>(() => {
+    try {
+      const p1 = "aHR0cHM6Ly9zY29udGVudC5mYWJqNi0xLmZuYS5mYmNkbi5uZXQvdi90MzkuMzA4MDgtNi82MDU1MTQzMDNfMTIyMTQ5MTYzNjg0OTUzMTQ3XzU4MjAzNjMyNTk2OTgwNTEzMDNfbi5qcGc/c3RwPW";
+      const p2 = "RzdC1qcGdfdHQ2JmNzdHA9bXgyMDQ4eDE2NTAmY3RwPXMyMDQ4eDE2NTAmX25jX2NhdD0xMTAmY2NiPTEtNyZfbmNfc2lkPTZlZTExYSZfbmNfZXVpMj1BZUYxek84TTN3QmpobUlXWW1wNzVyU2R1";
+      const p3 = "S0RZOTVKZ0FkcTRvTmoza21BQjJtbENObW5ieExnU093aWMzZXNCVVlmbENnLXJpWWY2Q09VNnpsVHpHMkVWJl9uY19vaGM9LXpqalRPMmdrM29RN2tOdndGX0lIVEImX25jX29jPUFkcUg0aG1fLU";
+      const p4 = "I4MkJ5VDNFS05vSVlIQUxPQ3JxNDFxMjJsT2lESVpEemhHZk1RMDBiVWxiSDFVVGFQdFZfYjNQY3BUekxBSllqSE81LS1nZnZpN3dLZEUmX25jX3p0PTIzJl9uY19odD1zY29udGVudC5mYWJqNi0xLmZuYSZfbmNfZ2lkPVMzaHNSd25yODdhbnZ4R2lvbmEtbHcmX25jX3NzPTdiMmE4Jm9oPTAwX0FmX1RrOWlwdEx1UjhiUnJpTktfanFHQlVnVXY3eHoyMlMxUHh2VEljYktCakEmb2U9NkEzMjk4QTU=";
+      return window.atob(p1 + p2 + p3 + p4);
+    } catch (e) {
+      return founderAvatar;
+    }
+  });
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [legalModal, setLegalModal] = useState<{ isOpen: boolean; type: 'privacy' | 'terms' }>({
     isOpen: false,
@@ -202,17 +212,29 @@ export default function App() {
             onClick={scrollToForm}
             className="flex items-center justify-center gap-3 bg-[#111315]/40 border border-white/[0.04] rounded-full py-1.5 pl-2 pr-4.5 w-fit mx-auto cursor-pointer hover:bg-[#111315]/75 hover:border-white/[0.09] transition-all duration-200"
           >
-            <img
-              src={profileImg}
-              alt="Sylvestre Dagoulou"
-              onError={() => {
-                if (profileImg !== 'https://www.gravatar.com/avatar/31ebd0028cb26653716cdcad8cdb73ca?s=400') {
-                  setProfileImg('https://www.gravatar.com/avatar/31ebd0028cb26653716cdcad8cdb73ca?s=400');
-                }
-              }}
-              referrerPolicy="no-referrer"
-              className="w-8.5 h-8.5 rounded-full object-cover border border-[#00f6ac]/40"
-            />
+            <div className="relative w-8.5 h-8.5 rounded-full select-none" onContextMenu={(e) => e.preventDefault()}>
+              <img
+                src={profileImg}
+                alt="Sylvestre Dagoulou"
+                onError={() => {
+                  if (profileImg !== 'https://www.gravatar.com/avatar/31ebd0028cb26653716cdcad8cdb73ca?s=400') {
+                    setProfileImg('https://www.gravatar.com/avatar/31ebd0028cb26653716cdcad8cdb73ca?s=400');
+                  }
+                }}
+                referrerPolicy="no-referrer"
+                onDragStart={(e) => e.preventDefault()}
+                onContextMenu={(e) => e.preventDefault()}
+                className="w-full h-full rounded-full object-cover border border-[#00f6ac]/40 select-none pointer-events-none"
+                style={{ WebkitTouchCallout: 'none', userSelect: 'none' }}
+              />
+              {/* Invisible cover to protect against direct element inspector targeting, right-click, or dragging */}
+              <div 
+                className="absolute inset-0 rounded-full bg-black/0 z-10 cursor-pointer select-none"
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+                style={{ WebkitTouchCallout: 'none', userSelect: 'none' }}
+              />
+            </div>
             <div className="text-left leading-tight">
               <p className="text-xs font-bold text-white font-serif">{t.founder.name}</p>
               <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">{t.founder.role}</p>
