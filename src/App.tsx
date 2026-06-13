@@ -224,7 +224,7 @@ export default function App() {
                 referrerPolicy="no-referrer"
                 onDragStart={(e) => e.preventDefault()}
                 onContextMenu={(e) => e.preventDefault()}
-                className="w-full h-full rounded-full object-cover border border-[#00f6ac]/40 select-none pointer-events-none grayscale"
+                className="w-full h-full rounded-full object-cover border border-[#00f6ac]/40 select-none pointer-events-none"
                 style={{ WebkitTouchCallout: 'none', userSelect: 'none' }}
               />
               {/* Invisible cover to protect against direct element inspector targeting, right-click, or dragging */}
@@ -236,8 +236,8 @@ export default function App() {
               />
             </div>
             <div className="text-left leading-tight">
-              <p className="text-xs font-bold text-white font-serif">{t.founder.name}</p>
-              <p className="text-[10px] text-gray-500 font-semibold tracking-wider">{t.founder.role}</p>
+              <p className="text-base font-bold text-white font-serif">{t.founder.name}</p>
+              <p className="text-[10px] text-gray-500 font-sans font-semibold tracking-normal">{t.founder.role}</p>
             </div>
           </motion.div>
 
