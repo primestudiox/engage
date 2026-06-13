@@ -352,8 +352,8 @@ body {
     content: "" !important;
     position: absolute !important;
     inset: 0 !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
     pointer-events: none !important;
   }
 }
