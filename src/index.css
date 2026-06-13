@@ -341,21 +341,20 @@ body {
   display: block !important;
   /* Dim background using secure transparent alpha overlay (safe everywhere, no black-out bugs) */
   background-color: rgba(2, 2, 2, 0.65) !important;
+  
+  /* Apply backdrop-filter directly on the element for maximum compatibility (iOS, Android, Chrome, etc.) */
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  
+  /* GPU paint promotion to fix composite/rendering bugs on Google Chrome for Android and WebViews */
+  transform: translate3d(0, 0, 0) !important;
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  will-change: backdrop-filter !important;
+  backface-visibility: hidden !important;
+
   z-index: 9998 !important;
   pointer-events: auto !important;
   transition: opacity 0.3s ease !important;
-}
-
-/* Isolate backdrop-filter to a pseudo-element with zero raw bg-color to prevent composite collapse in Chrome & Firefox */
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .discount-backdrop::before {
-    content: "" !important;
-    position: absolute !important;
-    inset: 0 !important;
-    backdrop-filter: blur(18px) !important;
-    -webkit-backdrop-filter: blur(18px) !important;
-    pointer-events: none !important;
-  }
 }
 
 @media (orientation: landscape) {
